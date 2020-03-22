@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     selectedPaper: {
       padding: theme.spacing(2),
-      border: "2px solid green"
+      border: `2px solid ${theme.palette.primary.main}`
     }
   })
 );

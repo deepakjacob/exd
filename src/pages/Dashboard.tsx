@@ -1,15 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
 import Box from "@material-ui/core/Box";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-
-// import AppBar from "../components/AppBar";
-// import WithAppBar from "../hocs/WithAppBar";
-// import { State } from "../store/configureStore";
-// import {
-//   //getTenant,
-//   sayHello
-// } from "../store/actions/toolbar";
+import WithAppBar from "../hocs/WithAppBar";
 import MultiControlDesignDisplay, { MultiControlDesignDisplayProps } from "../components/MultiControlDesignDisplay";
 import { DesignControlType } from "../types";
 
@@ -20,13 +12,6 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-
-interface ViewProps {
-  isPending: boolean;
-  tenants: any;
-  // getTenant: typeof getTenant;
-  // sayHello: typeof sayHello;
-}
 
 const throwAwayProps: MultiControlDesignDisplayProps = {
   controlDesignProps: [
@@ -52,11 +37,23 @@ const throwAwayProps: MultiControlDesignDisplayProps = {
         defaultValue: "Hello World",
         helperText: "This is some addtional info"
       }
+    },
+    {
+      control: {
+        id: "LABEL_CONTROL_ID_2",
+        designControlType: DesignControlType.LABEL
+      },
+      metadata: {
+        id: "someLabelId2",
+        name: "someLabelName2"
+      }
     }
   ]
 };
 
-const View: React.FC<ViewProps> = props => {
+interface ViewProps {}
+
+const View: React.FC<ViewProps> = (props: ViewProps) => {
   const classes = useStyles();
 
   return (
@@ -66,16 +63,4 @@ const View: React.FC<ViewProps> = props => {
   );
 };
 
-// const mapStateToProps = (state: State) => {
-//   const {
-//     toolbar: { isPending }
-//   } = state;
-//   return { isPending };
-// };
-// const mapDispatchToProps = {
-//   sayHello
-// };
-
-// const DashBoardView = connect(mapStateToProps, mapDispatchToProps)(WithAppBar(View));
-
-export default View;
+export default WithAppBar(View);

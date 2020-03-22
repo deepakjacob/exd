@@ -14,7 +14,7 @@ export interface MultiControlDesignDisplayProps {
   controlDesignProps: ControlDesignDisplayProps[];
 }
 
-const drawerWidth = 140;
+const drawerWidth = 260;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,8 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
-      }),
-      marginRight: drawerWidth
+      })
     },
     contentShift: {
       transition: theme.transitions.create("margin", {
@@ -39,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (props: MultiControlDesignDisplayProps) => {
   const classes = useStyles();
-  const { controlDesignProps, setSelectedComponent, focussedControlId } = props as any;
+  const { controlDesignProps, setSelectedComponent, focussedControlId, control } = props as any;
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const onFocus = (cdp: ControlDesignDisplayProps, setSelectedComponent: any) => () => {
@@ -71,6 +70,7 @@ const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (pro
           </Grid>
         ))}
       </Grid>
+      {control && <ControlPropsDrawer onClose={handleDrawerClose} open={drawerOpen} focussedControl={control} />}
     </div>
   );
 };

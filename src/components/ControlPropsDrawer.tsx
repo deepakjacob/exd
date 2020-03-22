@@ -8,6 +8,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { ControlDesignDisplayProps } from "../types";
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 const drawerWidth = 260;
 
@@ -26,6 +27,8 @@ const useStyles = makeStyles(theme => ({
     flexShrink: 0
   },
   drawerPaper: {
+    marginTop: 60,
+
     width: drawerWidth
   },
   drawerHeader: {
@@ -34,6 +37,11 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
+    justifyContent: "flex-start"
+  },
+  title: {
+    marginLeft: theme.spacing(0),
+    padding: theme.spacing(1),
     justifyContent: "flex-start"
   }
 }));
@@ -48,7 +56,7 @@ const ControlPropsDrawer = (props: ControlPropsDrawerProps) => {
   const classes = useStyles();
   const theme = useTheme();
   const { open, onClose, focussedControl } = props;
-  const { control, metadata } = focussedControl;
+  const { metadata } = focussedControl;
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -64,8 +72,12 @@ const ControlPropsDrawer = (props: ControlPropsDrawerProps) => {
         <div className={classes.drawerHeader}>
           <IconButton onClick={onClose}>
             {theme.direction === "ltr" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-            <Box></Box>
           </IconButton>
+          <Box className={classes.title}>
+            <Typography variant="body1" className={classes.title}>
+              {metadata.name}
+            </Typography>
+          </Box>
         </div>
         <Divider />
       </Drawer>
