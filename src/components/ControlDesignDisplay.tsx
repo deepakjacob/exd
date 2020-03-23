@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import React, { useState } from 'react';
 
-import LabelRenderer, { LabelProps } from "./renderers/LabelRenderer";
-import EntryFieldRenderer, { EntryFieldProps } from "./renderers/EntryFieldRenderer";
+import Paper from '@material-ui/core/Paper';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import { ControlDesignDisplayProps, DesignControlType } from "../types";
+import { ControlDesignDisplayProps, DesignControlType } from '../types';
+import EntryFieldRenderer, { EntryFieldProps } from './renderers/EntryFieldRenderer';
+import LabelRenderer, { LabelProps } from './renderers/LabelRenderer';
 
 const designControlToRendererMapping = (props: ControlDesignDisplayProps) => {
   const {

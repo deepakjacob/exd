@@ -1,4 +1,4 @@
-import { AsyncAction, FluxStandardAction } from "redux-promise-middleware";
+import { AsyncAction, FluxStandardAction } from 'redux-promise-middleware';
 
 const HOST_URL = "http://localhost:8000";
 const TENANT_FETCH_ALL_URL = "/tenant/findAll";

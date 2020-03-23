@@ -1,18 +1,17 @@
-import React from "react";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import MenuIcon from '@material-ui/icons/Menu';
 
-import {
-  //getTenant,
-  sayHello
-} from "../store/actions/toolbar";
-import NewControlDialog from "./NewControlDialog";
+import { addControl } from '../store/actions/allControls';
+import { State } from '../store/configureStore';
+import NewControlDialog from './NewControlDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,8 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface BarProps {
-  // getTenant: typeof getTenant;
-  sayHello: typeof sayHello;
+  addControl: typeof addControl;
 }
 
 const Bar: React.FC<BarProps> = (props: BarProps) => {
@@ -86,4 +84,15 @@ const Bar: React.FC<BarProps> = (props: BarProps) => {
   );
 };
 
-export default Bar;
+const mapStateToProps = (state: State) => {
+  const { allControls } = state;
+  return allControls;
+};
+
+const mapDispatchToProps = {
+  addControl
+};
+
+const ConnectedBar = connect(mapStateToProps, mapDispatchToProps)(Bar);
+
+export default ConnectedBar;

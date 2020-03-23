@@ -1,5 +1,5 @@
-import { LabelProps } from "./components/renderers/LabelRenderer";
-import { EntryFieldProps } from "./components/renderers/EntryFieldRenderer";
+import { EntryFieldProps } from './components/renderers/EntryFieldRenderer';
+import { LabelProps } from './components/renderers/LabelRenderer';
 
 export enum DesignControlType {
   LABEL,

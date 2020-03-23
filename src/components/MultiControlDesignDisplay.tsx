@@ -1,14 +1,15 @@
-import React from "react";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import clsx from "clsx";
+import clsx from 'clsx';
+import React from 'react';
+import { connect } from 'react-redux';
 
-import ControlDesignDisplay from "./ControlDesignDisplay";
-import { ControlDesignDisplayProps } from "../types";
-import ControlPropsDrawer, { ControlPropsDrawerProps } from "./ControlPropsDrawer";
-import { connect } from "react-redux";
-import { State } from "../store/configureStore";
-import { setSelectedComponent } from "../store/actions/control";
+import Grid from '@material-ui/core/Grid';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+import { setSelectedComponent } from '../store/actions/selectedControl';
+import { State } from '../store/configureStore';
+import { ControlDesignDisplayProps } from '../types';
+import ControlDesignDisplay from './ControlDesignDisplay';
+import ControlPropsDrawer, { ControlPropsDrawerProps } from './ControlPropsDrawer';
 
 export interface MultiControlDesignDisplayProps {
   controlDesignProps: ControlDesignDisplayProps[];
@@ -76,8 +77,8 @@ const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (pro
 };
 
 const mapStateToProps = (state: State) => {
-  const { control } = state;
-  return control;
+  const { selectedControl } = state;
+  return selectedControl;
 };
 
 const mapDispatchToProps = {

@@ -1,5 +1,5 @@
-import { Reducer } from "redux";
-import { FluxStandardAction } from "redux-promise-middleware";
+import { Reducer } from 'redux';
+import { FluxStandardAction } from 'redux-promise-middleware';
 
 export interface ToolbarState {
   isPending: boolean;

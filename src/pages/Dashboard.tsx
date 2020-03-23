@@ -1,9 +1,12 @@
-import React from "react";
-import Box from "@material-ui/core/Box";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import WithAppBar from "../hocs/WithAppBar";
-import MultiControlDesignDisplay, { MultiControlDesignDisplayProps } from "../components/MultiControlDesignDisplay";
-import { DesignControlType } from "../types";
+import React from 'react';
+
+import Box from '@material-ui/core/Box';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+import MultiControlDesignDisplay, {
+    MultiControlDesignDisplayProps
+} from '../components/MultiControlDesignDisplay';
+import WithAppBar from '../hocs/WithAppBar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

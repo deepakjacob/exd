@@ -1,14 +1,16 @@
-import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { ControlDesignDisplayProps } from "../types";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import React from 'react';
+
+import Box from '@material-ui/core/Box';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+
+import { ControlDesignDisplayProps } from '../types';
 
 const drawerWidth = 260;
 
