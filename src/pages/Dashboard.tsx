@@ -7,6 +7,7 @@ import MultiControlDesignDisplay, {
     MultiControlDesignDisplayProps
 } from '../components/MultiControlDesignDisplay';
 import WithAppBar from '../hocs/WithAppBar';
+import { DesignControlType } from '../types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
