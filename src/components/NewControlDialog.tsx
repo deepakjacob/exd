@@ -49,9 +49,9 @@ const NewControlDialog = (props: NewControlDialogProps) => {
   const handleOk = () => {
     onClose(value);
     const designControlType = value as keyof typeof DesignControlType;
-    const controlDesignDisplayProps = getDefinition(DesignControlType[designControlType]);
-    if (controlDesignDisplayProps) {
-      addControlDesignDisplayProps(controlDesignDisplayProps);
+    const getControlDesignDisplayProps = getDefinition(DesignControlType[designControlType]);
+    if (getControlDesignDisplayProps) {
+      addControlDesignDisplayProps(getControlDesignDisplayProps());
     }
   };
 
