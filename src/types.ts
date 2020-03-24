@@ -2,12 +2,12 @@ import { EntryFieldProps } from './components/renderers/EntryFieldRenderer';
 import { LabelProps } from './components/renderers/LabelRenderer';
 
 export enum DesignControlType {
-  LABEL,
-  ENTRY_FIELD,
-  COMPOSITE,
-  FORM,
-  LIST,
-  GRID
+  LABEL = "LABEL",
+  ENTRY_FIELD = "ENTRY_FIELD",
+  COMPOSITE = "COMPOSITE",
+  FORM = "FORM",
+  LIST = "LIST",
+  GRID = "GRID"
 }
 
 enum DesignControlRendererType {
@@ -29,4 +29,12 @@ export type ControlMetadataProps = LabelProps | EntryFieldProps;
 export interface ControlDesignDisplayProps {
   control: ControlProps;
   metadata: ControlMetadataProps;
+}
+
+export interface ControlItemDisplay {
+  id: string;
+  type: DesignControlType;
+  icon: string;
+  title: string;
+  subtitle: string;
 }

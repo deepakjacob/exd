@@ -9,20 +9,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
-interface ControlItemDisplay {
-  id: string;
-  icon: string;
-  title: string;
-  subtitle: string;
-}
-const options: ControlItemDisplay[] = [
-  {
-    id: "21212-sdsad-33434-sdfsdf-3443",
-    icon: "star",
-    title: "Address for communications",
-    subtitle: "This component makes easy to design forms which contains addresses"
-  }
-];
+import { getDefinition } from '../controlDefinitionRegister';
+import { getControlSettings } from '../controlSetttingsRegister';
+import { addControl as add } from '../store/actions/allControls';
+import { ControlItemDisplay, DesignControlType } from '../types';
 
 interface NewControlDialogProps {
   classes: Record<"paper", string>;
@@ -31,12 +21,14 @@ interface NewControlDialogProps {
   value: string;
   open: boolean;
   onClose: (value?: string) => void;
+  addControlDesignDisplayProps: typeof add;
 }
 
 const NewControlDialog = (props: NewControlDialogProps) => {
-  const { onClose, value: valueProp, open, ...other } = props;
+  const { onClose, value: valueProp, open, addControlDesignDisplayProps, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef<HTMLElement>(null);
+  const options: ControlItemDisplay[] = getControlSettings();
 
   React.useEffect(() => {
     if (!open) {
@@ -56,6 +48,11 @@ const NewControlDialog = (props: NewControlDialogProps) => {
 
   const handleOk = () => {
     onClose(value);
+    const designControlType = value as keyof typeof DesignControlType;
+    const controlDesignDisplayProps = getDefinition(DesignControlType[designControlType]);
+    if (controlDesignDisplayProps) {
+      addControlDesignDisplayProps(controlDesignDisplayProps);
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,8 +73,8 @@ const NewControlDialog = (props: NewControlDialogProps) => {
       <DialogContent dividers>
         <RadioGroup ref={radioGroupRef} aria-label="control" name="control" value={value} onChange={handleChange}>
           {options.map((option: ControlItemDisplay, i: number) => {
-            const { id, icon, title, subtitle } = option;
-            return <FormControlLabel value={id} key={i} control={<Radio />} label={title} />;
+            const { id, icon, title, type, subtitle } = option;
+            return <FormControlLabel value={type.toString()} key={i} control={<Radio />} label={title} />;
           })}
         </RadioGroup>
       </DialogContent>

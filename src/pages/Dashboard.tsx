@@ -17,44 +17,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const throwAwayProps: MultiControlDesignDisplayProps = {
-  controlDesignProps: [
-    {
-      control: {
-        id: "LABEL_CONTROL_ID",
-        designControlType: DesignControlType.LABEL
-      },
-      metadata: {
-        id: "someLabelId",
-        name: "someLabelName"
-      }
-    },
-    {
-      control: {
-        id: "ENTRY_FIELD_CONTROL_ID",
-        designControlType: DesignControlType.ENTRY_FIELD
-      },
-      metadata: {
-        id: "someEntryFieldId",
-        name: "someEntryFieldName",
-        label: "Entry Field Label",
-        defaultValue: "Hello World",
-        helperText: "This is some addtional info"
-      }
-    },
-    {
-      control: {
-        id: "LABEL_CONTROL_ID_2",
-        designControlType: DesignControlType.LABEL
-      },
-      metadata: {
-        id: "someLabelId2",
-        name: "someLabelName2"
-      }
-    }
-  ]
-};
-
 interface ViewProps {}
 
 const View: React.FC<ViewProps> = (props: ViewProps) => {
@@ -62,7 +24,7 @@ const View: React.FC<ViewProps> = (props: ViewProps) => {
 
   return (
     <Box className={classes.root}>
-      <MultiControlDesignDisplay {...throwAwayProps} />
+      <MultiControlDesignDisplay />
     </Box>
   );
 };

@@ -11,9 +11,7 @@ import { ControlDesignDisplayProps } from '../types';
 import ControlDesignDisplay from './ControlDesignDisplay';
 import ControlPropsDrawer, { ControlPropsDrawerProps } from './ControlPropsDrawer';
 
-export interface MultiControlDesignDisplayProps {
-  controlDesignProps: ControlDesignDisplayProps[];
-}
+export interface MultiControlDesignDisplayProps {}
 
 const drawerWidth = 260;
 
@@ -39,9 +37,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (props: MultiControlDesignDisplayProps) => {
   const classes = useStyles();
-  const { controlDesignProps, setSelectedComponent, focussedControlId, control } = props as any;
+  const { setSelectedComponent, selectedControl, controls } = props as any;
+  const { focussedControlId, control } = selectedControl;
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-
   const onFocus = (cdp: ControlDesignDisplayProps, setSelectedComponent: any) => () => {
     setSelectedComponent(cdp, cdp.control.id);
     handleDrawerOpen();
@@ -61,15 +59,16 @@ const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (pro
       })}
     >
       <Grid container spacing={3}>
-        {controlDesignProps.map((cdp: ControlDesignDisplayProps, i: number) => (
-          <Grid item xs={12} key={i}>
-            <ControlDesignDisplay
-              {...cdp}
-              onFocus={onFocus(cdp, setSelectedComponent)}
-              hasFocus={`${cdp.control.id}` === focussedControlId}
-            />
-          </Grid>
-        ))}
+        {controls &&
+          controls.map((cdp: ControlDesignDisplayProps, i: number) => (
+            <Grid item xs={12} key={i}>
+              <ControlDesignDisplay
+                {...cdp}
+                onFocus={onFocus(cdp, setSelectedComponent)}
+                hasFocus={`${cdp.control.id}` === focussedControlId}
+              />
+            </Grid>
+          ))}
       </Grid>
       {control && <ControlPropsDrawer onClose={handleDrawerClose} open={drawerOpen} focussedControl={control} />}
     </div>
@@ -77,8 +76,11 @@ const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (pro
 };
 
 const mapStateToProps = (state: State) => {
-  const { selectedControl } = state;
-  return selectedControl;
+  const {
+    selectedControl,
+    allControls: { controls }
+  } = state;
+  return { selectedControl, controls };
 };
 
 const mapDispatchToProps = {

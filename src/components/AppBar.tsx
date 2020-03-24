@@ -9,7 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { addControl } from '../store/actions/allControls';
+import { addControl as addControlDesignDisplayProps } from '../store/actions/allControls';
 import { State } from '../store/configureStore';
 import NewControlDialog from './NewControlDialog';
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface BarProps {
-  addControl: typeof addControl;
+  addControl: typeof addControlDesignDisplayProps;
 }
 
 const Bar: React.FC<BarProps> = (props: BarProps) => {
@@ -79,6 +79,7 @@ const Bar: React.FC<BarProps> = (props: BarProps) => {
         open={open}
         onClose={handleClose}
         value={value}
+        addControlDesignDisplayProps={props.addControl}
       />
     </AppBar>
   );
@@ -90,7 +91,7 @@ const mapStateToProps = (state: State) => {
 };
 
 const mapDispatchToProps = {
-  addControl
+  addControl: addControlDesignDisplayProps
 };
 
 const ConnectedBar = connect(mapStateToProps, mapDispatchToProps)(Bar);

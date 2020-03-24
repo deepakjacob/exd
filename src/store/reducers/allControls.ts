@@ -12,10 +12,12 @@ const defaultState: AllControlsState = {
   controls: []
 };
 
-const allControls: Reducer = (state: AllControlsState = defaultState, action: FluxStandardAction) => {
+const allControls: Reducer = (state: AllControlsState = defaultState, action: FluxStandardAction): AllControlsState => {
   switch (action.type) {
     case ADD_CONTROL_TO_RENDER:
-      return [...state.controls, action.payload];
+      return {
+        controls: [...state.controls, action.payload]
+      };
     default:
       return state;
   }
