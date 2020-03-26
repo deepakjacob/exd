@@ -1,11 +1,11 @@
 import { Reducer } from 'redux';
 import { FluxStandardAction } from 'redux-promise-middleware';
 
-import { ControlMetadataProps } from '../../types';
+import { ControlDesignDisplayProps } from '../../types';
 import { ADD_CONTROL_TO_RENDER, CHANGE_CONTROL_METADATA } from '../actions/allControls';
 
 export interface AllControlsState {
-  controls: any[];
+  controls: ControlDesignDisplayProps[];
 }
 
 const defaultState: AllControlsState = {
@@ -20,7 +20,8 @@ const allControls: Reducer = (state: AllControlsState = defaultState, action: Fl
       };
     case CHANGE_CONTROL_METADATA:
       const { control, metadata } = action.payload;
-      const mapped = state.controls.map(c => {
+      const { controls } = state;
+      const mapped = controls.map(c => {
         return c.control.id === control.control.id
           ? {
               ...c,

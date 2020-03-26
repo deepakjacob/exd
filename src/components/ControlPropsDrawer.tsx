@@ -81,7 +81,7 @@ const ControlPropsDrawer = (props: ControlPropsDrawerProps) => {
           </IconButton>
           <Box className={classes.title}>
             <Typography variant="body1" className={classes.title}>
-              {metadata.name}
+              {metadata.id}
             </Typography>
           </Box>
         </div>

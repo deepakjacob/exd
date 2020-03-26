@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+import WithToolbar from '../hocs/WithToolbar';
 import { changeControlMetadata } from '../store/actions/allControls';
 import { setSelectedComponent } from '../store/actions/selectedControl';
 import { State } from '../store/configureStore';
@@ -69,7 +70,7 @@ const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (pro
             controls.map((cdp: ControlDesignDisplayProps, i: number) => {
               const w = cdp.overriden?.dimension?.width ? cdp.overriden.dimension.width : cdp.metadata.dimension.width;
               return (
-                <Grid item xs={w} key={i} className={classes.grid}>
+                <Grid item xs={w} key={i}>
                   <ControlDesignDisplay
                     {...cdp}
                     onFocus={onFocus(cdp, setSelectedComponent)}
