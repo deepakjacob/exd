@@ -19,7 +19,10 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
     name: uuid("entry_field_name_"),
     label: "Entry Field Label",
     defaultValue: "Hello World",
-    helperText: "This is some addtional info"
+    helperText: "This is some addtional info",
+    dimension: {
+      width: 4
+    }
   }
 });
 
@@ -30,7 +33,10 @@ export const getNewLabelDefinition = (): ControlDesignDisplayProps => ({
   },
   metadata: {
     id: uuid("label_field_id_"),
-    name: uuid("label_field_name_")
+    name: uuid("label_field_name_"),
+    dimension: {
+      width: 4
+    }
   }
 });
 registerDefinition(DesignControlType.ENTRY_FIELD, getNewEntryFieldDefinition);

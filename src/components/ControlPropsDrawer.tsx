@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,7 +10,10 @@ import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
+import { changeControlMetadata as changeControlProp } from '../store/actions/allControls';
 import { ControlDesignDisplayProps } from '../types';
+
+const CollapsiblePanel = React.lazy(() => import("./CollapsiblePanel"));
 
 const drawerWidth = 260;
 
@@ -52,12 +55,13 @@ export interface ControlPropsDrawerProps {
   open: boolean;
   onClose: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined;
   focussedControl: ControlDesignDisplayProps;
+  changeControlProp: typeof changeControlProp;
 }
 
 const ControlPropsDrawer = (props: ControlPropsDrawerProps) => {
   const classes = useStyles();
   const theme = useTheme();
-  const { open, onClose, focussedControl } = props;
+  const { open, onClose, focussedControl, changeControlProp } = props;
   const { metadata } = focussedControl;
   return (
     <div className={classes.root}>
@@ -82,6 +86,9 @@ const ControlPropsDrawer = (props: ControlPropsDrawerProps) => {
           </Box>
         </div>
         <Divider />
+        <Suspense fallback={<div />}>
+          <CollapsiblePanel changeControlProp={changeControlProp} focussedControl={focussedControl} />
+        </Suspense>
       </Drawer>
     </div>
   );

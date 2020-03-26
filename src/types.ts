@@ -1,3 +1,5 @@
+import { GridSize } from '@material-ui/core/Grid';
+
 import { EntryFieldProps } from './components/renderers/EntryFieldRenderer';
 import { LabelProps } from './components/renderers/LabelRenderer';
 
@@ -19,6 +21,14 @@ enum DesignControlRendererType {
   GRID_DESIGN_RENDERER
 }
 
+export interface Dimension {
+  width: GridSize;
+}
+
+export interface CommonControlProps {
+  dimension: Dimension;
+}
+
 export interface ControlProps {
   id: string;
   designControlType: DesignControlType;
@@ -29,6 +39,7 @@ export type ControlMetadataProps = LabelProps | EntryFieldProps;
 export interface ControlDesignDisplayProps {
   control: ControlProps;
   metadata: ControlMetadataProps;
+  overriden?: ControlMetadataProps;
 }
 
 export interface ControlItemDisplay {

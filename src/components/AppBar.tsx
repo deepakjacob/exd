@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
 
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { addControl as addControlDesignDisplayProps } from '../store/actions/allControls';
+import { addControl, changeControlMetadata } from '../store/actions/allControls';
 import { State } from '../store/configureStore';
-import NewControlDialog from './NewControlDialog';
+
+const NewControlDialog = React.lazy(() => import("./NewControlDialog"));
+const Toolbar = React.lazy(() => import("@material-ui/core/Toolbar"));
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface BarProps {
-  addControl: typeof addControlDesignDisplayProps;
+  addControl: typeof addControl;
 }
 
 const Bar: React.FC<BarProps> = (props: BarProps) => {
@@ -55,45 +56,47 @@ const Bar: React.FC<BarProps> = (props: BarProps) => {
   };
 
   return (
-    <AppBar position="static" className={classes.appBar}>
-      <Toolbar>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" className={classes.title}>
-          XLogin
-        </Typography>
-        <Button color="inherit" onClick={showNewControlDialog}>
-          New Control
-        </Button>
-        <Button color="inherit" onClick={addNewTab}>
-          New Tab
-        </Button>
-      </Toolbar>
-      <NewControlDialog
-        classes={{
-          paper: classes.paper
-        }}
-        id="new-control-dialog"
-        keepMounted
-        open={open}
-        onClose={handleClose}
-        value={value}
-        addControlDesignDisplayProps={props.addControl}
-      />
-    </AppBar>
+    <>
+      <Suspense fallback={<div />}>
+        <AppBar position="static" className={classes.appBar}>
+          <Toolbar>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              XLogin
+            </Typography>
+            <Button color="inherit" onClick={showNewControlDialog}>
+              New Control
+            </Button>
+            <Button color="inherit" onClick={addNewTab}>
+              New Tab
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Suspense>
+
+      <Suspense fallback={<div />}>
+        <NewControlDialog
+          classes={{
+            paper: classes.paper
+          }}
+          id="new-control-dialog"
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          value={value}
+          addControl={props.addControl}
+        />
+      </Suspense>
+    </>
   );
 };
 
-const mapStateToProps = (state: State) => {
-  const { allControls } = state;
-  return allControls;
-};
-
 const mapDispatchToProps = {
-  addControl: addControlDesignDisplayProps
+  addControl
 };
 
-const ConnectedBar = connect(mapStateToProps, mapDispatchToProps)(Bar);
+const ConnectedBar = connect(undefined, mapDispatchToProps)(Bar);
 
 export default ConnectedBar;

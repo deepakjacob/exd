@@ -1,6 +1,8 @@
 import React from 'react';
 
-export interface LabelProps {
+import { CommonControlProps } from '../../types';
+
+export interface LabelProps extends CommonControlProps {
   id: string;
   name: string;
 }

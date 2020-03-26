@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 
 import TextField from '@material-ui/core/TextField';
 
-export interface EntryFieldProps {
+import { CommonControlProps } from '../../types';
+
+export interface EntryFieldProps extends CommonControlProps {
   id: string;
   name: string;
   label: string;

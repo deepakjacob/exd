@@ -21,11 +21,11 @@ interface NewControlDialogProps {
   value: string;
   open: boolean;
   onClose: (value?: string) => void;
-  addControlDesignDisplayProps: typeof add;
+  addControl: typeof add;
 }
 
 const NewControlDialog = (props: NewControlDialogProps) => {
-  const { onClose, value: valueProp, open, addControlDesignDisplayProps, ...other } = props;
+  const { onClose, value: valueProp, open, addControl, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef<HTMLElement>(null);
   const options: ControlItemDisplay[] = getControlSettings();
@@ -51,7 +51,7 @@ const NewControlDialog = (props: NewControlDialogProps) => {
     const designControlType = value as keyof typeof DesignControlType;
     const getControlDesignDisplayProps = getDefinition(DesignControlType[designControlType]);
     if (getControlDesignDisplayProps) {
-      addControlDesignDisplayProps(getControlDesignDisplayProps());
+      addControl(getControlDesignDisplayProps());
     }
   };
 

@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+import { changeControlMetadata } from '../store/actions/allControls';
 import { setSelectedComponent } from '../store/actions/selectedControl';
 import { State } from '../store/configureStore';
 import { ControlDesignDisplayProps } from '../types';
 import ControlDesignDisplay from './ControlDesignDisplay';
-import ControlPropsDrawer, { ControlPropsDrawerProps } from './ControlPropsDrawer';
+import ControlPropsDrawer from './ControlPropsDrawer';
 
 export interface MultiControlDesignDisplayProps {}
 
@@ -31,13 +32,16 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.enteringScreen
       }),
       marginRight: drawerWidth
+    },
+    grid: {
+      border: `2px solid ${theme.palette.secondary.light}`
     }
   })
 );
 
 const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (props: MultiControlDesignDisplayProps) => {
   const classes = useStyles();
-  const { setSelectedComponent, selectedControl, controls } = props as any;
+  const { setSelectedComponent, selectedControl, controls, changeControlProp } = props as any;
   const { focussedControlId, control } = selectedControl;
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const onFocus = (cdp: ControlDesignDisplayProps, setSelectedComponent: any) => () => {
@@ -52,26 +56,39 @@ const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (pro
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
+
   return (
-    <div
-      className={clsx(classes.content, {
-        [classes.contentShift]: drawerOpen
-      })}
-    >
-      <Grid container spacing={3}>
-        {controls &&
-          controls.map((cdp: ControlDesignDisplayProps, i: number) => (
-            <Grid item xs={12} key={i}>
-              <ControlDesignDisplay
-                {...cdp}
-                onFocus={onFocus(cdp, setSelectedComponent)}
-                hasFocus={`${cdp.control.id}` === focussedControlId}
-              />
-            </Grid>
-          ))}
-      </Grid>
-      {control && <ControlPropsDrawer onClose={handleDrawerClose} open={drawerOpen} focussedControl={control} />}
-    </div>
+    <>
+      <div
+        className={clsx(classes.content, {
+          [classes.contentShift]: drawerOpen
+        })}
+      >
+        <Grid container spacing={3}>
+          {controls &&
+            controls.map((cdp: ControlDesignDisplayProps, i: number) => {
+              const w = cdp.overriden?.dimension?.width ? cdp.overriden.dimension.width : cdp.metadata.dimension.width;
+              return (
+                <Grid item xs={w} key={i} className={classes.grid}>
+                  <ControlDesignDisplay
+                    {...cdp}
+                    onFocus={onFocus(cdp, setSelectedComponent)}
+                    hasFocus={`${cdp.control.id}` === focussedControlId}
+                  />
+                </Grid>
+              );
+            })}
+        </Grid>
+        {control && (
+          <ControlPropsDrawer
+            changeControlProp={changeControlProp}
+            onClose={handleDrawerClose}
+            open={drawerOpen}
+            focussedControl={control}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
@@ -84,7 +101,8 @@ const mapStateToProps = (state: State) => {
 };
 
 const mapDispatchToProps = {
-  setSelectedComponent
+  setSelectedComponent,
+  changeControlProp: changeControlMetadata
 };
 
 const ConnectedFocussableMultiControlDesignDisplay = connect(
