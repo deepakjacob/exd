@@ -21,15 +21,14 @@ const allControls: Reducer = (state: AllControlsState = defaultState, action: Fl
     case CHANGE_CONTROL_METADATA:
       const { control, metadata } = action.payload;
       const mapped = state.controls.map(c => {
-        if (c.control.id === control.control.id) {
-          return {
-            ...c,
-            overriden: {
-              ...metadata
+        return c.control.id === control.control.id
+          ? {
+              ...c,
+              overriden: {
+                ...metadata
+              }
             }
-          };
-        }
-        return c;
+          : c;
       });
       return {
         controls: [...mapped]
