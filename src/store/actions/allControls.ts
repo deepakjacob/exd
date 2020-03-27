@@ -4,6 +4,12 @@ import { ControlDesignDisplayProps } from '../../types';
 
 export const ADD_CONTROL_TO_RENDER = "ADD_CONTROL_TO_RENDER";
 export const CHANGE_CONTROL_METADATA = "CHANGE_CONTROL_METADATA";
+export const DELETE_CONTROL = "DELETE_CONTROL";
+
+export const deleteControl = (controlId: string): FluxStandardAction => ({
+  type: DELETE_CONTROL,
+  payload: controlId
+});
 
 export const addControl = (control: ControlDesignDisplayProps): FluxStandardAction => ({
   type: ADD_CONTROL_TO_RENDER,

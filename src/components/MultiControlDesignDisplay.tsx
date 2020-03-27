@@ -1,12 +1,13 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { FC, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import WithToolbar from '../hocs/WithToolbar';
-import { changeControlMetadata } from '../store/actions/allControls';
+import {
+    changeControlMetadata, deleteControl as deleteControlDesign
+} from '../store/actions/allControls';
 import { setSelectedComponent } from '../store/actions/selectedControl';
 import { State } from '../store/configureStore';
 import { ControlDesignDisplayProps } from '../types';
@@ -40,12 +41,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (props: MultiControlDesignDisplayProps) => {
+const MultiControlDesignDisplay: FC<MultiControlDesignDisplayProps> = (props: MultiControlDesignDisplayProps) => {
   const classes = useStyles();
-  const { setSelectedComponent, selectedControl, controls, changeControlProp } = props as any;
+  const { setSelectedComponent, selectedControl, controls, changeControlProp, deleteControl } = props as any;
   const { focussedControlId, control } = selectedControl;
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const onFocus = (cdp: ControlDesignDisplayProps, setSelectedComponent: any) => () => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const onFocus = (cdp: ControlDesignDisplayProps) => () => {
     setSelectedComponent(cdp, cdp.control.id);
     handleDrawerOpen();
   };
@@ -56,6 +58,11 @@ const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (pro
 
   const handleDrawerClose = () => {
     setDrawerOpen(false);
+  };
+
+  const onDelete = (controlId: string) => {
+    handleDrawerClose();
+    deleteControl(controlId);
   };
 
   return (
@@ -73,8 +80,12 @@ const MultiControlDesignDisplay: React.FC<MultiControlDesignDisplayProps> = (pro
                 <Grid item xs={w} key={i}>
                   <ControlDesignDisplay
                     {...cdp}
-                    onFocus={onFocus(cdp, setSelectedComponent)}
+                    onFocus={onFocus(cdp)}
                     hasFocus={`${cdp.control.id}` === focussedControlId}
+                    onDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                      e.stopPropagation();
+                      onDelete(cdp.control.id);
+                    }}
                   />
                 </Grid>
               );
@@ -103,6 +114,7 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = {
   setSelectedComponent,
+  deleteControl: deleteControlDesign,
   changeControlProp: changeControlMetadata
 };
 

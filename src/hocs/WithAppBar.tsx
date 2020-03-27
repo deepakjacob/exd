@@ -1,21 +1,14 @@
 import React from 'react';
 
 import AppBar from '../components/AppBar';
-import { sayHello } from '../store/actions/toolbar';
 
-interface WithAppBarProps {
-  // getTenant: typeof getTenant;
-  // sayHello: typeof sayHello;
-}
+interface WithAppBarProps {}
 
 const WithAppBar = <P extends object>(Component: React.ComponentType<P>): React.FC<P & WithAppBarProps> => ({
   ...props
 }: WithAppBarProps) => (
   <>
-    <AppBar
-    // getTenant={props.getTenant}
-    // sayHello={props.sayHello}
-    />
+    <AppBar />
     <Component {...(props as P)} />
   </>
 );

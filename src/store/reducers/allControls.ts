@@ -2,7 +2,9 @@ import { Reducer } from 'redux';
 import { FluxStandardAction } from 'redux-promise-middleware';
 
 import { ControlDesignDisplayProps } from '../../types';
-import { ADD_CONTROL_TO_RENDER, CHANGE_CONTROL_METADATA } from '../actions/allControls';
+import {
+    ADD_CONTROL_TO_RENDER, CHANGE_CONTROL_METADATA, DELETE_CONTROL
+} from '../actions/allControls';
 
 export interface AllControlsState {
   controls: ControlDesignDisplayProps[];
@@ -19,14 +21,12 @@ const allControls: Reducer = (state: AllControlsState = defaultState, action: Fl
         controls: [...state.controls, action.payload]
       };
     case CHANGE_CONTROL_METADATA:
-      const { control, metadata } = action.payload;
-      const { controls } = state;
-      const mapped = controls.map(c => {
-        return c.control.id === control.control.id
+      const mapped = state.controls.map(c => {
+        return c.control.id === action.payload.control.control.id
           ? {
               ...c,
               overriden: {
-                ...metadata
+                ...action.payload.metadata
               }
             }
           : c;
@@ -34,6 +34,9 @@ const allControls: Reducer = (state: AllControlsState = defaultState, action: Fl
       return {
         controls: [...mapped]
       };
+    case DELETE_CONTROL:
+      const filtered = state.controls.filter(c => c.control.id !== action.payload);
+      return { controls: [...filtered] };
     default:
       return state;
   }

@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core';
 
 interface WithToolbarProps {}
 
-const WithToolbar = <P extends object>(Component: React.ComponentType<P>): React.FC<P & WithToolbarProps> => ({
+const WithToolbar = <P extends any>(Component: React.ComponentType<P>): React.FC<P & WithToolbarProps> => ({
   ...props
 }: WithToolbarProps) => (
   <>
