@@ -1,0 +1,79 @@
+{
+    "importSorter.generalConfiguration.sortOnBeforeSave": true,
+    "importSorter.sortConfiguration.removeUnusedDefaultImports": true,
+    "vs-kubernetes": {
+        "vs-kubernetes.helm-path": "/Users/jacobdeepak/.vs-kubernetes/tools/helm/darwin-amd64/helm",
+        "vs-kubernetes.draft-path": "/Users/jacobdeepak/.vs-kubernetes/tools/draft/darwin-amd64/draft"
+    },
+    "cloudcode.gke": {
+        "projectIds": [
+            "project-up-238914"
+        ]
+    },
+    "zenMode.hideActivityBar": true,
+    "window.nativeTabs": false,
+    "editor.hideCursorInOverviewRuler": false,
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "editor.scrollbar.horizontal": "hidden",
+    "editor.scrollbar.vertical": "hidden",
+    "editor.overviewRulerBorder": false,
+    "editor.highlightActiveIndentGuide": true,
+    "editor.lineHeight": 15,
+    "editor.folding": false,
+    "editor.showFoldingControls": "mouseover",
+    "editor.renderIndentGuides": true,
+    "editor.lineNumbers": "on",
+    "workbench.editor.showTabs": true,
+    //"editor.glyphMargin": false,
+    "workbench.useExperimentalGridLayout": true,
+    // "editor.fontFamily": "Operator Mono",
+    "editor.fontFamily": "Roboto Mono for Powerline",
+    "editor.fontSize": 15,
+    "breadcrumbs.enabled": false,
+    "editor.minimap.enabled": false,
+    "workbench.activityBar.visible": true,
+    "workbench.sideBar.location": "right",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "go.useLanguageServer": true,
+    "editor.fontLigatures": true,
+    "window.zoomLevel": 0,
+    "workbench.enableExperiments": false,
+    "workbench.tree.indent": 4,
+    "workbench.tree.renderIndentGuides": "none",
+    "editor.find.addExtraSpaceOnTop": false,
+    "workbench.fontAliasing": "default",
+    "workbench.editor.tabCloseButton": "left",
+    "debug.toolBarLocation": "docked",
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.colorCustomizations": {
+        // "tab.activeBackground": "#222831",
+        // "tab.unfocusedActiveBackground": "#222831",
+        // "editorGroup.border": "#222831",
+        // "editorGroup.noTabsBackground": "#222831",
+        //  "editorGroup.tabsBackground": "#222831",
+        // "editorGroup.tabsBorder": "#222831",
+        // "editorGroup.dropBackground": "#222831",
+        // "editorPane.background": "#222831",
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.settings.editor": "json",
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "java.configuration.checkProjectSettingsExclusions": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "dart.openDevTools": "flutter",
+    "git.confirmSync": false,
+    "typescript.updateImportsOnFileMove.enabled": "never",
+    "editor.tokenColorCustomizations": {
+        "semanticHighlighting": true
+    },
+    "workbench.colorTheme": "Kary Pro Colors － Minimal Dark",
+    "git.autofetch": true,
+}
