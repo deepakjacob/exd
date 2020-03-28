@@ -1,12 +1,9 @@
 import React from 'react';
 
-import { CommonControlProps } from '../../types';
+import { ControlDesignDisplayProps } from '../../types';
 
-export interface LabelProps extends CommonControlProps {
-  id: string;
-  name: string;
-}
-
-const LabelRenderer: React.FC<LabelProps> = (props: LabelProps) => <div>A label is rendered</div>;
+const LabelRenderer: React.FC<ControlDesignDisplayProps> = (props: ControlDesignDisplayProps) => (
+  <div>A label is rendered</div>
+);
 
 export default LabelRenderer;

@@ -62,7 +62,7 @@ const ControlPropsDrawer = (props: ControlPropsDrawerProps) => {
   const classes = useStyles();
   const theme = useTheme();
   const { open, onClose, focussedControl, changeControlProp } = props;
-  const { metadata, overriden } = focussedControl;
+  const { control, metadata } = focussedControl;
 
   return (
     <div className={classes.root}>
@@ -82,7 +82,7 @@ const ControlPropsDrawer = (props: ControlPropsDrawerProps) => {
           </IconButton>
           <Box className={classes.title}>
             <Typography variant="body1" className={classes.title}>
-              {metadata.id}
+              {control.id}
             </Typography>
           </Box>
         </div>

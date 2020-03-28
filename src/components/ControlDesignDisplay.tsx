@@ -6,8 +6,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { ControlDesignDisplayProps, DesignControlType } from '../types';
-import EntryFieldRenderer, { EntryFieldProps } from './renderers/EntryFieldRenderer';
-import LabelRenderer, { LabelProps } from './renderers/LabelRenderer';
+import EntryFieldRenderer from './renderers/EntryFieldRenderer';
+import LabelRenderer from './renderers/LabelRenderer';
 
 const designControlToRendererMapping = (props: ControlDesignDisplayProps) => {
   const {
@@ -18,11 +18,11 @@ const designControlToRendererMapping = (props: ControlDesignDisplayProps) => {
     case DesignControlType.LABEL:
       // move the below line from ControlRendererRegistration,
       // where the key will be DesignControlRendererType.LABEL_DESIGN_RENDERER
-      return <LabelRenderer {...metadata} />;
+      return <LabelRenderer {...props} />;
     case DesignControlType.ENTRY_FIELD:
       // move the below line from ControlRendererRegistration,
       // where the key will be DesignControlRendererType.LABEL_DESIGN_RENDERER
-      return <EntryFieldRenderer {...(metadata as EntryFieldProps)} />;
+      return <EntryFieldRenderer {...props} />;
     default:
       throw new Error(`No renderer supported for control type ${designControlType}`);
   }

@@ -1,5 +1,5 @@
-import { ControlDesignDisplayProps, DesignControlType } from "./types";
-import uuid from "./uuid";
+import { ControlDesignDisplayProps, DesignControlType, FieldType } from './types';
+import uuid from './uuid';
 
 const definitionRegistry = new Map<DesignControlType, () => ControlDesignDisplayProps>();
 
@@ -12,32 +12,97 @@ export const getDefinition = (type: DesignControlType): (() => ControlDesignDisp
 export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
   control: {
     id: uuid("ENTRY_FIELD_CONTROL_ID_"),
+    name: uuid("ENTRY_FIELD_CONTROL_NAME_"),
     designControlType: DesignControlType.ENTRY_FIELD,
-  },
-  metadata: {
-    id: uuid("entry_field_id_"),
-    name: uuid("entry_field_name_"),
     label: "Entry Field Label",
     defaultValue: "Hello World",
-    helperText: "This is some addtional info",
-    dimension: {
-      width: 4,
-    },
+    helperText: "This is some addtional info"
   },
+  metadata: {
+    dimension: {
+      width: 12
+    }
+  },
+  fields: [
+    {
+      control: {
+        id: uuid("label_field_id_"),
+        name: uuid("label_field_name_"),
+        label: "Entry Field Label",
+        defaultValue: "Hello World",
+        helperText: "This is some addtional info",
+        type: FieldType.LABEL
+      },
+      metadata: {
+        dimension: {
+          width: 12
+        }
+      }
+    },
+    {
+      control: {
+        id: uuid("entry_field_id_"),
+        name: uuid("entry_field_name_"),
+        label: "Entry Field Label",
+        defaultValue: "Hello World",
+        helperText: "This is some addtional info",
+        type: FieldType.TEXT
+      },
+      metadata: {
+        dimension: {
+          width: 4
+        }
+      }
+    },
+    {
+      control: {
+        id: uuid("entry_field_id_"),
+        name: uuid("entry_field_name_"),
+        label: "Entry Field Label",
+        defaultValue: "Hello World",
+        helperText: "This is some addtional info",
+        type: FieldType.TEXT
+      },
+      metadata: {
+        dimension: {
+          width: 8
+        }
+      }
+    }
+  ]
 });
 
 export const getNewLabelDefinition = (): ControlDesignDisplayProps => ({
   control: {
     id: uuid("LABEL_CONTROL_ID_"),
+    name: uuid("LABEL_CONTROL_NAME_"),
     designControlType: DesignControlType.LABEL,
+    label: "Entry Field Label",
+    defaultValue: "Hello World",
+    helperText: "This is some addtional info"
   },
   metadata: {
-    id: uuid("label_field_id_"),
-    name: uuid("label_field_name_"),
     dimension: {
-      width: 4,
-    },
+      width: 12
+    }
   },
+  fields: [
+    {
+      control: {
+        id: uuid("label_field_id_"),
+        name: uuid("label_field_name_"),
+        label: "Entry Field Label",
+        defaultValue: "Hello World",
+        helperText: "This is some addtional info",
+        type: FieldType.LABEL
+      },
+      metadata: {
+        dimension: {
+          width: 12
+        }
+      }
+    }
+  ]
 });
 registerDefinition(DesignControlType.ENTRY_FIELD, getNewEntryFieldDefinition);
 registerDefinition(DesignControlType.LABEL, getNewLabelDefinition);
