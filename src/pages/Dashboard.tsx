@@ -3,9 +3,6 @@ import React, { Suspense } from 'react';
 import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-// import MultiControlDesignDisplay from '../components/MultiControlDesignDisplay';
-import WithAppBar from '../hocs/WithAppBar';
-
 const MultiControlDesignDisplay = React.lazy(() => import("../components/MultiControlDesignDisplay"));
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,4 +27,3 @@ const View: React.FC<ViewProps> = (props: ViewProps) => {
   );
 };
 
-export default WithAppBar(View);

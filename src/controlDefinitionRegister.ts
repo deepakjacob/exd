@@ -1,5 +1,5 @@
-import { ControlDesignDisplayProps, DesignControlType } from './types';
-import uuid from './uuid';
+import { ControlDesignDisplayProps, DesignControlType } from "./types";
+import uuid from "./uuid";
 
 const definitionRegistry = new Map<DesignControlType, () => ControlDesignDisplayProps>();
 
@@ -12,7 +12,7 @@ export const getDefinition = (type: DesignControlType): (() => ControlDesignDisp
 export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
   control: {
     id: uuid("ENTRY_FIELD_CONTROL_ID_"),
-    designControlType: DesignControlType.ENTRY_FIELD
+    designControlType: DesignControlType.ENTRY_FIELD,
   },
   metadata: {
     id: uuid("entry_field_id_"),
@@ -21,23 +21,23 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
     defaultValue: "Hello World",
     helperText: "This is some addtional info",
     dimension: {
-      width: 4
-    }
-  }
+      width: 4,
+    },
+  },
 });
 
 export const getNewLabelDefinition = (): ControlDesignDisplayProps => ({
   control: {
     id: uuid("LABEL_CONTROL_ID_"),
-    designControlType: DesignControlType.LABEL
+    designControlType: DesignControlType.LABEL,
   },
   metadata: {
     id: uuid("label_field_id_"),
     name: uuid("label_field_name_"),
     dimension: {
-      width: 4
-    }
-  }
+      width: 4,
+    },
+  },
 });
 registerDefinition(DesignControlType.ENTRY_FIELD, getNewEntryFieldDefinition);
 registerDefinition(DesignControlType.LABEL, getNewLabelDefinition);
