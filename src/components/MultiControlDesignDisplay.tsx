@@ -10,11 +10,10 @@ import {
 } from '../store/actions/allControls';
 import { setSelectedComponent } from '../store/actions/selectedControl';
 import { State } from '../store/configureStore';
+import { getSelectedControl } from '../store/reducers/allControls';
 import { ControlDesignDisplayProps } from '../types';
 import ControlDesignDisplay from './ControlDesignDisplay';
 import ControlPropsDrawer from './ControlPropsDrawer';
-
-export interface MultiControlDesignDisplayProps {}
 
 const drawerWidth = 260;
 
@@ -41,14 +40,22 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+export interface MultiControlDesignDisplayProps {}
+
 const MultiControlDesignDisplay: FC<MultiControlDesignDisplayProps> = (props: MultiControlDesignDisplayProps) => {
   const classes = useStyles();
-  const { setSelectedComponent, selectedControl, controls, changeControlProp, deleteControl } = props as any;
-  const { focussedControlId, control } = selectedControl;
+  const {
+    setSelectedComponent,
+    focussedControlId,
+    focussedControl,
+    controls,
+    changeControlProp,
+    deleteControl
+  } = props as any;
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const onFocus = (cdp: ControlDesignDisplayProps) => () => {
-    setSelectedComponent(cdp, cdp.control.id);
+    setSelectedComponent(cdp.control.id);
     handleDrawerOpen();
   };
 
@@ -91,12 +98,12 @@ const MultiControlDesignDisplay: FC<MultiControlDesignDisplayProps> = (props: Mu
               );
             })}
         </Grid>
-        {control && (
+        {focussedControl && (
           <ControlPropsDrawer
             changeControlProp={changeControlProp}
             onClose={handleDrawerClose}
             open={drawerOpen}
-            focussedControl={control}
+            focussedControl={focussedControl}
           />
         )}
       </div>
@@ -106,10 +113,13 @@ const MultiControlDesignDisplay: FC<MultiControlDesignDisplayProps> = (props: Mu
 
 const mapStateToProps = (state: State) => {
   const {
-    selectedControl,
-    allControls: { controls }
+    selectedControl: { focussedControlId },
+    allControls
   } = state;
-  return { selectedControl, controls };
+  const { controls } = allControls;
+  const filtered = focussedControlId ? getSelectedControl(allControls, focussedControlId) : undefined;
+  const focussedControl = filtered && filtered.length > 0 ? filtered[0] : undefined;
+  return { focussedControlId, focussedControl, controls };
 };
 
 const mapDispatchToProps = {

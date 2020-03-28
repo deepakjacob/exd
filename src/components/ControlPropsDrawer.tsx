@@ -62,7 +62,8 @@ const ControlPropsDrawer = (props: ControlPropsDrawerProps) => {
   const classes = useStyles();
   const theme = useTheme();
   const { open, onClose, focussedControl, changeControlProp } = props;
-  const { metadata } = focussedControl;
+  const { metadata, overriden } = focussedControl;
+
   return (
     <div className={classes.root}>
       <CssBaseline />

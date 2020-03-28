@@ -35,11 +35,14 @@ const allControls: Reducer = (state: AllControlsState = defaultState, action: Fl
         controls: [...mapped]
       };
     case DELETE_CONTROL:
-      const filtered = state.controls.filter(c => c.control.id !== action.payload);
-      return { controls: [...filtered] };
+      return { controls: [...state.controls.filter(c => c.control.id !== action.payload)] };
+
     default:
       return state;
   }
 };
+
+export const getSelectedControl = (state: AllControlsState, focussedControlId: string) =>
+  state.controls.filter(c => c.control.id === focussedControlId);
 
 export default allControls;

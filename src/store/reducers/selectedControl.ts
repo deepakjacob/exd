@@ -5,7 +5,6 @@ import { ControlMetadataProps } from '../../types';
 import { SELECT_RENDERED_CONTROL } from '../actions/selectedControl';
 
 export interface SelectedControlState {
-  control?: ControlMetadataProps;
   focussedControlId?: string;
 }
 
@@ -15,7 +14,6 @@ const selectedControl: Reducer = (state: SelectedControlState = defaultState, ac
   switch (action.type) {
     case SELECT_RENDERED_CONTROL:
       return {
-        control: action.payload.control,
         focussedControlId: action.payload.focussedControlId
       };
     default:

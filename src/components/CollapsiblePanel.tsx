@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { changeControlMetadata } from '../store/actions/allControls';
+import { ControlDesignDisplayProps } from '../types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface ControlledExpansionPanelProps {
   changeControlProp: typeof changeControlMetadata;
-  focussedControl: any;
+  focussedControl: ControlDesignDisplayProps;
 }
 
 export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> = (
@@ -42,6 +43,7 @@ export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> =
 ) => {
   const classes = useStyles();
   const { focussedControl, changeControlProp } = props;
+  const { metadata, overriden } = focussedControl;
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
@@ -53,6 +55,9 @@ export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> =
       return changeControlProp(focussedControl, { dimension: { width: event.target.value } });
     }
   };
+
+  const value = overriden?.dimension?.width ? overriden?.dimension?.width : metadata.dimension.width;
+
   return (
     <div className={classes.root}>
       <ExpansionPanel expanded={expanded === "panel1"} onChange={handleChange("panel1")}>
@@ -65,7 +70,8 @@ export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> =
               <TextField
                 id="standard-helperText_drawer_dimesion_width"
                 label="Width"
-                defaultValue="4"
+                defaultValue={value}
+                value={value}
                 helperText="Width of the control"
                 onChange={onChange}
               />
