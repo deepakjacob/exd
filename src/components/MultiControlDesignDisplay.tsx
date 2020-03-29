@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import {
-    changeControlMetadata, deleteControl as deleteControlDesign
+    changeControlMetadata, deleteControl as deleteControlDesign, getAppState as getState
 } from '../store/actions/allControls';
 import { setSelectedComponent } from '../store/actions/selectedControl';
 import { State } from '../store/configureStore';
@@ -50,7 +50,8 @@ const MultiControlDesignDisplay: FC<MultiControlDesignDisplayProps> = (props: Mu
     focussedControl,
     controls,
     changeControlProp,
-    deleteControl
+    deleteControl,
+    getAppState
   } = props as any;
   const [drawerOpen, setDrawerOpen] = useState(false);
 
