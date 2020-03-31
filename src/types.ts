@@ -1,5 +1,6 @@
-import { GridSize } from '@material-ui/core/Grid';
+import { GridSize } from "@material-ui/core/Grid";
 
+//Components type
 export enum DesignControlType {
   LABEL = "LABEL",
   ENTRY_FIELD = "ENTRY_FIELD",
@@ -22,7 +23,8 @@ export enum FieldType {
   TEXT = "TEXT",
   TEXT_AREA = "TEXT_AREA",
   LABEL = "LABEL",
-  BUTTON = "BUTTON"
+  BUTTON = "BUTTON",
+  SELECT = "SELECT"
 }
 
 export interface Dimension {
@@ -42,6 +44,14 @@ export interface ControlProps {
   helperText?: string;
 }
 
+export interface SelectControlProps extends ControlProps {
+  dataSourceRef: DataSourceRef;
+}
+
+export interface DataSourceRef {
+  GET?: string;
+}
+
 export interface ControlMetadataProps {
   dimension: Dimension;
 }
@@ -53,6 +63,7 @@ export interface FieldControl {
   defaultValue?: string;
   helperText?: string;
   type: FieldType;
+  dataSourceRef?: DataSourceRef;
 }
 
 export interface FieldMetadata {

@@ -1,5 +1,5 @@
-import { ControlDesignDisplayProps, DesignControlType, FieldType } from './types';
-import uuid from './uuid';
+import { ControlDesignDisplayProps, DesignControlType, FieldType, SelectControlProps } from "./types";
+import uuid from "./uuid";
 
 const definitionRegistry = new Map<DesignControlType, () => ControlDesignDisplayProps>();
 
@@ -62,6 +62,24 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
         defaultValue: "Hello World",
         helperText: "This is some addtional info",
         type: FieldType.TEXT
+      },
+      metadata: {
+        dimension: {
+          width: 8
+        }
+      }
+    },
+    {
+      control: {
+        id: uuid("entry_field_id_"),
+        name: uuid("entry_field_name_"),
+        label: "Entry Field Label",
+        defaultValue: "Hello World",
+        helperText: "This is some addtional info",
+        type: FieldType.SELECT,
+        dataSourceRef: {
+          GET: "getSelectOptions"
+        }
       },
       metadata: {
         dimension: {
