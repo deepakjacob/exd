@@ -1,5 +1,8 @@
-import { GridSize } from "@material-ui/core/Grid";
+import { GridSize } from '@material-ui/core/Grid';
 
+export enum DraggableType {
+  CONTROL = "CONTROL",
+}
 //Components type
 export enum DesignControlType {
   LABEL = "LABEL",
@@ -7,7 +10,7 @@ export enum DesignControlType {
   COMPOSITE = "COMPOSITE",
   FORM = "FORM",
   LIST = "LIST",
-  GRID = "GRID"
+  GRID = "GRID",
 }
 
 enum DesignControlRendererType {
@@ -16,7 +19,7 @@ enum DesignControlRendererType {
   COMPOSITE_DESIGN_RENDERER,
   FORM_DESIGN_RENDERER,
   LIST__DESIGN_RENDERER,
-  GRID_DESIGN_RENDERER
+  GRID_DESIGN_RENDERER,
 }
 
 export enum FieldType {
@@ -24,7 +27,7 @@ export enum FieldType {
   TEXT_AREA = "TEXT_AREA",
   LABEL = "LABEL",
   BUTTON = "BUTTON",
-  SELECT = "SELECT"
+  SELECT = "SELECT",
 }
 
 export interface Dimension {

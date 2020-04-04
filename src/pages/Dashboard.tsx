@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+import DroppableMultiControlDesignDisplay from '../components/DroppableMultiControlDesignDisplay';
 import WithAppBar from '../hocs/WithAppBar';
 import { getAppState } from '../store/actions/allControls';
 
-const MultiControlDesignDisplay = React.lazy(() => import("../components/MultiControlDesignDisplay"));
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      flexGrow: 1
-    }
+      flexGrow: 1,
+    },
   })
 );
 
@@ -26,14 +26,14 @@ class PrimaryView extends React.Component {
   render() {
     return (
       <Suspense fallback={<div>Loading...</div>}>
-        <MultiControlDesignDisplay />
+        <DroppableMultiControlDesignDisplay />
       </Suspense>
     );
   }
 }
 
 const mapDispatchToProps = {
-  getAppState
+  getAppState,
 };
 
 const ConnectedPrimaryView = connect(undefined, mapDispatchToProps)(PrimaryView);
@@ -48,4 +48,5 @@ const View: React.FC<ViewProps> = (props: ViewProps) => {
   );
 };
 
-export default WithAppBar(View);
+// export default WithAppBar(View);
+export default View;
