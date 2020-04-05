@@ -29,8 +29,11 @@ export function canMoveControl(prow: number, pcol: number) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     item: {
-      // border: "2px solid red",
       padding: theme.spacing(3),
+    },
+    highlightedItem: {
+      // padding: theme.spacing(3),
+      border: `2px dashed ${theme.palette.primary.main}`,
     },
   })
 );
@@ -56,7 +59,7 @@ const DroppableControl: FC<DroppableControlProps> = (props: any) => {
   });
   return (
     <div
-      className={classes.item}
+      className={isOver && canDrop ? classes.highlightedItem : classes.item}
       ref={drop}
       style={{
         position: "relative",
@@ -64,10 +67,9 @@ const DroppableControl: FC<DroppableControlProps> = (props: any) => {
         height: "100%",
       }}
     >
-      <Box></Box>
-      {isOver && !canDrop && <Box>NO</Box>}
-      {!isOver && canDrop && <Box>NO</Box>}
-      {isOver && canDrop && <Box>YES</Box>}
+      {isOver && !canDrop && <Box></Box>}
+      {!isOver && canDrop && <Box></Box>}
+      {isOver && canDrop && <Box></Box>}
       {children}
     </div>
   );
