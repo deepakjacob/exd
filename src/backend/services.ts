@@ -23,7 +23,7 @@ export const saveAppState = async (appState: State) => {
   return resp.json();
 };
 
-export const getAppState = (id: string) => {
+export const _getAppState = (id: string) => {
   return Promise.resolve({
     id: "bffe3243-32af-41f6-a33d-ec6ef09d79f7",
     appState: {
@@ -166,7 +166,7 @@ export const getAppState = (id: string) => {
   });
 };
 
-export const _getAppState = async (id: string) => {
+export const getAppState = async (id: string) => {
   const config = {
     method: "GET",
     headers: {

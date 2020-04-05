@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -19,7 +20,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import {
-    changeControlMetadata, deleteControl as deleteControlDesign
+    addControl, changeControlMetadata, deleteControl as deleteControlDesign, saveAppState
 } from '../store/actions/allControls';
 import { setSelectedComponent } from '../store/actions/selectedControl';
 import { State } from '../store/configureStore';
@@ -137,6 +138,8 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
     changeControlProp,
     deleteControl,
     getAppState,
+    saveAppState,
+    state,
   } = props as any;
   const onFocus = (cdp: ControlDesignDisplayProps) => {
     setSelectedComponent(cdp.control.id);
@@ -180,6 +183,9 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
           <Typography variant="h6" noWrap>
             XD
           </Typography>
+          <Button color="inherit" onClick={(e) => saveAppState(state)}>
+            Save
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -268,13 +274,14 @@ const mapStateToProps = (state: State) => {
   const { controls } = allControls;
   const filtered = focussedControlId ? getSelectedControl(allControls, focussedControlId) : undefined;
   const focussedControl = filtered && filtered.length > 0 ? filtered[0] : undefined;
-  return { focussedControlId, focussedControl, controls };
+  return { focussedControlId, focussedControl, controls, state };
 };
 
 const mapDispatchToProps = {
   setSelectedComponent,
   deleteControl: deleteControlDesign,
   changeControlProp: changeControlMetadata,
+  saveAppState,
 };
 
 const ConnectedDraggableMultiControlDesignDisplay = connect(

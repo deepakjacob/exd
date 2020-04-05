@@ -12,7 +12,13 @@ import { ControlItemDisplay, DraggableType } from '../../types';
 export function moveControl(control: ControlItemDisplay, row: number, col: number, addControl: any) {
   const getControlDesignDisplayProps = getDefinition(control.type);
   if (getControlDesignDisplayProps) {
-    addControl(getControlDesignDisplayProps());
+    const controlDesignDisplayProps = getControlDesignDisplayProps();
+    controlDesignDisplayProps.gridPosition = {
+      row,
+      col,
+    };
+
+    addControl(controlDesignDisplayProps);
   }
 }
 
