@@ -1,29 +1,34 @@
-import React, { FC, useState } from "react";
-import { DndProvider } from "react-dnd";
-import Backend from "react-dnd-html5-backend";
-import { connect } from "react-redux";
-import Box from "@material-ui/core/Box";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import MenuIcon from "@material-ui/icons/Menu";
-import DraggableControlList from "./editor/DraggableControlList";
-import DroppableControl from "./editor/DroppableControl";
+import clsx from 'clsx';
+import React, { FC, useState } from 'react';
+import { DndProvider } from 'react-dnd';
+import Backend from 'react-dnd-html5-backend';
+import { connect } from 'react-redux';
 
-import AppBar from "@material-ui/core/AppBar";
+import AppBar from '@material-ui/core/AppBar';
+import Box from '@material-ui/core/Box';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import MenuIcon from '@material-ui/icons/Menu';
 
-import clsx from "clsx";
-import { getSelectedControl } from "../store/reducers/allControls";
-import { State } from "../store/configureStore";
-import { changeControlMetadata, deleteControl as deleteControlDesign } from "../store/actions/allControls";
-import { setSelectedComponent } from "../store/actions/selectedControl";
+import {
+    changeControlMetadata, deleteControl as deleteControlDesign
+} from '../store/actions/allControls';
+import { setSelectedComponent } from '../store/actions/selectedControl';
+import { State } from '../store/configureStore';
+import { getSelectedControl } from '../store/reducers/allControls';
+import { ControlDesignDisplayProps } from '../types';
+import uuid from '../uuid';
+import ControlDesignDisplay from './ControlDesignDisplay';
+import DraggableControlList from './editor/DraggableControlList';
+import DroppableControl from './editor/DroppableControl';
 
 const drawerWidth = 240;
 
@@ -98,10 +103,50 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export function MultiControlDesignDisplay() {
+const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
+  if (!controls || controls.length === 0) {
+    return null;
+  }
+
+  const keyValueMap = controls.reduce((accumulator, cdp) => {
+    let key = cdp.gridPosition?.row ? cdp.gridPosition?.row : "";
+    if (key) {
+      if (!accumulator[key]) {
+        accumulator[key] = [cdp];
+      } else {
+        accumulator[key] = [...accumulator[key], cdp];
+      }
+    }
+    return accumulator;
+  }, {} as any);
+
+  console.log(`mapped => ${JSON.stringify(keyValueMap)}`);
+  return keyValueMap;
+};
+
+export const MultiControlDesignDisplay: FC<any> = (props: any) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  const {
+    setSelectedComponent,
+    focussedControlId,
+    focussedControl,
+    controls,
+    changeControlProp,
+    deleteControl,
+    getAppState,
+  } = props as any;
+  const onFocus = (cdp: ControlDesignDisplayProps) => {
+    setSelectedComponent(cdp.control.id);
+    handleDrawerOpen();
+  };
+
+  const onDelete = (controlId: string) => {
+    handleDrawerClose();
+    deleteControl(controlId);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -110,7 +155,7 @@ export function MultiControlDesignDisplay() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const mControls = mappedControls(controls);
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -161,26 +206,39 @@ export function MultiControlDesignDisplay() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Grid container spacing={2}>
-          {[0, 1, 2, 3, 4].map((row) =>
-            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col) => (
-              <Grid key={`${row}-${col}`} item xs={12} lg={1} className={classes.grid}>
-                <Box className={classes.item}>
-                  <DroppableControl row={row} col={col} />
-                </Box>
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) => {
+            const c: ControlDesignDisplayProps[] = mControls && mControls[row];
+            if (c) {
+              return c.map((cdp: ControlDesignDisplayProps) => {
+                let w = cdp.overriden?.dimension?.width ? cdp.overriden.dimension.width : cdp.metadata.dimension.width;
+                return (
+                  <Grid key={uuid("col-")} item xs={w} className={classes.grid}>
+                    <Box className={classes.item}>
+                      <ControlDesignDisplay
+                        {...cdp}
+                        onFocus={() => {}}
+                        hasFocus={`${cdp.control.id}` === focussedControlId}
+                        onDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                          e.stopPropagation();
+                          onDelete(cdp.control.id);
+                        }}
+                      />
+                    </Box>
+                  </Grid>
+                );
+              });
+            }
+            return (
+              <Grid key={uuid("col-")} item xs={12} lg={1} className={classes.grid}>
+                <DroppableControl row={row} col={1}></DroppableControl>;
               </Grid>
-            ))
-          )}
+            );
+          })}
         </Grid>
       </main>
     </div>
   );
-}
-
-const DndEnabledControl: FC<any> = (props: any) => (
-  <DndProvider backend={Backend}>
-    <MultiControlDesignDisplay />
-  </DndProvider>
-);
+};
 
 const mapStateToProps = (state: State) => {
   const {
@@ -199,6 +257,15 @@ const mapDispatchToProps = {
   changeControlProp: changeControlMetadata,
 };
 
-const ConnectedDraggableMultiControlDesignDisplay = connect(mapStateToProps, mapDispatchToProps)(DndEnabledControl);
+const ConnectedDraggableMultiControlDesignDisplay = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MultiControlDesignDisplay);
 
-export default ConnectedDraggableMultiControlDesignDisplay;
+const DndEnabledControl: FC<any> = (props: any) => (
+  <DndProvider backend={Backend}>
+    <ConnectedDraggableMultiControlDesignDisplay />
+  </DndProvider>
+);
+
+export default DndEnabledControl;

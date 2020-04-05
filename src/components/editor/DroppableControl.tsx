@@ -1,13 +1,13 @@
-import React, { FC } from "react";
-import { useDrop } from "react-dnd";
-import { connect } from "react-redux";
+import React, { FC } from 'react';
+import { useDrop } from 'react-dnd';
+import { connect } from 'react-redux';
 
-import Box from "@material-ui/core/Box";
-import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles";
+import Box from '@material-ui/core/Box';
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 
-import { addControl } from "../../store/actions/allControls";
-import { DraggableType, ControlItemDisplay } from "../../types";
-import { getDefinition } from "../../controlDefinitionRegister";
+import { getDefinition } from '../../controlDefinitionRegister';
+import { addControl } from '../../store/actions/allControls';
+import { ControlItemDisplay, DraggableType } from '../../types';
 
 export function moveControl(control: ControlItemDisplay, row: number, col: number, addControl: any) {
   const getControlDesignDisplayProps = getDefinition(control.type);
@@ -58,7 +58,7 @@ const DroppableControl: FC<DroppableControlProps> = (props: any) => {
         height: "100%",
       }}
     >
-      <Box>Place something here!</Box>
+      <Box></Box>
       {isOver && !canDrop && <Box>NO</Box>}
       {!isOver && canDrop && <Box>NO</Box>}
       {isOver && canDrop && <Box>YES</Box>}
