@@ -207,32 +207,38 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
         <div className={classes.toolbar} />
         <Grid container spacing={2}>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) => {
-            const c: ControlDesignDisplayProps[] = mControls && mControls[row];
-            if (c) {
-              return c.map((cdp: ControlDesignDisplayProps) => {
-                let w = cdp.overriden?.dimension?.width ? cdp.overriden.dimension.width : cdp.metadata.dimension.width;
-                return (
-                  <Grid key={uuid("col-")} item xs={w} className={classes.grid}>
-                    <Box className={classes.item}>
-                      <ControlDesignDisplay
-                        {...cdp}
-                        onFocus={() => {}}
-                        hasFocus={`${cdp.control.id}` === focussedControlId}
-                        onDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                          e.stopPropagation();
-                          onDelete(cdp.control.id);
-                        }}
-                      />
-                    </Box>
-                  </Grid>
-                );
-              });
-            }
-            return (
-              <Grid key={uuid("col-")} item xs={12} lg={1} className={classes.grid}>
-                <DroppableControl row={row} col={1}></DroppableControl>;
-              </Grid>
-            );
+            return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col) => {
+              const c: ControlDesignDisplayProps[] = mControls && mControls[row];
+              if (c) {
+                return c.map((cdp: ControlDesignDisplayProps) => {
+                  let w = cdp.overriden?.dimension?.width
+                    ? cdp.overriden.dimension.width
+                    : cdp.metadata.dimension.width;
+                  return (
+                    cdp.gridPosition?.col === col && (
+                      <Grid key={uuid("col-")} item xs={w} className={classes.grid}>
+                        <Box className={classes.item}>
+                          <ControlDesignDisplay
+                            {...cdp}
+                            onFocus={() => {}}
+                            hasFocus={`${cdp.control.id}` === focussedControlId}
+                            onDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                              e.stopPropagation();
+                              onDelete(cdp.control.id);
+                            }}
+                          />
+                        </Box>
+                      </Grid>
+                    )
+                  );
+                });
+              }
+              return (
+                <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
+                  <DroppableControl row={row} col={col}></DroppableControl>;
+                </Grid>
+              );
+            });
           })}
         </Grid>
       </main>

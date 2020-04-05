@@ -57,6 +57,7 @@ export interface DataSourceRef {
 
 export interface GridPosition {
   row: number;
+  col: number;
 }
 export interface ControlMetadataProps {
   dimension: Dimension;
