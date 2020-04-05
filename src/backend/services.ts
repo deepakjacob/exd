@@ -41,9 +41,9 @@ export const getAppState = (id: string) => {
             },
             metadata: { dimension: { width: 12 } },
             overriden: {
-              dimension: { width: 8 },
+              dimension: { width: 4 },
             },
-            gridPosition: { row: 0, col: 2 },
+            gridPosition: { row: 0, col: 0 },
             fields: [
               {
                 control: {
@@ -108,7 +108,7 @@ export const getAppState = (id: string) => {
             },
             metadata: { dimension: { width: 12 } },
             overriden: { dimension: { width: 8 } },
-            gridPosition: { row: 3, col: 2 },
+            gridPosition: { row: 1, col: 4 },
             fields: [
               {
                 control: {

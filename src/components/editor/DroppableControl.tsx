@@ -23,7 +23,7 @@ export function canMoveControl(prow: number, pcol: number) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     item: {
-      border: "2px solid red",
+      // border: "2px solid red",
       padding: theme.spacing(3),
     },
   })

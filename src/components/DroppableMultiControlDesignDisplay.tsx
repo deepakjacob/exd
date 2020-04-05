@@ -215,7 +215,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                     ? (cdp.overriden.dimension.width as number)
                     : cdp.metadata.dimension.width;
                   if (cdp.gridPosition?.col === col) {
-                    console.log("C => ", row, col, w);
+                    // console.log("C => ", row, col, w);
 
                     return (
                       <Grid key={uuid("col-")} item xs={w} className={classes.grid}>
@@ -237,7 +237,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                     cdp.gridPosition?.col + w - 1 < col ||
                     (cdp.gridPosition?.col ? cdp.gridPosition?.col : 0) > col
                   ) {
-                    console.log("N1 when row, col => ", row, col);
+                    // console.log("N1 when row, col => ", row, col);
                     return (
                       <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
                         <DroppableControl row={row} col={col}></DroppableControl>;
@@ -246,7 +246,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                   }
                 });
               }
-              console.log("N2 when row, col => ", row, col);
+              // console.log("N2 when row, col => ", row, col);
               return (
                 <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
                   <DroppableControl row={row} col={col}></DroppableControl>;
