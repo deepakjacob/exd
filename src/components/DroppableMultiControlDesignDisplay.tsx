@@ -246,7 +246,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                     // console.log("N1 when row, col => ", row, col);
                     return (
                       <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
-                        <DroppableControl row={row} col={col}></DroppableControl>;
+                        <DroppableControl row={row} col={col}></DroppableControl>
                       </Grid>
                     );
                   }
@@ -255,7 +255,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
               // console.log("N2 when row, col => ", row, col);
               return (
                 <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
-                  <DroppableControl row={row} col={col}></DroppableControl>;
+                  <DroppableControl row={row} col={col}></DroppableControl>
                 </Grid>
               );
             });

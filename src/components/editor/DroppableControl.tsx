@@ -67,9 +67,6 @@ const DroppableControl: FC<DroppableControlProps> = (props: any) => {
         height: "100%",
       }}
     >
-      {isOver && !canDrop && <Box></Box>}
-      {!isOver && canDrop && <Box></Box>}
-      {isOver && canDrop && <Box></Box>}
       {children}
     </div>
   );
