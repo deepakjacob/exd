@@ -1,7 +1,6 @@
 import { Reducer } from 'redux';
 import { FluxStandardAction } from 'redux-promise-middleware';
 
-import { ControlMetadataProps } from '../../types';
 import { SELECT_RENDERED_CONTROL } from '../actions/selectedControl';
 
 export interface SelectedControlState {

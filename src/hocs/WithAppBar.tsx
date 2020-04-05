@@ -1,5 +1,6 @@
-import React from "react";
-import AppBar, { BarProps } from "../components/AppBar";
+import React from 'react';
+
+import AppBar, { BarProps } from '../components/AppBar';
 
 const WithAppBar = <P extends object>(Component: React.ComponentType<P>): React.FC<P & BarProps> => ({
   ...props

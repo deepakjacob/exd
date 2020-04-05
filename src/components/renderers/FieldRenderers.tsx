@@ -1,13 +1,14 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Field, FieldType } from "../../types";
-import FormControl from "@material-ui/core/FormControl";
+import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
+import { Field, FieldType } from '../../types';
 
 const FieldLabelRenderer: FC<Field> = (props: Field) => {
   const { control, metadata, overriden } = props;

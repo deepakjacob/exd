@@ -5,7 +5,6 @@ import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import DroppableMultiControlDesignDisplay from '../components/DroppableMultiControlDesignDisplay';
-import WithAppBar from '../hocs/WithAppBar';
 import { getAppState } from '../store/actions/allControls';
 
 const useStyles = makeStyles((theme: Theme) =>

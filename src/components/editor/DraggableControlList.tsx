@@ -1,33 +1,35 @@
-import React, { FC } from 'react';
-import { useDrag } from 'react-dnd';
+import React, { FC } from "react";
+import { useDrag } from "react-dnd";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import { getControlSettings } from "../../controlSetttingsRegister";
+import { DraggableType, ControlItemDisplay } from "../../types";
 
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+const ControlRepresentation: FC<ControlItemDisplay> = (props: ControlItemDisplay) => {
+  const { title } = props;
+  return (
+    <ListItem button key={title}>
+      <ListItemIcon>
+        <InboxIcon />
+      </ListItemIcon>
+      <ListItemText primary={title} />
+    </ListItem>
+  );
+};
 
-import { DraggableType } from '../../types';
-
-interface ControlRepresentationProps {
-  text: string;
+interface DraggableControlItemDisplayProps {
+  control: ControlItemDisplay;
 }
-const ControlRepresentation: FC<ControlRepresentationProps> = ({ text }) => (
-  <ListItem button key={text}>
-    <ListItemIcon>
-      <InboxIcon />
-    </ListItemIcon>
-    <ListItemText primary={text} />
-  </ListItem>
-);
 
-interface DraggableControlRepresentationProps {
-  text: string;
-}
-const DraggableControlRepresentation: FC<DraggableControlRepresentationProps> = ({ text }) => {
+const DraggableControlRepresentation: FC<DraggableControlItemDisplayProps> = (
+  draggable: DraggableControlItemDisplayProps
+) => {
+  const { control } = draggable;
   const [{ isDragging }, drag] = useDrag({
-    item: { type: DraggableType.CONTROL },
+    item: { type: DraggableType.CONTROL, control },
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -42,7 +44,7 @@ const DraggableControlRepresentation: FC<DraggableControlRepresentationProps> = 
         cursor: "move",
       }}
     >
-      <ControlRepresentation text={text} />
+      <ControlRepresentation {...control} />
     </div>
   );
 };
@@ -50,19 +52,11 @@ const DraggableControlRepresentation: FC<DraggableControlRepresentationProps> = 
 interface DraggableControlListProps {}
 
 const DraggableControlList: FC<DraggableControlListProps> = () => (
-  <>
-    <List>
-      {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-        <DraggableControlRepresentation key={index} text={text} />
-      ))}
-    </List>
-    <Divider />
-    <List>
-      {["All mail", "Trash", "Spam"].map((text, index) => (
-        <DraggableControlRepresentation key={index} text={text} />
-      ))}
-    </List>
-  </>
+  <List>
+    {getControlSettings().map((control: ControlItemDisplay, index) => (
+      <DraggableControlRepresentation key={index} control={control} />
+    ))}
+  </List>
 );
 
 export default DraggableControlList;

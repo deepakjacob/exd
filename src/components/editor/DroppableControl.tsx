@@ -1,43 +1,47 @@
-import React, { FC } from 'react';
-import { useDrop } from 'react-dnd';
+import React, { FC } from "react";
+import { useDrop } from "react-dnd";
+import { connect } from "react-redux";
 
-import Box from '@material-ui/core/Box';
+import Box from "@material-ui/core/Box";
+import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles";
 
-import { DraggableType } from '../../types';
+import { addControl } from "../../store/actions/allControls";
+import { DraggableType, ControlItemDisplay } from "../../types";
+import { getDefinition } from "../../controlDefinitionRegister";
 
-let controlPosition: [number, number] = [1, 7];
-let observers: PositionObserver[] = [];
-
-export type PositionObserver = ((position: [number, number]) => void) | null;
-
-function emitChange() {
-  observers.forEach((o) => o && o(controlPosition));
-}
-
-export function moveControl(row: number, col: number) {
-  controlPosition = [row, col];
-  console.log(`moveControl => Moving control to ${row}, ${col}`);
-  // console.log(".............................................");
-  emitChange();
+export function moveControl(control: ControlItemDisplay, row: number, col: number, addControl: any) {
+  const getControlDesignDisplayProps = getDefinition(control.type);
+  if (getControlDesignDisplayProps) {
+    addControl(getControlDesignDisplayProps());
+  }
 }
 
 export function canMoveControl(prow: number, pcol: number) {
-  const [row, col] = controlPosition;
-  console.log(`canMoveControl  => Checking control in ${prow}, ${pcol}`);
-  // console.log(`canMoveControl => Control is in ${row}, ${col}`);
-  // console.log(".............................................");
-  return !(prow === row && pcol === col);
+  return true;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    item: {
+      border: "2px solid red",
+      padding: theme.spacing(3),
+    },
+  })
+);
 interface DroppableControlProps {
-  text: string;
   row: number;
   col: number;
+  children?: any;
 }
-const DroppableControl: FC<DroppableControlProps> = ({ text, row, col }) => {
+const DroppableControl: FC<DroppableControlProps> = (props: any) => {
+  const { row, col, children } = props;
+  const classes = useStyles();
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: DraggableType.CONTROL,
-    drop: () => moveControl(row, col),
+    drop: (item, monitor: any) => {
+      const { control } = monitor.getItem();
+      return moveControl(control, row, col, props.addControl);
+    },
     canDrop: () => canMoveControl(row, col),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -46,6 +50,7 @@ const DroppableControl: FC<DroppableControlProps> = ({ text, row, col }) => {
   });
   return (
     <div
+      className={classes.item}
       ref={drop}
       style={{
         position: "relative",
@@ -53,11 +58,19 @@ const DroppableControl: FC<DroppableControlProps> = ({ text, row, col }) => {
         height: "100%",
       }}
     >
+      <Box>Place something here!</Box>
       {isOver && !canDrop && <Box>NO</Box>}
       {!isOver && canDrop && <Box>NO</Box>}
       {isOver && canDrop && <Box>YES</Box>}
+      {children}
     </div>
   );
 };
 
-export default DroppableControl;
+const mapDispatchToProps = {
+  addControl,
+};
+
+const ConnectedDroppableControl = connect(undefined, mapDispatchToProps)(DroppableControl);
+
+export default ConnectedDroppableControl;

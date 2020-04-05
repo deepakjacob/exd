@@ -1,15 +1,15 @@
-import React, { Suspense } from "react";
-import { connect } from "react-redux";
+import React, { Suspense } from 'react';
+import { connect } from 'react-redux';
 
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import MenuIcon from "@material-ui/icons/Menu";
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import MenuIcon from '@material-ui/icons/Menu';
 
-import { State } from "../store/configureStore";
-import { addControl, saveAppState } from "../store/actions/allControls";
+import { addControl, saveAppState } from '../store/actions/allControls';
+import { State } from '../store/configureStore';
 
 const NewControlDialog = React.lazy(() => import("./NewControlDialog"));
 const Toolbar = React.lazy(() => import("@material-ui/core/Toolbar"));
@@ -38,7 +38,7 @@ export interface BarProps {
   addControl: typeof addControl;
 }
 
-const Bar: React.FC<BarProps> = (props: BarProps) => {
+const Bar: React.FC<BarProps> = (props: BarProps) => { 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");

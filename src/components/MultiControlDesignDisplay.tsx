@@ -1,19 +1,17 @@
-import clsx from 'clsx';
-import React, { FC, useState } from 'react';
-import { connect } from 'react-redux';
+import clsx from "clsx";
+import React, { FC, useState } from "react";
+import { connect } from "react-redux";
 
-import Grid from '@material-ui/core/Grid';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Grid from "@material-ui/core/Grid";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
-import {
-    changeControlMetadata, deleteControl as deleteControlDesign, getAppState as getState
-} from '../store/actions/allControls';
-import { setSelectedComponent } from '../store/actions/selectedControl';
-import { State } from '../store/configureStore';
-import { getSelectedControl } from '../store/reducers/allControls';
-import { ControlDesignDisplayProps } from '../types';
-import ControlDesignDisplay from './ControlDesignDisplay';
-import ControlPropsDrawer from './ControlPropsDrawer';
+import ControlPropsDrawer from "./ControlPropsDrawer";
+import ControlDesignDisplay from "./ControlDesignDisplay";
+import { ControlDesignDisplayProps } from "../types";
+import { getSelectedControl } from "../store/reducers/allControls";
+import { State } from "../store/configureStore";
+import { changeControlMetadata, deleteControl as deleteControlDesign } from "../store/actions/allControls";
+import { setSelectedComponent } from "../store/actions/selectedControl";
 
 const drawerWidth = 260;
 
@@ -24,19 +22,19 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(3),
       transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
-      })
+        duration: theme.transitions.duration.leavingScreen,
+      }),
     },
     contentShift: {
       transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
+        duration: theme.transitions.duration.enteringScreen,
       }),
-      marginRight: drawerWidth
+      marginRight: drawerWidth,
     },
     grid: {
-      border: `2px solid ${theme.palette.secondary.light}`
-    }
+      border: `2px solid ${theme.palette.secondary.light}`,
+    },
   })
 );
 
@@ -51,7 +49,7 @@ const MultiControlDesignDisplay: FC<MultiControlDesignDisplayProps> = (props: Mu
     controls,
     changeControlProp,
     deleteControl,
-    getAppState
+    getAppState,
   } = props as any;
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -77,7 +75,7 @@ const MultiControlDesignDisplay: FC<MultiControlDesignDisplayProps> = (props: Mu
     <>
       <div
         className={clsx(classes.content, {
-          [classes.contentShift]: drawerOpen
+          [classes.contentShift]: drawerOpen,
         })}
       >
         <Grid container spacing={3}>
@@ -115,7 +113,7 @@ const MultiControlDesignDisplay: FC<MultiControlDesignDisplayProps> = (props: Mu
 const mapStateToProps = (state: State) => {
   const {
     selectedControl: { focussedControlId },
-    allControls
+    allControls,
   } = state;
   const { controls } = allControls;
   const filtered = focussedControlId ? getSelectedControl(allControls, focussedControlId) : undefined;
@@ -126,7 +124,7 @@ const mapStateToProps = (state: State) => {
 const mapDispatchToProps = {
   setSelectedComponent,
   deleteControl: deleteControlDesign,
-  changeControlProp: changeControlMetadata
+  changeControlProp: changeControlMetadata,
 };
 
 const ConnectedFocussableMultiControlDesignDisplay = connect(

@@ -1,5 +1,4 @@
 import { State } from '../store/configureStore';
-import uuid from '../uuid';
 
 const HOST_URL = "http://localhost:8000";
 const APP_STATE_GET_URL = "/app/state/get";

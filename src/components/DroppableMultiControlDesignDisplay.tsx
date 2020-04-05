@@ -1,32 +1,29 @@
-import clsx from 'clsx';
-import React, { FC, useState } from 'react';
-import { DndProvider } from 'react-dnd';
-import Backend from 'react-dnd-html5-backend';
-import { connect } from 'react-redux';
+import React, { FC, useState } from "react";
+import { DndProvider } from "react-dnd";
+import Backend from "react-dnd-html5-backend";
+import { connect } from "react-redux";
+import Box from "@material-ui/core/Box";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import MenuIcon from "@material-ui/icons/Menu";
+import DraggableControlList from "./editor/DraggableControlList";
+import DroppableControl from "./editor/DroppableControl";
 
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import AppBar from "@material-ui/core/AppBar";
 
-import { State } from '../store/configureStore';
-import DraggableControlList from './editor/DraggableControlList';
-import DroppableControl from './editor/DroppableControl';
+import clsx from "clsx";
+import { getSelectedControl } from "../store/reducers/allControls";
+import { State } from "../store/configureStore";
+import { changeControlMetadata, deleteControl as deleteControlDesign } from "../store/actions/allControls";
+import { setSelectedComponent } from "../store/actions/selectedControl";
 
 const drawerWidth = 240;
 
@@ -164,11 +161,11 @@ export function MultiControlDesignDisplay() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Grid container spacing={2}>
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) =>
+          {[0, 1, 2, 3, 4].map((row) =>
             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col) => (
               <Grid key={`${row}-${col}`} item xs={12} lg={1} className={classes.grid}>
                 <Box className={classes.item}>
-                  <DroppableControl text={""} row={row} col={col} />
+                  <DroppableControl row={row} col={col} />
                 </Box>
               </Grid>
             ))
@@ -184,12 +181,24 @@ const DndEnabledControl: FC<any> = (props: any) => (
     <MultiControlDesignDisplay />
   </DndProvider>
 );
+
 const mapStateToProps = (state: State) => {
-  return {};
+  const {
+    selectedControl: { focussedControlId },
+    allControls,
+  } = state;
+  const { controls } = allControls;
+  const filtered = focussedControlId ? getSelectedControl(allControls, focussedControlId) : undefined;
+  const focussedControl = filtered && filtered.length > 0 ? filtered[0] : undefined;
+  return { focussedControlId, focussedControl, controls };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setSelectedComponent,
+  deleteControl: deleteControlDesign,
+  changeControlProp: changeControlMetadata,
+};
 
-const ConnectedFocussableMultiControlDesignDisplay = connect(mapStateToProps, mapDispatchToProps)(DndEnabledControl);
+const ConnectedDraggableMultiControlDesignDisplay = connect(mapStateToProps, mapDispatchToProps)(DndEnabledControl);
 
-export default ConnectedFocussableMultiControlDesignDisplay;
+export default ConnectedDraggableMultiControlDesignDisplay;

@@ -1,5 +1,5 @@
-import { ControlDesignDisplayProps, DesignControlType, FieldType, SelectControlProps } from "./types";
-import uuid from "./uuid";
+import { ControlDesignDisplayProps, DesignControlType, FieldType } from './types';
+import uuid from './uuid';
 
 const definitionRegistry = new Map<DesignControlType, () => ControlDesignDisplayProps>();
 
