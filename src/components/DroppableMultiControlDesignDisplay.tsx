@@ -111,6 +111,7 @@ const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
 
   const keyValueMap = controls.reduce((accumulator, cdp) => {
     let key = cdp.gridPosition?.row;
+    // cant check !key since zero is valid key i.e., first row
     if (key !== undefined && key >= 0) {
       if (!accumulator[key]) {
         accumulator[key] = [cdp];
@@ -120,8 +121,6 @@ const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
     }
     return accumulator;
   }, {} as any);
-
-  // console.log(`mapped => ${JSON.stringify(keyValueMap, null, 2)}`);
   return keyValueMap;
 };
 
@@ -211,7 +210,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) => {
             return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col) => {
               const c: ControlDesignDisplayProps[] = mControls && mControls[row];
@@ -221,8 +220,6 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                     ? (cdp.overriden.dimension.width as number)
                     : cdp.metadata.dimension.width;
                   if (cdp.gridPosition?.col === col) {
-                    // console.log("C => ", row, col, w);
-
                     return (
                       <Grid key={uuid("col-")} item xs={w} className={classes.grid}>
                         <Box className={classes.item}>
@@ -243,6 +240,9 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                     cdp.gridPosition?.col + w - 1 < col ||
                     (cdp.gridPosition?.col ? cdp.gridPosition?.col : 0) > col
                   ) {
+                    // a component is present in the row and
+                    // only put placeholder columns for columns
+                    // the component is not occupying
                     // console.log("N1 when row, col => ", row, col);
                     return (
                       <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
@@ -252,6 +252,8 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                   }
                 });
               }
+              // no component is present in the row or this is the
+              // first time rendering of the app.
               // console.log("N2 when row, col => ", row, col);
               return (
                 <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
