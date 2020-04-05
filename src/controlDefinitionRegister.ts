@@ -16,12 +16,12 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
     designControlType: DesignControlType.ENTRY_FIELD,
     label: "Entry Field Label",
     defaultValue: "Hello World",
-    helperText: "This is some addtional info"
+    helperText: "This is some addtional info",
   },
   metadata: {
     dimension: {
-      width: 12
-    }
+      width: 12,
+    },
   },
   fields: [
     {
@@ -31,13 +31,13 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
         label: "Entry Field Label",
         defaultValue: "Hello World",
         helperText: "This is some addtional info",
-        type: FieldType.LABEL
+        type: FieldType.LABEL,
       },
       metadata: {
         dimension: {
-          width: 12
-        }
-      }
+          width: 12,
+        },
+      },
     },
     {
       control: {
@@ -46,13 +46,13 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
         label: "Entry Field Label",
         defaultValue: "Hello World",
         helperText: "This is some addtional info",
-        type: FieldType.TEXT
+        type: FieldType.TEXT,
       },
       metadata: {
         dimension: {
-          width: 4
-        }
-      }
+          width: 4,
+        },
+      },
     },
     {
       control: {
@@ -61,13 +61,13 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
         label: "Entry Field Label",
         defaultValue: "Hello World",
         helperText: "This is some addtional info",
-        type: FieldType.TEXT
+        type: FieldType.TEXT,
       },
       metadata: {
         dimension: {
-          width: 8
-        }
-      }
+          width: 8,
+        },
+      },
     },
     {
       control: {
@@ -78,16 +78,16 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
         helperText: "This is some addtional info",
         type: FieldType.SELECT,
         dataSourceRef: {
-          GET: "getSelectOptions"
-        }
+          GET: "getSelectOptions",
+        },
       },
       metadata: {
         dimension: {
-          width: 8
-        }
-      }
-    }
-  ]
+          width: 8,
+        },
+      },
+    },
+  ],
 });
 
 export const getNewLabelDefinition = (): ControlDesignDisplayProps => ({
@@ -97,12 +97,12 @@ export const getNewLabelDefinition = (): ControlDesignDisplayProps => ({
     designControlType: DesignControlType.LABEL,
     label: "Entry Field Label",
     defaultValue: "Hello World",
-    helperText: "This is some addtional info"
+    helperText: "This is some addtional info",
   },
   metadata: {
     dimension: {
-      width: 12
-    }
+      width: 4,
+    },
   },
   fields: [
     {
@@ -112,15 +112,15 @@ export const getNewLabelDefinition = (): ControlDesignDisplayProps => ({
         label: "Entry Field Label",
         defaultValue: "Hello World",
         helperText: "This is some addtional info",
-        type: FieldType.LABEL
+        type: FieldType.LABEL,
       },
       metadata: {
         dimension: {
-          width: 12
-        }
-      }
-    }
-  ]
+          width: 12,
+        },
+      },
+    },
+  ],
 });
 registerDefinition(DesignControlType.ENTRY_FIELD, getNewEntryFieldDefinition);
 registerDefinition(DesignControlType.LABEL, getNewLabelDefinition);

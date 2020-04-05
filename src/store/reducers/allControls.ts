@@ -13,7 +13,7 @@ export interface AllControlsState {
 
 const defaultState: AllControlsState = {
   id: undefined,
-  controls: []
+  controls: [],
 };
 
 const allControls: Reducer = (state: AllControlsState = defaultState, action: FluxStandardAction): AllControlsState => {
@@ -21,27 +21,27 @@ const allControls: Reducer = (state: AllControlsState = defaultState, action: Fl
     case ADD_CONTROL_TO_RENDER:
       return {
         id: state.id,
-        controls: [...state.controls, action.payload]
+        controls: [...(state.controls || []), action.payload],
       };
 
     case CHANGE_CONTROL_METADATA:
-      const mapped = state.controls.map(c => {
+      const mapped = state.controls.map((c) => {
         return c.control.id === action.payload.control.control.id
           ? {
               ...c,
               overriden: {
-                ...action.payload.metadata
-              }
+                ...action.payload.metadata,
+              },
             }
           : c;
       });
       return {
         id: state.id,
-        controls: [...mapped]
+        controls: [...mapped],
       };
 
     case DELETE_CONTROL:
-      return { id: state.id, controls: [...state.controls.filter(c => c.control.id !== action.payload)] };
+      return { id: state.id, controls: [...state.controls.filter((c) => c.control.id !== action.payload)] };
 
     case `${GET_APP_STATE}_FULFILLED`:
       return {
@@ -50,7 +50,7 @@ const allControls: Reducer = (state: AllControlsState = defaultState, action: Fl
           action.payload &&
           action.payload.appState &&
           action.payload.appState.allControls &&
-          action.payload.appState.allControls.controls
+          action.payload.appState.allControls.controls,
       };
     default:
       return state;
@@ -58,6 +58,6 @@ const allControls: Reducer = (state: AllControlsState = defaultState, action: Fl
 };
 
 export const getSelectedControl = (state: AllControlsState, focussedControlId: string) =>
-  state.controls.filter(c => c.control.id === focussedControlId);
+  state.controls.filter((c) => c.control.id === focussedControlId);
 
 export default allControls;
