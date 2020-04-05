@@ -109,8 +109,8 @@ const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
   }
 
   const keyValueMap = controls.reduce((accumulator, cdp) => {
-    let key = cdp.gridPosition?.row ? cdp.gridPosition?.row : "";
-    if (key) {
+    let key = cdp.gridPosition?.row;
+    if (key !== undefined && key >= 0) {
       if (!accumulator[key]) {
         accumulator[key] = [cdp];
       } else {
@@ -120,7 +120,7 @@ const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
     return accumulator;
   }, {} as any);
 
-  console.log(`mapped => ${JSON.stringify(keyValueMap)}`);
+  // console.log(`mapped => ${JSON.stringify(keyValueMap, null, 2)}`);
   return keyValueMap;
 };
 
@@ -211,11 +211,13 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
               const c: ControlDesignDisplayProps[] = mControls && mControls[row];
               if (c) {
                 return c.map((cdp: ControlDesignDisplayProps) => {
-                  let w = cdp.overriden?.dimension?.width
-                    ? cdp.overriden.dimension.width
+                  let w: any = cdp.overriden?.dimension?.width
+                    ? (cdp.overriden.dimension.width as number)
                     : cdp.metadata.dimension.width;
-                  return (
-                    cdp.gridPosition?.col === col && (
+                  if (cdp.gridPosition?.col === col) {
+                    console.log("C => ", row, col, w);
+
+                    return (
                       <Grid key={uuid("col-")} item xs={w} className={classes.grid}>
                         <Box className={classes.item}>
                           <ControlDesignDisplay
@@ -229,10 +231,22 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                           />
                         </Box>
                       </Grid>
-                    )
-                  );
+                    );
+                  }
+                  if (
+                    cdp.gridPosition?.col + w - 1 < col ||
+                    (cdp.gridPosition?.col ? cdp.gridPosition?.col : 0) > col
+                  ) {
+                    console.log("N1 when row, col => ", row, col);
+                    return (
+                      <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
+                        <DroppableControl row={row} col={col}></DroppableControl>;
+                      </Grid>
+                    );
+                  }
                 });
               }
+              console.log("N2 when row, col => ", row, col);
               return (
                 <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
                   <DroppableControl row={row} col={col}></DroppableControl>;
