@@ -4,23 +4,18 @@ import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
 
-import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import MenuIcon from '@material-ui/icons/Menu';
 
 import {
-    addControl, changeControlMetadata, deleteControl as deleteControlDesign, saveAppState
+    changeControlMetadata, deleteControl as deleteControlDesign, saveAppState
 } from '../store/actions/allControls';
 import { setSelectedComponent } from '../store/actions/selectedControl';
 import { State } from '../store/configureStore';
@@ -28,6 +23,7 @@ import { getSelectedControl } from '../store/reducers/allControls';
 import { ControlDesignDisplayProps } from '../types';
 import uuid from '../uuid';
 import ControlDesignDisplay from './ControlDesignDisplay';
+import AppBar from './editor/AppBar';
 import DraggableControlList from './editor/DraggableControlList';
 import DroppableControl from './editor/DroppableControl';
 
@@ -38,27 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: "flex",
     },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(["width", "margin"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    appBarShift: {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(["width", "margin"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    menuButton: {
-      marginRight: 36,
-    },
-    hide: {
-      display: "none",
-    },
+
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
@@ -161,32 +137,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            XD
-          </Typography>
-          <Button color="inherit" onClick={(e) => saveAppState(state)}>
-            Save
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <AppBar handleDrawerOpen={handleDrawerOpen} saveAppState={saveAppState} state={state} open={open} />
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
