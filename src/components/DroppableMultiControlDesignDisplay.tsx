@@ -92,6 +92,10 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const calcControlWidth = (cdp: ControlDesignDisplayProps) =>
+    cdp.overriden?.dimension?.width ? (cdp.overriden.dimension.width as number) : cdp.metadata.dimension.width;
+
   const mControls = mappedControls(controls);
   return (
     <div className={classes.root}>
@@ -101,14 +105,12 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Grid container spacing={1}>
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) => {
-            return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col) => {
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) =>
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col) => {
               const c: ControlDesignDisplayProps[] = mControls && mControls[row];
               if (c) {
                 return c.map((cdp: ControlDesignDisplayProps) => {
-                  let w: any = cdp.overriden?.dimension?.width
-                    ? (cdp.overriden.dimension.width as number)
-                    : cdp.metadata.dimension.width;
+                  let w: any = calcControlWidth(cdp);
                   if (cdp.gridPosition?.col === col) {
                     return (
                       <ControlColumn cdp={cdp} focussedControlId={focussedControlId} onDelete={onDelete} width={w} />
@@ -130,8 +132,8 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
               // first time rendering of the app.
               // console.log("N2 when row, col => ", row, col);
               return <EmptyColumn row={row} col={col} />;
-            });
-          })}
+            })
+          )}
         </Grid>
       </main>
     </div>
