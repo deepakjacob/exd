@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import React, { FC, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
@@ -6,13 +5,8 @@ import { connect } from 'react-redux';
 
 import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import {
     changeControlMetadata, deleteControl as deleteControlDesign, saveAppState
@@ -24,10 +18,8 @@ import { ControlDesignDisplayProps } from '../types';
 import uuid from '../uuid';
 import ControlDesignDisplay from './ControlDesignDisplay';
 import AppBar from './editor/AppBar';
-import DraggableControlList from './editor/DraggableControlList';
+import ControlDrawer from './editor/ControlDrawer';
 import DroppableControl from './editor/DroppableControl';
-
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,36 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
     },
 
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: "nowrap",
-    },
-    drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerClose: {
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: "hidden",
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9) + 1,
-      },
-    },
-    toolbar: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      padding: theme.spacing(0, 1),
-      ...theme.mixins.toolbar,
-    },
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
@@ -77,6 +39,13 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "center",
       color: theme.palette.text.secondary,
     },
+    toolbar: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      padding: theme.spacing(0, 1),
+      ...theme.mixins.toolbar,
+    },
   })
 );
 
@@ -87,7 +56,6 @@ const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
 
   const keyValueMap = controls.reduce((accumulator, cdp) => {
     let key = cdp.gridPosition?.row;
-    // cant check !key since zero is valid key i.e., first row
     if (key !== undefined && key >= 0) {
       if (!accumulator[key]) {
         accumulator[key] = [cdp];
@@ -138,27 +106,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar handleDrawerOpen={handleDrawerOpen} saveAppState={saveAppState} state={state} open={open} />
-      <Drawer
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
-        }}
-      >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        <DraggableControlList />
-      </Drawer>
+      <ControlDrawer open={open} handleDrawerClose={handleDrawerClose} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Grid container spacing={1}>
