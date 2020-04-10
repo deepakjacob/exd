@@ -20,6 +20,7 @@ import ControlDesignDisplay from './ControlDesignDisplay';
 import AppBar from './editor/AppBar';
 import ControlDrawer from './editor/ControlDrawer';
 import DroppableControl from './editor/DroppableControl';
+import EmptyColumn from './editor/EmptyColumn';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -143,22 +144,14 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                     // only put placeholder columns for columns
                     // the component is not occupying
                     // console.log("N1 when row, col => ", row, col);
-                    return (
-                      <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
-                        <DroppableControl row={row} col={col}></DroppableControl>
-                      </Grid>
-                    );
+                    return <EmptyColumn row={row} col={col} />;
                   }
                 });
               }
               // no component is present in the row or this is the
               // first time rendering of the app.
               // console.log("N2 when row, col => ", row, col);
-              return (
-                <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
-                  <DroppableControl row={row} col={col}></DroppableControl>
-                </Grid>
-              );
+              return <EmptyColumn row={row} col={col} />;
             });
           })}
         </Grid>
