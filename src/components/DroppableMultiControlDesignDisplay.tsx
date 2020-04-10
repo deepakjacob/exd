@@ -3,7 +3,6 @@ import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
 
-import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
@@ -15,11 +14,9 @@ import { setSelectedComponent } from '../store/actions/selectedControl';
 import { State } from '../store/configureStore';
 import { getSelectedControl } from '../store/reducers/allControls';
 import { ControlDesignDisplayProps } from '../types';
-import uuid from '../uuid';
-import ControlDesignDisplay from './ControlDesignDisplay';
 import AppBar from './editor/AppBar';
+import ControlColumn from './editor/ControlColumn';
 import ControlDrawer from './editor/ControlDrawer';
-import DroppableControl from './editor/DroppableControl';
 import EmptyColumn from './editor/EmptyColumn';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,14 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
     },
-    grid: {
-      border: `1px dashed ${theme.palette.primary.light}`,
-    },
-    item: {
-      padding: theme.spacing(2),
-      textAlign: "center",
-      color: theme.palette.text.secondary,
-    },
+
     toolbar: {
       display: "flex",
       alignItems: "center",
@@ -85,7 +75,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
     saveAppState,
     state,
   } = props as any;
-  const onFocus = (cdp: ControlDesignDisplayProps) => {
+  const onFocus = (cdp: ControlDesignDisplayProps) => () => {
     setSelectedComponent(cdp.control.id);
     handleDrawerOpen();
   };
@@ -121,19 +111,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                     : cdp.metadata.dimension.width;
                   if (cdp.gridPosition?.col === col) {
                     return (
-                      <Grid key={uuid("col-")} item xs={w} className={classes.grid}>
-                        <Box className={classes.item}>
-                          <ControlDesignDisplay
-                            {...cdp}
-                            onFocus={() => {}}
-                            hasFocus={`${cdp.control.id}` === focussedControlId}
-                            onDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                              e.stopPropagation();
-                              onDelete(cdp.control.id);
-                            }}
-                          />
-                        </Box>
-                      </Grid>
+                      <ControlColumn cdp={cdp} focussedControlId={focussedControlId} onDelete={onDelete} width={w} />
                     );
                   }
                   if (
