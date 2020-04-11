@@ -9,6 +9,7 @@ import DroppableControl from './DroppableControl';
 interface EmptyColumnProps {
   row: number;
   col: number;
+  render?: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,13 +18,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-const EmptyColumn: FC<EmptyColumnProps> = ({ row, col }: EmptyColumnProps) => {
+const EmptyColumn: FC<EmptyColumnProps> = ({ row, col, render }: EmptyColumnProps) => {
   const classes = useStyles();
-  return (
-    <Grid key={uuid("col-")} item xs={1} className={classes.grid}>
-      <DroppableControl row={row} col={col}></DroppableControl>
-    </Grid>
-  );
+  if (render) {
+    return (
+      <Grid key={uuid("col-")} xs={1} className={classes.grid}>
+        <DroppableControl row={row} col={col}></DroppableControl>
+      </Grid>
+    );
+  }
+  return null;
 };
 
 export default EmptyColumn;

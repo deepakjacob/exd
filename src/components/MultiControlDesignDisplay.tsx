@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import { ControlDesignDisplayProps } from '../types';
+import ControlDesignDisplay from './ControlDesignDisplay';
 import ControlPropsDrawer from './ControlPropsDrawer';
 import AppBar from './editor/AppBar';
 import ControlColumn from './editor/ControlColumn';
@@ -37,17 +38,26 @@ const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
     return null;
   }
 
-  const keyValueMap = controls.reduce((accumulator, cdp) => {
-    let key = cdp.gridPosition?.row;
-    if (key !== undefined && key >= 0) {
-      if (!accumulator[key]) {
-        accumulator[key] = [cdp];
-      } else {
-        accumulator[key] = [...accumulator[key], cdp];
+  const calcControlWidth = (cdp: ControlDesignDisplayProps) => {
+    return cdp.overriden?.dimension?.width
+      ? (cdp.overriden.dimension.width as number)
+      : (cdp.metadata.dimension.width as number);
+  };
+
+  const keyValueMap = controls.reduce(
+    (accumulator, cdp) => {
+      let row = cdp.gridPosition?.row;
+      let col = cdp.gridPosition?.col;
+      if (row !== undefined && row >= 0 && col !== undefined && col >= 0) {
+        const width = calcControlWidth(cdp);
+        accumulator[row][col] = cdp;
+        col += width;
       }
-    }
-    return accumulator;
-  }, {} as any);
+      return accumulator;
+    },
+    // {} as any
+    [...Array(12)].map((x) => Array(12).fill(null))
+  );
   return keyValueMap;
 };
 
@@ -93,15 +103,27 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
     setOpen(false);
   };
 
-  const calcControlWidth = (cdp: ControlDesignDisplayProps) =>
-    cdp.overriden?.dimension?.width ? (cdp.overriden.dimension.width as number) : cdp.metadata.dimension.width;
-  const controlInCol = (cdp: ControlDesignDisplayProps, col: number) => cdp.gridPosition?.col === col;
-  const controlNotInCol = (cdp: ControlDesignDisplayProps, col: number, width: number) => {
-    const originalWidth = cdp.gridPosition?.col ? cdp.gridPosition?.col : 0;
-    return originalWidth + width - 1 < col || originalWidth > col;
+  const calcControlWidth = (cdp: ControlDesignDisplayProps) => {
+    return cdp.overriden?.dimension?.width ? (cdp.overriden.dimension.width as number) : cdp.metadata.dimension.width;
+  };
+
+  const controlInCol = (cdp: ControlDesignDisplayProps, col: number, w: number, n: number) => {
+    const originalPos = cdp.gridPosition?.col ? cdp.gridPosition?.col : 0;
+    return originalPos === col;
+  };
+  const controlNotInCol = (
+    cdp: ControlDesignDisplayProps,
+    col: number,
+    width: number,
+    c: ControlDesignDisplayProps[],
+    n: number
+  ) => {
+    const originalPos = cdp.gridPosition?.col ? cdp.gridPosition?.col : 0;
+    return n + 1 == col;
   };
 
   const mControls = mappedControls(controls);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -110,31 +132,38 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
       <main className={classes.content}>
         <div className={classes.grid} />
         <Grid container spacing={1}>
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) =>
-            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col) => {
-              const c: ControlDesignDisplayProps[] = mControls && mControls[row];
-              if (c) {
-                return c.map((cdp: ControlDesignDisplayProps) => {
-                  let w: any = calcControlWidth(cdp);
-                  if (controlInCol(cdp, col)) {
-                    return (
-                      <ControlColumn
-                        onFocus={onFocus(cdp)}
-                        cdp={cdp}
-                        focussedControlId={focussedControlId}
-                        onDelete={onDelete}
-                        width={w}
-                      />
-                    );
-                  }
-                  if (controlNotInCol(cdp, col, w)) {
-                    return <EmptyColumn row={row} col={col} />;
-                  }
-                });
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) => {
+            let prevElem: any = undefined;
+            return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col, i) => {
+              const cdp: ControlDesignDisplayProps = mControls && mControls[row][col];
+              if (cdp) {
+                prevElem = cdp;
+                const w: any = calcControlWidth(cdp);
+                return (
+                  <Grid xs={w}>
+                    <ControlDesignDisplay
+                      {...cdp}
+                      onFocus={onFocus(cdp)}
+                      hasFocus={`${cdp.control.id}` === focussedControlId}
+                      onDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                        e.stopPropagation();
+                        onDelete(cdp.control.id);
+                      }}
+                    />
+                  </Grid>
+                );
               }
-              return <EmptyColumn row={row} col={col} />;
-            })
-          )}
+              if (prevElem && (prevElem as ControlDesignDisplayProps).gridPosition?.row == row) {
+                let next: any = (prevElem as ControlDesignDisplayProps).gridPosition?.col as number;
+                let nextCol = calcControlWidth(prevElem) + next;
+                if (col >= nextCol) {
+                  return <EmptyColumn row={row} col={col} render={true} />;
+                }
+              } else {
+                return <EmptyColumn row={row} col={col} render={true} />;
+              }
+            });
+          })}
         </Grid>
       </main>
       {focussedControl && (
