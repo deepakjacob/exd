@@ -47,5 +47,4 @@ const View: React.FC<ViewProps> = (props: ViewProps) => {
   );
 };
 
-// export default WithAppBar(View);
 export default View;
