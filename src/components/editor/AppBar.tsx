@@ -39,12 +39,14 @@ const useStyles = makeStyles((theme: Theme) =>
       }),
     },
     menuButton: {
-      marginRight: 36,
+      marginRight: theme.spacing(2),
     },
     hide: {
       display: "none",
     },
-
+    title: {
+      flexGrow: 1,
+    },
     toolbar: {
       display: "flex",
       alignItems: "center",
@@ -81,7 +83,7 @@ const ApplicationBar: FC<ApplicationBarProps> = ({
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap>
+        <Typography variant="h6" noWrap className={classes.title}>
           XD
         </Typography>
         <Button color="inherit" onClick={(e) => saveAppState(state)}>
