@@ -9,19 +9,14 @@ import { ControlDesignDisplayProps, DesignControlType } from '../types';
 import EntryFieldRenderer from './renderers/EntryFieldRenderer';
 import LabelRenderer from './renderers/LabelRenderer';
 
-const designControlToRendererMapping = (props: ControlDesignDisplayProps) => {
+const DesignMapper: FC<ControlDesignDisplayProps> = (props: ControlDesignDisplayProps) => {
   const {
     control: { designControlType },
-    metadata,
   } = props;
   switch (designControlType) {
     case DesignControlType.LABEL:
-      // move the below line from ControlRendererRegistration,
-      // where the key will be DesignControlRendererType.LABEL_DESIGN_RENDERER
       return <LabelRenderer {...props} />;
     case DesignControlType.ENTRY_FIELD:
-      // move the below line from ControlRendererRegistration,
-      // where the key will be DesignControlRendererType.LABEL_DESIGN_RENDERER
       return <EntryFieldRenderer {...props} />;
     default:
       throw new Error(`No renderer supported for control type ${designControlType}`);
@@ -78,7 +73,6 @@ const ControlDesignDisplay: FC<ControlDesignDisplayProps & HasFocus & HasDelete>
   const classes = useStyles();
   const { paper, selectedPaper, toolbar, notoolbar } = classes;
   const { onFocus, hasFocus, onDelete } = props;
-  const componentToBeRendered = designControlToRendererMapping(props);
   const [over, setOver] = useState(false);
   const onMouseOver = () => setOver(true);
   const onMouseOut = () => setOver(false);
@@ -95,7 +89,7 @@ const ControlDesignDisplay: FC<ControlDesignDisplayProps & HasFocus & HasDelete>
         </IconButton>
       </div>
 
-      {componentToBeRendered}
+      <DesignMapper {...props} />
     </Paper>
   );
 };
