@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import DroppableMultiControlDesignDisplay from '../components/DroppableMultiControlDesignDisplay';
+import MultiControlDesignDisplay from '../components/MultiControlDesignDisplay';
 import {
     changeControlMetadata, deleteControl, getAppState, saveAppState
 } from '../store/actions/allControls';
@@ -31,7 +31,7 @@ class PrimaryView extends React.Component<any, any> {
     const props = this.props;
     return (
       <Suspense fallback={<div>Loading...</div>}>
-        <DroppableMultiControlDesignDisplay {...props} />
+        <MultiControlDesignDisplay {...props} />
       </Suspense>
     );
   }
