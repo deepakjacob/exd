@@ -12,7 +12,7 @@ import LabelRenderer from './renderers/LabelRenderer';
 const designControlToRendererMapping = (props: ControlDesignDisplayProps) => {
   const {
     control: { designControlType },
-    metadata
+    metadata,
   } = props;
   switch (designControlType) {
     case DesignControlType.LABEL:
@@ -31,18 +31,18 @@ const designControlToRendererMapping = (props: ControlDesignDisplayProps) => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      flexGrow: 1
+      flexGrow: 1,
     },
 
     paper: {
       border: "2px dotted",
       padding: theme.spacing(2),
-      position: "relative"
+      position: "relative",
     },
     selectedPaper: {
       padding: theme.spacing(2),
       border: `2px solid ${theme.palette.primary.main}`,
-      position: "relative"
+      position: "relative",
     },
     notoolbar: {
       display: "none",
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
       top: "5px",
       right: "5px",
       width: "60px",
-      height: "45px"
+      height: "45px",
     },
     toolbar: {
       display: "block",
@@ -58,8 +58,8 @@ const useStyles = makeStyles((theme: Theme) =>
       top: "5px",
       right: "5px",
       width: "60px",
-      height: "45px"
-    }
+      height: "45px",
+    },
   })
 );
 

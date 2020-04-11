@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import {
     changeControlMetadata, deleteControl as deleteControlDesign, saveAppState
@@ -14,6 +14,7 @@ import { setSelectedComponent } from '../store/actions/selectedControl';
 import { State } from '../store/configureStore';
 import { getSelectedControl } from '../store/reducers/allControls';
 import { ControlDesignDisplayProps } from '../types';
+import ControlPropsDrawer from './ControlPropsDrawer';
 import AppBar from './editor/AppBar';
 import ControlColumn from './editor/ControlColumn';
 import ControlDrawer from './editor/ControlDrawer';
@@ -61,8 +62,8 @@ const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
 
 export const MultiControlDesignDisplay: FC<any> = (props: any) => {
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [controlPropsOpen, setControlPropsOpen] = useState(false);
 
   const {
     setSelectedComponent,
@@ -75,14 +76,23 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
     saveAppState,
     state,
   } = props as any;
+
   const onFocus = (cdp: ControlDesignDisplayProps) => () => {
     setSelectedComponent(cdp.control.id);
-    handleDrawerOpen();
+    handleControlPropsDrawerOpen();
   };
 
   const onDelete = (controlId: string) => {
     handleDrawerClose();
     deleteControl(controlId);
+  };
+
+  const handleControlPropsDrawerOpen = () => {
+    setControlPropsOpen(true);
+  };
+
+  const handleControlPropsDrawerClose = () => {
+    setControlPropsOpen(false);
   };
 
   const handleDrawerOpen = () => {
@@ -118,7 +128,13 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                   let w: any = calcControlWidth(cdp);
                   if (controlInCol(cdp, col)) {
                     return (
-                      <ControlColumn cdp={cdp} focussedControlId={focussedControlId} onDelete={onDelete} width={w} />
+                      <ControlColumn
+                        onFocus={onFocus(cdp)}
+                        cdp={cdp}
+                        focussedControlId={focussedControlId}
+                        onDelete={onDelete}
+                        width={w}
+                      />
                     );
                   }
                   if (controlNotInCol(cdp, col, w)) {
@@ -126,12 +142,19 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                   }
                 });
               }
-
               return <EmptyColumn row={row} col={col} />;
             })
           )}
         </Grid>
       </main>
+      {focussedControl && (
+        <ControlPropsDrawer
+          changeControlProp={changeControlProp}
+          onClose={handleControlPropsDrawerOpen}
+          open={controlPropsOpen}
+          focussedControl={focussedControl}
+        />
+      )}
     </div>
   );
 };

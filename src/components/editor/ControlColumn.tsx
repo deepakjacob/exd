@@ -25,10 +25,17 @@ interface ControlColumnProps {
   cdp: ControlDesignDisplayProps;
   focussedControlId: string;
   onDelete: any;
+  onFocus: any;
   width: boolean | "auto" | 2 | 1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
 }
 
-const ControlColumn: FC<ControlColumnProps> = ({ cdp, focussedControlId, onDelete, width }: ControlColumnProps) => {
+const ControlColumn: FC<ControlColumnProps> = ({
+  cdp,
+  focussedControlId,
+  onDelete,
+  onFocus,
+  width,
+}: ControlColumnProps) => {
   const classes = useStyles();
 
   return (
@@ -36,7 +43,7 @@ const ControlColumn: FC<ControlColumnProps> = ({ cdp, focussedControlId, onDelet
       <Box className={classes.item}>
         <ControlDesignDisplay
           {...cdp}
-          onFocus={() => {}}
+          onFocus={onFocus}
           hasFocus={`${cdp.control.id}` === focussedControlId}
           onDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.stopPropagation();
