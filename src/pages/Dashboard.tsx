@@ -1,11 +1,18 @@
 import React, { Suspense } from 'react';
+import { DndProvider } from 'react-dnd';
+import Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
 
 import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import DroppableMultiControlDesignDisplay from '../components/DroppableMultiControlDesignDisplay';
-import { getAppState } from '../store/actions/allControls';
+import {
+    changeControlMetadata, deleteControl, getAppState, saveAppState
+} from '../store/actions/allControls';
+import { setSelectedComponent } from '../store/actions/selectedControl';
+import { State } from '../store/configureStore';
+import { getSelectedControl } from '../store/reducers/allControls';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,34 +22,51 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface ViewProps {}
-
-class PrimaryView extends React.Component {
+class PrimaryView extends React.Component<any, any> {
   componentDidMount() {
-    const { getAppState } = this.props as any;
-    getAppState("bffe3243-32af-41f6-a33d-ec6ef09d79f7");
+    const props = this.props;
+    props.getAppState("bffe3243-32af-41f6-a33d-ec6ef09d79f7");
   }
   render() {
+    const props = this.props;
     return (
       <Suspense fallback={<div>Loading...</div>}>
-        <DroppableMultiControlDesignDisplay />
+        <DroppableMultiControlDesignDisplay {...props} />
       </Suspense>
     );
   }
 }
 
-const mapDispatchToProps = {
-  getAppState,
+const mapStateToProps = (state: State) => {
+  const {
+    selectedControl: { focussedControlId },
+    allControls,
+  } = state;
+  const { controls } = allControls;
+  const filtered = focussedControlId ? getSelectedControl(allControls, focussedControlId) : undefined;
+  const focussedControl = filtered && filtered.length > 0 ? filtered[0] : undefined;
+  return { focussedControlId, focussedControl, controls, state };
 };
 
-const ConnectedPrimaryView = connect(undefined, mapDispatchToProps)(PrimaryView);
+const mapDispatchToProps = {
+  getAppState,
+  setSelectedComponent,
+  deleteControl,
+  changeControlMetadata,
+  saveAppState,
+};
 
-const View: React.FC<ViewProps> = (props: ViewProps) => {
+const ConnectedPrimaryView = connect(mapStateToProps, mapDispatchToProps)(PrimaryView);
+
+const View: React.FC<any> = (props: any) => {
   const classes = useStyles();
 
   return (
     <Box className={classes.root}>
-      <ConnectedPrimaryView />
+      <DndProvider backend={Backend}>
+        <ConnectedPrimaryView {...props} />
+      </DndProvider>
+      );
     </Box>
   );
 };

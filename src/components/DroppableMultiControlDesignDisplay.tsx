@@ -1,16 +1,11 @@
 import React, { FC, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
-import { connect } from 'react-redux';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import { changeControlMetadata, deleteControl, saveAppState } from '../store/actions/allControls';
-import { setSelectedComponent } from '../store/actions/selectedControl';
-import { State } from '../store/configureStore';
-import { getSelectedControl } from '../store/reducers/allControls';
 import { ControlDesignDisplayProps } from '../types';
 import ControlPropsDrawer from './ControlPropsDrawer';
 import AppBar from './editor/AppBar';
@@ -156,33 +151,4 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: State) => {
-  const {
-    selectedControl: { focussedControlId },
-    allControls,
-  } = state;
-  const { controls } = allControls;
-  const filtered = focussedControlId ? getSelectedControl(allControls, focussedControlId) : undefined;
-  const focussedControl = filtered && filtered.length > 0 ? filtered[0] : undefined;
-  return { focussedControlId, focussedControl, controls, state };
-};
-
-const mapDispatchToProps = {
-  setSelectedComponent,
-  deleteControl,
-  changeControlMetadata,
-  saveAppState,
-};
-
-const ConnectedDraggableMultiControlDesignDisplay = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MultiControlDesignDisplay);
-
-const DndEnabledControl: FC<any> = (props: any) => (
-  <DndProvider backend={Backend}>
-    <ConnectedDraggableMultiControlDesignDisplay />
-  </DndProvider>
-);
-
-export default DndEnabledControl;
+export default MultiControlDesignDisplay;
