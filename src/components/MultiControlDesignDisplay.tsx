@@ -159,9 +159,8 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                 if (col >= nextCol) {
                   return <EmptyColumn row={row} col={col} render={true} />;
                 }
-              } else {
-                return <EmptyColumn row={row} col={col} render={true} />;
               }
+              return <EmptyColumn row={row} col={col} render={true} />;
             });
           })}
         </Grid>
