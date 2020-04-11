@@ -7,9 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import {
-    changeControlMetadata, deleteControl as deleteControlDesign, saveAppState
-} from '../store/actions/allControls';
+import { changeControlMetadata, deleteControl, saveAppState } from '../store/actions/allControls';
 import { setSelectedComponent } from '../store/actions/selectedControl';
 import { State } from '../store/configureStore';
 import { getSelectedControl } from '../store/reducers/allControls';
@@ -70,9 +68,8 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
     focussedControlId,
     focussedControl,
     controls,
-    changeControlProp,
+    changeControlMetadata,
     deleteControl,
-    getAppState,
     saveAppState,
     state,
   } = props as any;
@@ -149,7 +146,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
       </main>
       {focussedControl && (
         <ControlPropsDrawer
-          changeControlProp={changeControlProp}
+          changeControlProp={changeControlMetadata}
           onClose={handleControlPropsDrawerOpen}
           open={controlPropsOpen}
           focussedControl={focussedControl}
@@ -172,8 +169,8 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = {
   setSelectedComponent,
-  deleteControl: deleteControlDesign,
-  changeControlProp: changeControlMetadata,
+  deleteControl,
+  changeControlMetadata,
   saveAppState,
 };
 
