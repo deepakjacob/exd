@@ -1,27 +1,31 @@
-import React, { FC } from "react";
-import { useDrag } from "react-dnd";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import { getControlSettings } from "../../controlSetttingsRegister";
-import { DraggableType, ControlItemDisplay } from "../../types";
+import React, { FC } from 'react';
+import { useDrag } from 'react-dnd';
 
-const ControlRepresentation: FC<ControlItemDisplay> = (props: ControlItemDisplay) => {
-  const { title } = props;
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+
+import { getDefinitions } from '../../controlDefinitionRegister';
+import { ControlDesignDisplayProps, DraggableType } from '../../types';
+
+const ControlRepresentation: FC<ControlDesignDisplayProps> = (props: ControlDesignDisplayProps) => {
+  const {
+    control: { label },
+  } = props;
   return (
-    <ListItem button key={title}>
+    <ListItem button key={label}>
       <ListItemIcon>
         <InboxIcon />
       </ListItemIcon>
-      <ListItemText primary={title} />
+      <ListItemText primary={label} />
     </ListItem>
   );
 };
 
 interface DraggableControlItemDisplayProps {
-  control: ControlItemDisplay;
+  control: ControlDesignDisplayProps;
 }
 
 const DraggableControlRepresentation: FC<DraggableControlItemDisplayProps> = (
@@ -53,9 +57,10 @@ interface DraggableControlListProps {}
 
 const DraggableControlList: FC<DraggableControlListProps> = () => (
   <List>
-    {getControlSettings().map((control: ControlItemDisplay, index) => (
-      <DraggableControlRepresentation key={index} control={control} />
-    ))}
+    {getDefinitions().map((controlFn: any, index: number) => {
+      const control = controlFn();
+      return <DraggableControlRepresentation key={index} control={control} />;
+    })}
   </List>
 );
 

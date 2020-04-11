@@ -9,6 +9,8 @@ export const registerDefinition = (type: DesignControlType, definition: () => Co
 export const getDefinition = (type: DesignControlType): (() => ControlDesignDisplayProps) | undefined =>
   definitionRegistry.get(type);
 
+export const getDefinitions = () => Array.from(definitionRegistry.values());
+
 export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
   control: {
     id: uuid("ENTRY_FIELD_CONTROL_ID_"),

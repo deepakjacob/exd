@@ -2,24 +2,19 @@ import React, { FC } from 'react';
 import { useDrop } from 'react-dnd';
 import { connect } from 'react-redux';
 
-import Box from '@material-ui/core/Box';
-import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import { getDefinition } from '../../controlDefinitionRegister';
 import { addControl } from '../../store/actions/allControls';
-import { ControlItemDisplay, DraggableType } from '../../types';
+import { ControlDesignDisplayProps, DraggableType } from '../../types';
 
-export function moveControl(control: ControlItemDisplay, row: number, col: number, addControl: any) {
-  const getControlDesignDisplayProps = getDefinition(control.type);
-  if (getControlDesignDisplayProps) {
-    const controlDesignDisplayProps = getControlDesignDisplayProps();
-    controlDesignDisplayProps.gridPosition = {
-      row,
-      col,
-    };
+export function moveControl(control: ControlDesignDisplayProps, row: number, col: number, addControl: any) {
+  const controlDesignDisplayProps = control;
+  controlDesignDisplayProps.gridPosition = {
+    row,
+    col,
+  };
 
-    addControl(controlDesignDisplayProps);
-  }
+  addControl(controlDesignDisplayProps);
 }
 
 export function canMoveControl(prow: number, pcol: number) {
@@ -32,7 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(3),
     },
     highlightedItem: {
-      // padding: theme.spacing(3),
       border: `2px dashed ${theme.palette.primary.main}`,
     },
   })

@@ -91,11 +91,3 @@ export interface ControlDesignDisplayProps {
   overriden?: ControlMetadataProps;
   gridPosition?: GridPosition;
 }
-
-export interface ControlItemDisplay {
-  id: string;
-  type: DesignControlType;
-  icon: string;
-  title: string;
-  subtitle: string;
-}
