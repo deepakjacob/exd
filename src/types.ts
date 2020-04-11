@@ -40,6 +40,7 @@ export interface CommonControlProps {
 
 export interface ControlProps {
   id: string;
+  icon: "Label" | "Address";
   name: string;
   designControlType: DesignControlType;
   label: string;

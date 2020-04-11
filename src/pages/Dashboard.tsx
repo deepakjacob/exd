@@ -66,7 +66,6 @@ const View: React.FC<any> = (props: any) => {
       <DndProvider backend={Backend}>
         <ConnectedPrimaryView {...props} />
       </DndProvider>
-      );
     </Box>
   );
 };

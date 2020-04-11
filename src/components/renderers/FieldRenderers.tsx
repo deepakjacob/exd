@@ -84,8 +84,6 @@ const FieldControlToRendererMapping: FC<any> = (props: any) => {
   const { control, metadata, overriden } = props.field;
   switch (control.type) {
     case FieldType.LABEL:
-      // move the below line from ControlRendererRegistration,
-      // where the key will be DesignControlRendererType.LABEL_DESIGN_RENDERER
       return <FieldLabelRenderer {...props.field} />;
     case FieldType.TEXT:
       // move the below line from ControlRendererRegistration,

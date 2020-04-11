@@ -12,6 +12,7 @@ export const getDefinition = (type: DesignControlType): (() => ControlDesignDisp
 export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
   control: {
     id: uuid("ENTRY_FIELD_CONTROL_ID_"),
+    icon: "Label",
     name: uuid("ENTRY_FIELD_CONTROL_NAME_"),
     designControlType: DesignControlType.ENTRY_FIELD,
     label: "Entry Field Label",
@@ -93,6 +94,7 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
 export const getNewLabelDefinition = (): ControlDesignDisplayProps => ({
   control: {
     id: uuid("LABEL_CONTROL_ID_"),
+    icon: "Address",
     name: uuid("LABEL_CONTROL_NAME_"),
     designControlType: DesignControlType.LABEL,
     label: "Entry Field Label",
