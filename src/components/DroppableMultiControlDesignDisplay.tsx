@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(3),
     },
 
-    toolbar: {
+    grid: {
       display: "flex",
       alignItems: "center",
       justifyContent: "flex-end",
@@ -108,7 +108,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
       <AppBar handleDrawerOpen={handleDrawerOpen} saveAppState={saveAppState} state={state} open={open} />
       <ControlDrawer open={open} handleDrawerClose={handleDrawerClose} />
       <main className={classes.content}>
-        <div className={classes.toolbar} />
+        <div className={classes.grid} />
         <Grid container spacing={1}>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) =>
             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col) => {
@@ -126,6 +126,7 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                   }
                 });
               }
+
               return <EmptyColumn row={row} col={col} />;
             })
           )}
