@@ -31,7 +31,7 @@ export enum FieldType {
 }
 
 export interface Dimension {
-  width: GridSize;
+  width: number;
 }
 
 export interface CommonControlProps {

@@ -103,26 +103,14 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
     setOpen(false);
   };
 
-  const calcControlWidth = (cdp: ControlDesignDisplayProps) => {
-    return cdp.overriden?.dimension?.width ? (cdp.overriden.dimension.width as number) : cdp.metadata.dimension.width;
-  };
-
-  const controlInCol = (cdp: ControlDesignDisplayProps, col: number, w: number, n: number) => {
-    const originalPos = cdp.gridPosition?.col ? cdp.gridPosition?.col : 0;
-    return originalPos === col;
-  };
-  const controlNotInCol = (
-    cdp: ControlDesignDisplayProps,
-    col: number,
-    width: number,
-    c: ControlDesignDisplayProps[],
-    n: number
-  ) => {
-    const originalPos = cdp.gridPosition?.col ? cdp.gridPosition?.col : 0;
-    return n + 1 == col;
+  const calcControlWidth = (cdp: ControlDesignDisplayProps): number => {
+    const width: any = cdp.overriden?.dimension?.width ? cdp.overriden.dimension.width : cdp.metadata.dimension.width;
+    return parseInt(width);
   };
 
   const mControls = mappedControls(controls);
+
+  type gridWidth = boolean | "auto" | 1 | 3 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
 
   return (
     <div className={classes.root}>
@@ -138,9 +126,10 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
               const cdp: ControlDesignDisplayProps = mControls && mControls[row][col];
               if (cdp) {
                 prevElem = cdp;
-                const w: any = calcControlWidth(cdp);
+                const w: any = calcControlWidth(cdp) as gridWidth;
+
                 return (
-                  <Grid xs={w}>
+                  <Grid xs={w} key={`${row}-${col}`}>
                     <ControlDesignDisplay
                       {...cdp}
                       onFocus={onFocus(cdp)}
@@ -154,13 +143,13 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
                 );
               }
               if (prevElem && (prevElem as ControlDesignDisplayProps).gridPosition?.row == row) {
-                let next: any = (prevElem as ControlDesignDisplayProps).gridPosition?.col as number;
-                let nextCol = calcControlWidth(prevElem) + next;
+                let next: number = (prevElem as ControlDesignDisplayProps).gridPosition?.col as number;
+                let nextCol: number = calcControlWidth(prevElem) + next;
                 if (col >= nextCol) {
-                  return <EmptyColumn row={row} col={col} render={true} />;
+                  return <EmptyColumn row={row} col={col} render={true} key={`${row}-${col}`} />;
                 }
               } else {
-                return <EmptyColumn row={row} col={col} render={true} />;
+                return <EmptyColumn row={row} col={col} render={true} key={`${row}-${col}`} />;
               }
             });
           })}

@@ -13,10 +13,10 @@ import { Field, FieldType } from '../../types';
 const FieldLabelRenderer: FC<Field> = (props: Field) => {
   const { control, metadata, overriden } = props;
   const {
-    dimension: { width }
+    dimension: { width },
   } = metadata;
   return (
-    <Grid item xs={width}>
+    <Grid item xs={width as any}>
       <div>A label is rendered</div>
     </Grid>
   );
@@ -25,11 +25,11 @@ const FieldLabelRenderer: FC<Field> = (props: Field) => {
 const FieldTextRenderer: FC<Field> = (props: Field) => {
   const { control, metadata, overriden } = props;
   const {
-    dimension: { width }
+    dimension: { width },
   } = metadata;
   const { id, name, label, defaultValue, helperText } = control;
   return (
-    <Grid item xs={width}>
+    <Grid item xs={width as any}>
       <TextField
         name={name}
         disabled={true}
@@ -49,11 +49,11 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 120
+      minWidth: 120,
     },
     selectEmpty: {
-      marginTop: theme.spacing(2)
-    }
+      marginTop: theme.spacing(2),
+    },
   })
 );
 
@@ -62,11 +62,11 @@ const FieldSelectRenderer: FC<Field> = (props: Field) => {
 
   const { control, metadata, overriden } = props;
   const {
-    dimension: { width }
+    dimension: { width },
   } = metadata;
   const { id, name, label, defaultValue, helperText } = control;
   return (
-    <Grid item xs={width}>
+    <Grid item xs={width as any}>
       <FormControl className={classes.formControl} disabled>
         <InputLabel id="demo-simple-select-label">Age</InputLabel>
 
