@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 
+import { grey } from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -85,7 +86,7 @@ const ControlDesignDisplay: FC<ControlDesignDisplayProps & HasFocus & HasDelete>
     >
       <div className={over ? toolbar : notoolbar}>
         <IconButton aria-label="delete" onClick={onDelete}>
-          <DeleteIcon />
+          <DeleteIcon style={{ color: grey[600] }} />
         </IconButton>
       </div>
 
