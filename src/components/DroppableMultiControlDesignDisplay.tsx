@@ -95,6 +95,11 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
 
   const calcControlWidth = (cdp: ControlDesignDisplayProps) =>
     cdp.overriden?.dimension?.width ? (cdp.overriden.dimension.width as number) : cdp.metadata.dimension.width;
+  const controlInCol = (cdp: ControlDesignDisplayProps, col: number) => cdp.gridPosition?.col === col;
+  const controlNotInCol = (cdp: ControlDesignDisplayProps, col: number, width: number) => {
+    const originalWidth = cdp.gridPosition?.col ? cdp.gridPosition?.col : 0;
+    return originalWidth + width - 1 < col || originalWidth > col;
+  };
 
   const mControls = mappedControls(controls);
   return (
@@ -111,26 +116,16 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
               if (c) {
                 return c.map((cdp: ControlDesignDisplayProps) => {
                   let w: any = calcControlWidth(cdp);
-                  if (cdp.gridPosition?.col === col) {
+                  if (controlInCol(cdp, col)) {
                     return (
                       <ControlColumn cdp={cdp} focussedControlId={focussedControlId} onDelete={onDelete} width={w} />
                     );
                   }
-                  if (
-                    cdp.gridPosition?.col + w - 1 < col ||
-                    (cdp.gridPosition?.col ? cdp.gridPosition?.col : 0) > col
-                  ) {
-                    // a component is present in the row and
-                    // only put placeholder columns for columns
-                    // the component is not occupying
-                    // console.log("N1 when row, col => ", row, col);
+                  if (controlNotInCol(cdp, col, w)) {
                     return <EmptyColumn row={row} col={col} />;
                   }
                 });
               }
-              // no component is present in the row or this is the
-              // first time rendering of the app.
-              // console.log("N2 when row, col => ", row, col);
               return <EmptyColumn row={row} col={col} />;
             })
           )}
