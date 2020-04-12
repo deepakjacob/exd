@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(3),
     },
     highlightedItem: {
-      border: `2px dashed ${theme.palette.primary.main}`,
+      border: `1px solid ${theme.palette.primary.main}`,
     },
   })
 );

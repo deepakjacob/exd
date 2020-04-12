@@ -17,7 +17,7 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
     icon: "Label",
     name: uuid("ENTRY_FIELD_CONTROL_NAME_"),
     designControlType: DesignControlType.ENTRY_FIELD,
-    label: "Header",
+    label: "Address",
     defaultValue: "Hello World",
     helperText: "This is some addtional info",
   },
@@ -96,7 +96,7 @@ export const getNewEntryFieldDefinition = (): ControlDesignDisplayProps => ({
 export const getNewLabelDefinition = (): ControlDesignDisplayProps => ({
   control: {
     id: uuid("LABEL_CONTROL_ID_"),
-    icon: "Address",
+    icon: "Label",
     name: uuid("LABEL_CONTROL_NAME_"),
     designControlType: DesignControlType.LABEL,
     label: "Entry Field Label",

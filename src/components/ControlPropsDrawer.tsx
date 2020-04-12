@@ -17,24 +17,24 @@ const CollapsiblePanel = React.lazy(() => import("./CollapsiblePanel"));
 
 const drawerWidth = 260;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   hide: {
-    display: "none"
+    display: "none",
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0
+    flexShrink: 0,
   },
   drawerPaper: {
     marginTop: 60,
 
-    width: drawerWidth
+    width: drawerWidth,
   },
   drawerHeader: {
     display: "flex",
@@ -42,13 +42,13 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
   },
   title: {
     marginLeft: theme.spacing(0),
     padding: theme.spacing(1),
-    justifyContent: "flex-start"
-  }
+    justifyContent: "flex-start",
+  },
 }));
 
 export interface ControlPropsDrawerProps {
@@ -73,7 +73,7 @@ const ControlPropsDrawer = (props: ControlPropsDrawerProps) => {
         anchor="right"
         open={open}
         classes={{
-          paper: classes.drawerPaper
+          paper: classes.drawerPaper,
         }}
       >
         <div className={classes.drawerHeader}>
@@ -82,7 +82,7 @@ const ControlPropsDrawer = (props: ControlPropsDrawerProps) => {
           </IconButton>
           <Box className={classes.title}>
             <Typography variant="body1" className={classes.title}>
-              {control.id}
+              {control.label}
             </Typography>
           </Box>
         </div>

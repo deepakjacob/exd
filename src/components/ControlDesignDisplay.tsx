@@ -31,14 +31,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     paper: {
-      border: "2px dotted",
+      border: "1px dotted",
       padding: theme.spacing(2),
       position: "relative",
+      margin: "3px",
     },
     selectedPaper: {
       padding: theme.spacing(2),
-      border: `2px solid ${theme.palette.primary.main}`,
+      border: `1px solid ${theme.palette.primary.main}`,
       position: "relative",
+      margin: "3px",
     },
     notoolbar: {
       display: "none",
