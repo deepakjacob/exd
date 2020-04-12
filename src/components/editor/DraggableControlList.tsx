@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useDrag } from 'react-dnd';
+import { DragPreviewImage, useDrag } from 'react-dnd';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,6 +9,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 
 import { getDefinitions } from '../../controlDefinitionRegister';
 import { ControlDesignDisplayProps, DraggableType } from '../../types';
+import boxImg from './boxImg';
 
 const ControlRepresentation: FC<ControlDesignDisplayProps> = (props: ControlDesignDisplayProps) => {
   const {
@@ -32,7 +33,7 @@ const DraggableControlRepresentation: FC<DraggableControlItemDisplayProps> = (
   draggable: DraggableControlItemDisplayProps
 ) => {
   const { control } = draggable;
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag, preview] = useDrag({
     item: { type: DraggableType.CONTROL, control },
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging(),
@@ -48,7 +49,10 @@ const DraggableControlRepresentation: FC<DraggableControlItemDisplayProps> = (
         cursor: "move",
       }}
     >
-      <ControlRepresentation {...control} />
+      <>
+        <DragPreviewImage connect={preview} src={boxImg} />
+        <ControlRepresentation {...control} />
+      </>
     </div>
   );
 };
