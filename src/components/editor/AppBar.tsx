@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
     },
     appBar: {
+      width: "260px",
       zIndex: theme.zIndex.drawer + 1,
       transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
@@ -47,13 +48,6 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
     },
-    toolbar: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      padding: theme.spacing(0, 1),
-      ...theme.mixins.toolbar,
-    },
   })
 );
 const ApplicationBar: FC<ApplicationBarProps> = ({
@@ -65,32 +59,34 @@ const ApplicationBar: FC<ApplicationBarProps> = ({
   const classes = useStyles();
 
   return (
-    <AppBar
-      position="fixed"
-      className={clsx(classes.appBar, {
-        [classes.appBarShift]: open,
-      })}
-    >
-      <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          className={clsx(classes.menuButton, {
-            [classes.hide]: open,
-          })}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" noWrap className={classes.title}>
-          XD
-        </Typography>
-        <Button color="inherit" onClick={(e) => saveAppState(state)}>
-          Save
-        </Button>
-      </Toolbar>
-    </AppBar>
+    <div className={classes.root}>
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
+        <Toolbar variant="dense">
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, {
+              [classes.hide]: open,
+            })}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap className={classes.title}>
+            XD
+          </Typography>
+          <Button color="inherit" onClick={(e) => saveAppState(state)}>
+            Save
+          </Button>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 };
 

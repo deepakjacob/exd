@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import React, { FC } from 'react';
 
+import { common } from '@material-ui/core/colors';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -37,12 +38,9 @@ const useStyles = makeStyles((theme: Theme) =>
         width: theme.spacing(9) + 1,
       },
     },
-    toolbar: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      padding: theme.spacing(0, 1),
-      ...theme.mixins.toolbar,
+    paper: {
+      backgroundColor: theme.palette.primary.dark,
+      color: "#f5f5f5",
     },
   })
 );
@@ -63,14 +61,14 @@ const ControlDrawer: FC<ControlDrawerProps> = ({ open, handleDrawerClose }: Cont
         [classes.drawerClose]: !open,
       })}
       classes={{
-        paper: clsx({
+        paper: clsx(classes.paper, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
         }),
       }}
     >
-      <div className={classes.toolbar}>
-        <IconButton onClick={handleDrawerClose}>
+      <div>
+        <IconButton onClick={handleDrawerClose} style={{ color: common.white }}>
           {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>

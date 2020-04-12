@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { DragPreviewImage, useDrag } from 'react-dnd';
 
+import { common } from '@material-ui/core/colors';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -18,7 +19,7 @@ const ControlRepresentation: FC<ControlDesignDisplayProps> = (props: ControlDesi
   return (
     <ListItem button key={label}>
       <ListItemIcon>
-        <InboxIcon />
+        <InboxIcon style={{ color: common.white }} />
       </ListItemIcon>
       <ListItemText primary={label} />
     </ListItem>
