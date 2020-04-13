@@ -58,7 +58,7 @@ interface DroppableControlProps {
   children?: any;
 }
 
-const DroppableControl: FC<DroppableControlProps> = (props: any) => {
+export const DroppableControl: FC<DroppableControlProps> = (props: any) => {
   const [open, setOpen] = useState(false);
   const { row, col, children } = props;
   const classes = useStyles();
