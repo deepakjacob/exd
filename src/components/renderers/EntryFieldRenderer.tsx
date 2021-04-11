@@ -1,12 +1,12 @@
-import React, { FC } from 'react';
-
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-
+import React from 'react';
 import { ControlDesignDisplayProps } from '../../types';
 import FieldControlToRendererMapping from './FieldRenderers';
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,7 +30,7 @@ const EntryFieldRenderer: React.FC<ControlDesignDisplayProps> = (props: ControlD
       <Divider className={classes.title} />
       <Grid container spacing={3}>
         {fields.map((f, idx) => (
-          <FieldControlToRendererMapping field={f} key={idx} />
+          <FieldControlToRendererMapping field={f} key={idx} {...props} />
         ))}
       </Grid>
     </>

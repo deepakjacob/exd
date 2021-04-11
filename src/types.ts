@@ -1,4 +1,3 @@
-import { GridSize } from '@material-ui/core/Grid';
 
 export enum DraggableType {
   CONTROL = "CONTROL",
@@ -90,4 +89,9 @@ export interface ControlDesignDisplayProps {
   fields: Field[];
   overriden?: ControlMetadataProps;
   gridPosition?: GridPosition;
+}
+
+
+export interface FieldDesignDisplayProps {
+  children: any;
 }

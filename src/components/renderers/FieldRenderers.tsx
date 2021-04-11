@@ -1,5 +1,3 @@
-import React, { FC } from 'react';
-
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -7,8 +5,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
+import React, { FC } from 'react';
 import { Field, FieldType } from '../../types';
+import FieldDesignDisplay from '../FieldDesignDisplay';
 
 const FieldLabelRenderer: FC<Field> = (props: Field) => {
   const { control, metadata, overriden } = props;
@@ -30,17 +29,19 @@ const FieldTextRenderer: FC<Field> = (props: Field) => {
   const { id, name, label, defaultValue, helperText } = control;
   return (
     <Grid item xs={width as any}>
-      <TextField
-        name={name}
-        disabled={true}
-        error={false}
-        id={id}
-        label={label}
-        defaultValue={defaultValue}
-        helperText={helperText}
-        variant="filled"
-        fullWidth
-      />
+      <FieldDesignDisplay {...props} onFocus={() => { }} onDelete={() => { }} hasFocus={true}>
+        <TextField
+          name={name}
+          disabled={true}
+          error={false}
+          id={id}
+          label={label}
+          defaultValue={defaultValue}
+          helperText={helperText}
+          variant="filled"
+          fullWidth
+        />
+      </FieldDesignDisplay>
     </Grid>
   );
 };
@@ -81,7 +82,9 @@ const FieldSelectRenderer: FC<Field> = (props: Field) => {
 };
 
 const FieldControlToRendererMapping: FC<any> = (props: any) => {
-  const { control, metadata, overriden } = props.field;
+  const { field, ...rest } = props;
+
+  const { control, metadata, overriden } = field;
   switch (control.type) {
     case FieldType.LABEL:
       return <FieldLabelRenderer {...props.field} />;

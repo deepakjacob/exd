@@ -1,30 +1,9 @@
-import { grey } from '@material-ui/core/colors';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, IconButton, makeStyles, Paper, Theme } from "@material-ui/core";
+import { grey } from "@material-ui/core/colors";
 import DeleteIcon from '@material-ui/icons/Delete';
-import React, { FC, useState } from 'react';
-import { ControlDesignDisplayProps, DesignControlType } from '../types';
+import React, { FC, useState } from "react";
+import { FieldDesignDisplayProps } from "../types";
 import { HasDelete, HasFocus } from "./Behaviour";
-import EntryFieldRenderer from './renderers/EntryFieldRenderer';
-import LabelRenderer from './renderers/LabelRenderer';
-
-
-
-
-const DesignMapper: FC<ControlDesignDisplayProps> = (props: ControlDesignDisplayProps) => {
-  const {
-    control: { designControlType },
-  } = props;
-  switch (designControlType) {
-    case DesignControlType.LABEL:
-      return <LabelRenderer {...props} />;
-    case DesignControlType.ENTRY_FIELD:
-      return <EntryFieldRenderer {...props} />;
-    default:
-      throw new Error(`No renderer supported for control type ${designControlType}`);
-  }
-};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -63,9 +42,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-
-const ControlDesignDisplay: FC<ControlDesignDisplayProps & HasFocus & HasDelete> = (
-  props: ControlDesignDisplayProps & HasFocus & HasDelete
+const FieldDesignDisplay: FC<FieldDesignDisplayProps & HasFocus & HasDelete> = (
+  props: FieldDesignDisplayProps & HasFocus & HasDelete
 ) => {
   const classes = useStyles();
   const { paper, selectedPaper, toolbar, notoolbar } = classes;
@@ -85,9 +63,10 @@ const ControlDesignDisplay: FC<ControlDesignDisplayProps & HasFocus & HasDelete>
           <DeleteIcon style={{ color: grey[600] }} />
         </IconButton>
       </div>
-      <DesignMapper {...props} />
+
+      { props.children}
     </Paper>
   );
 };
 
-export default ControlDesignDisplay;
+export default FieldDesignDisplay;
