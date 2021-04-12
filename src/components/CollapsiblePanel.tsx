@@ -1,5 +1,3 @@
-import React from 'react';
-
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -8,9 +6,11 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import React from 'react';
 import { changeControlMetadata } from '../store/actions/allControls';
 import { ControlDesignDisplayProps } from '../types';
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface ControlledExpansionPanelProps {
   changeControlProp: typeof changeControlMetadata;
-  focussedControl: ControlDesignDisplayProps;
+  focussedControl: ControlDesignDisplayProps | undefined;
 }
 
 export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> = (
@@ -43,7 +43,7 @@ export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> =
 ) => {
   const classes = useStyles();
   const { focussedControl, changeControlProp } = props;
-  const { metadata, overriden } = focussedControl;
+  const { metadata, overriden } = focussedControl || {};
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
@@ -51,12 +51,12 @@ export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> =
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value) {
+    if (event.target.value && focussedControl) {
       return changeControlProp(focussedControl, { dimension: { width: event.target.value } });
     }
   };
 
-  const value = overriden?.dimension?.width ? overriden?.dimension?.width : metadata.dimension.width;
+  const value = overriden?.dimension?.width ? overriden?.dimension?.width : metadata?.dimension.width;
 
   return (
     <div className={classes.root}>

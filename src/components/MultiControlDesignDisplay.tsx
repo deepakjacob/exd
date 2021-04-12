@@ -1,15 +1,11 @@
-import React, { FC, useState } from 'react';
-
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-
+import React, { FC, useState } from 'react';
 import { ControlDesignDisplayProps } from '../types';
 import ControlDesignDisplay from './ControlDesignDisplay';
-import ControlPropsDrawer from './ControlPropsDrawer';
 import AppBar from './editor/AppBar';
-import ControlColumn from './editor/ControlColumn';
-import ControlDrawer from './editor/ControlDrawer';
+import Toolbar from './editor/ControlToolbar';
 import EmptyColumn from './editor/EmptyColumn';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -64,14 +60,11 @@ const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
 export const MultiControlDesignDisplay: FC<any> = (props: any) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [controlPropsOpen, setControlPropsOpen] = useState(false);
 
   const {
     setSelectedComponent,
     focussedControlId,
-    focussedControl,
     controls,
-    changeControlMetadata,
     deleteControl,
     saveAppState,
     state,
@@ -79,27 +72,18 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
 
   const onFocus = (cdp: ControlDesignDisplayProps) => () => {
     setSelectedComponent(cdp.control.id);
-    handleControlPropsDrawerOpen();
   };
 
   const onDelete = (controlId: string) => {
-    handleDrawerClose();
+    handleToolbarCollapse();
     deleteControl(controlId);
   };
 
-  const handleControlPropsDrawerOpen = () => {
-    setControlPropsOpen(true);
-  };
-
-  const handleControlPropsDrawerClose = () => {
-    setControlPropsOpen(false);
-  };
-
-  const handleDrawerOpen = () => {
+  const handleToolbarExpand = () => {
     setOpen(true);
   };
 
-  const handleDrawerClose = () => {
+  const handleToolbarCollapse = () => {
     setOpen(false);
   };
 
@@ -115,8 +99,8 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar handleDrawerOpen={handleDrawerOpen} saveAppState={saveAppState} state={state} open={open} />
-      <ControlDrawer open={open} handleDrawerClose={handleDrawerClose} />
+      <AppBar handleDrawerOpen={handleToolbarExpand} saveAppState={saveAppState} state={state} open={open} />
+      <Toolbar open={open} handleToolbarCollapse={handleToolbarCollapse} />
       <main className={classes.content}>
         <div className={classes.grid} />
         <Grid container spacing={1}>
@@ -155,14 +139,6 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
           })}
         </Grid>
       </main>
-      {focussedControl && (
-        <ControlPropsDrawer
-          changeControlProp={changeControlMetadata}
-          onClose={handleControlPropsDrawerOpen}
-          open={controlPropsOpen}
-          focussedControl={focussedControl}
-        />
-      )}
     </div>
   );
 };

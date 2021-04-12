@@ -1,6 +1,3 @@
-import clsx from 'clsx';
-import React, { FC } from 'react';
-
 import { common } from '@material-ui/core/colors';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -8,26 +5,27 @@ import IconButton from '@material-ui/core/IconButton';
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-
+import clsx from 'clsx';
+import React, { FC } from 'react';
 import DraggableControlList from './DraggableControlList';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    drawer: {
+    toolbar: {
       width: drawerWidth,
       flexShrink: 0,
       whiteSpace: "nowrap",
     },
-    drawerOpen: {
+    expandToolbar: {
       width: drawerWidth,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
-    drawerClose: {
+    collapseToolbar: {
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -45,30 +43,30 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface ControlDrawerProps {
+interface ToolbarProps {
   open: boolean;
-  handleDrawerClose: any;
+  handleToolbarCollapse: any;
 }
 
-const ControlDrawer: FC<ControlDrawerProps> = ({ open, handleDrawerClose }: ControlDrawerProps) => {
+const Toolbar: FC<ToolbarProps> = ({ open, handleToolbarCollapse: handleToolbarCollapse }: ToolbarProps) => {
   const classes = useStyles();
   const theme = useTheme();
   return (
     <Drawer
       variant="permanent"
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: open,
-        [classes.drawerClose]: !open,
+      className={clsx(classes.toolbar, {
+        [classes.expandToolbar]: open,
+        [classes.collapseToolbar]: !open,
       })}
       classes={{
         paper: clsx(classes.paper, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
+          [classes.expandToolbar]: open,
+          [classes.collapseToolbar]: !open,
         }),
       }}
     >
       <div>
-        <IconButton onClick={handleDrawerClose} style={{ color: common.white }}>
+        <IconButton onClick={handleToolbarCollapse} style={{ color: common.white }}>
           {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>
@@ -77,4 +75,4 @@ const ControlDrawer: FC<ControlDrawerProps> = ({ open, handleDrawerClose }: Cont
     </Drawer>
   );
 };
-export default ControlDrawer;
+export default Toolbar;
