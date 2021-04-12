@@ -7,7 +7,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { changeControlMetadata, changeControlMetadata as changeControlProp } from '../store/actions/allControls';
 import { State } from '../store/configureStore';
@@ -52,16 +52,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface ControlPropsDrawerProps {
-  open: boolean;
-  onClose: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined;
+interface MappedControlPropsDrawerProps {
   focussedControl: ControlDesignDisplayProps | undefined;
-  changeControlProp: typeof changeControlProp;
+  changeControlProp: typeof changeControlProp | undefined;
 }
 
-const ControlPropsDrawer = (props: ControlPropsDrawerProps | undefined) => {
+const ControlPropsDrawer = (props: MappedControlPropsDrawerProps) => {
   const classes = useStyles();
   const theme = useTheme();
+
+  const [open, setOpen] = useState(false);
+  useEffect(() => setOpen(props.focussedControl !== undefined), [props.focussedControl]);
+
+  const onClose = () => {
+    setOpen(false);
+  }
 
   return (
     <div className={classes.root}>
@@ -70,46 +75,29 @@ const ControlPropsDrawer = (props: ControlPropsDrawerProps | undefined) => {
         className={classes.drawer}
         variant="persistent"
         anchor="right"
-        open={props?.open}
+        open={open}
         classes={{
           paper: classes.drawerPaper,
         }}
       >
         <div className={classes.drawerHeader}>
-          <IconButton onClick={props?.onClose}>
+          <IconButton onClick={onClose}>
             {theme.direction === "ltr" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
           <Box className={classes.title}>
             <Typography variant="body1" className={classes.title}>
-              {props?.focussedControl?.control.label}
+              {props.focussedControl?.control.label}
             </Typography>
           </Box>
         </div>
         <Divider />
         <Suspense fallback={<div />}>
-          <CollapsiblePanel changeControlProp={changeControlProp} focussedControl={props?.focussedControl} />
+          <CollapsiblePanel changeControlProp={changeControlProp} focussedControl={props.focussedControl} />
         </Suspense>
       </Drawer>
     </div>
   );
 };
-
-const PropsDrawer = (props: ControlPropsDrawerProps | undefined) => {
-  const [open, setOpen] = useState(props?.focussedControl === undefined);
-
-  const onClose = () => {
-    setOpen(false);
-  };
-
-  return <div>
-    <ControlPropsDrawer
-      changeControlProp={changeControlProp}
-      onClose={onClose}
-      open={open}
-      focussedControl={props?.focussedControl}
-    />
-  </div>
-}
 
 const mapStateToProps = (state: State) => {
   const {
@@ -125,6 +113,6 @@ const mapDispatchToProps = {
   changeControlProp: changeControlMetadata,
 };
 
-const ConnectedPropsDrawer = connect(mapStateToProps, mapDispatchToProps)(PropsDrawer);
+const ConnectedPropsDrawer = connect(mapStateToProps, mapDispatchToProps)(ControlPropsDrawer);
 
 export default ConnectedPropsDrawer;

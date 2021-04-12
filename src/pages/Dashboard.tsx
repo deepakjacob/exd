@@ -4,7 +4,7 @@ import React, { Suspense } from 'react';
 import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
-import ConnectedPropsDrawer from '../components/ControlPropsDrawer';
+import ControlPropsDrawer from "../components/ControlPropsDrawer";
 import MultiControlDesignDisplay from '../components/MultiControlDesignDisplay';
 import { deleteControl, getAppState, saveAppState } from '../store/actions/allControls';
 import { setSelectedComponent } from '../store/actions/selectedControl';
@@ -60,7 +60,7 @@ const View: React.FC<any> = (props: any) => {
       <DndProvider backend={Backend}>
         <ConnectedPrimaryView {...props} />
       </DndProvider>
-      <ConnectedPropsDrawer />
+      <ControlPropsDrawer />
     </Box>
   );
 };
