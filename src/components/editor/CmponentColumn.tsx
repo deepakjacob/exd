@@ -1,12 +1,10 @@
-import React, { FC } from 'react';
-
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-
-import { ControlDesignDisplayProps } from '../../types';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import React, { FC } from 'react';
+import { ComponentDesignDisplayProps } from '../../types';
 import uuid from '../../uuid';
-import ControlDesignDisplay from '../ControlDesignDisplay';
+import ComponentDesignDisplay from '../ComponentDesignDisplay';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,33 +19,33 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface ControlColumnProps {
-  cdp: ControlDesignDisplayProps;
-  focussedControlId: string;
+interface ComponentColumnProps {
+  cdp: ComponentDesignDisplayProps;
+  focussedComponentId: string;
   onDelete: any;
   onFocus: any;
   width: boolean | "auto" | 2 | 1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
 }
 
-const ControlColumn: FC<ControlColumnProps> = ({
+const ComponentColumn: FC<ComponentColumnProps> = ({
   cdp,
-  focussedControlId,
+  focussedComponentId: focussedComponentId,
   onDelete,
   onFocus,
   width,
-}: ControlColumnProps) => {
+}: ComponentColumnProps) => {
   const classes = useStyles();
 
   return (
     <Grid key={uuid("col-")} item xs={width} className={classes.grid}>
       <Box className={classes.item}>
-        <ControlDesignDisplay
+        <ComponentDesignDisplay
           {...cdp}
           onFocus={onFocus}
-          hasFocus={`${cdp.control.id}` === focussedControlId}
+          hasFocus={`${cdp.component.id}` === focussedComponentId}
           onDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.stopPropagation();
-            onDelete(cdp.control.id);
+            onDelete(cdp.component.id);
           }}
         />
       </Box>
@@ -55,4 +53,4 @@ const ControlColumn: FC<ControlColumnProps> = ({
   );
 };
 
-export default ControlColumn;
+export default ComponentColumn;

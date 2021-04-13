@@ -1,15 +1,13 @@
-import React, { FC, useState } from 'react';
-import { useDrop } from 'react-dnd';
-import { connect } from 'react-redux';
-
 import Snackbar from '@material-ui/core/Snackbar';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import MuiAlert from '@material-ui/lab/Alert';
+import React, { FC, useState } from 'react';
+import { useDrop } from 'react-dnd';
+import { connect } from 'react-redux';
+import { addComponent } from '../../store/actions/allComponents';
+import { ComponentDesignDisplayProps, DraggableType } from '../../types';
 
-import { addControl } from '../../store/actions/allControls';
-import { ControlDesignDisplayProps, DraggableType } from '../../types';
-
-const calcControlWidth = (cdp: ControlDesignDisplayProps): number => {
+const calcComponentWidth = (cdp: ComponentDesignDisplayProps): number => {
   const width: any = cdp.overriden?.dimension?.width ? cdp.overriden.dimension.width : cdp.metadata.dimension.width;
   return parseInt(width);
 };
@@ -18,27 +16,27 @@ function Alert(props: any) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export function moveControl(
-  control: ControlDesignDisplayProps,
+export function moveComponent(
+  component: ComponentDesignDisplayProps,
   row: number,
   col: number,
-  addControl: any,
+  addComponent: any,
   setOpen: (open: boolean) => void
 ) {
-  const controlDesignDisplayProps = control;
-  const canFit = calcControlWidth(control) + col - 1 < 12;
+  const componentDesignDisplayProps = component;
+  const canFit = calcComponentWidth(component) + col - 1 < 12;
   if (!canFit) {
     setOpen(true);
     return null;
   }
-  controlDesignDisplayProps.gridPosition = {
+  componentDesignDisplayProps.gridPosition = {
     row,
     col,
   };
-  addControl(controlDesignDisplayProps);
+  addComponent(componentDesignDisplayProps);
 }
 
-export function canMoveControl(prow: number, pcol: number) {
+export function canMoveComponent(prow: number, pcol: number) {
   return true;
 }
 
@@ -52,24 +50,24 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-interface DroppableControlProps {
+interface DroppableComponentProps {
   row: number;
   col: number;
   children?: any;
 }
 
-export const DroppableControl: FC<DroppableControlProps> = (props: any) => {
+export const DroppableComponent: FC<DroppableComponentProps> = (props: any) => {
   const [open, setOpen] = useState(false);
   const { row, col, children } = props;
   const classes = useStyles();
 
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: DraggableType.CONTROL,
+    accept: DraggableType.COMPONENT,
     drop: (item, monitor: any) => {
-      const { control } = monitor.getItem();
-      return moveControl(control, row, col, props.addControl, setOpen);
+      const { component } = monitor.getItem();
+      return moveComponent(component, row, col, props.addComponent, setOpen);
     },
-    canDrop: () => canMoveControl(row, col),
+    canDrop: () => canMoveComponent(row, col),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
       canDrop: !!monitor.canDrop(),
@@ -97,7 +95,7 @@ export const DroppableControl: FC<DroppableControlProps> = (props: any) => {
       {children}
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-          Control cannot be placed as minimum width for component cannot be accommodated in available space
+          Component cannot be placed as minimum width for component cannot be accommodated in available space
         </Alert>
       </Snackbar>
     </div>
@@ -105,9 +103,9 @@ export const DroppableControl: FC<DroppableControlProps> = (props: any) => {
 };
 
 const mapDispatchToProps = {
-  addControl,
+  addComponent,
 };
 
-const ConnectedDroppableControl = connect(undefined, mapDispatchToProps)(DroppableControl);
+const ConnectedDroppableComponent = connect(undefined, mapDispatchToProps)(DroppableComponent);
 
-export default ConnectedDroppableControl;
+export default ConnectedDroppableComponent;

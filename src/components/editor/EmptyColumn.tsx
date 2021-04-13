@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
-
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-
+import React, { FC } from 'react';
 import uuid from '../../uuid';
-import DroppableControl from './DroppableControl';
+import DroppableComponent from './DroppableComponent';
+
+
 
 interface EmptyColumnProps {
   row: number;
@@ -14,7 +14,7 @@ interface EmptyColumnProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grid: {
-      border: `1px dotted ${theme.palette.primary.light}`,
+      border: `1px dotted #d4d4d4`,
     },
   })
 );
@@ -23,7 +23,7 @@ const EmptyColumn: FC<EmptyColumnProps> = ({ row, col, render }: EmptyColumnProp
   if (render) {
     return (
       <Grid key={uuid("col-")} xs={1} className={classes.grid}>
-        <DroppableControl row={row} col={col}></DroppableControl>
+        <DroppableComponent row={row} col={col}></DroppableComponent>
       </Grid>
     );
   }

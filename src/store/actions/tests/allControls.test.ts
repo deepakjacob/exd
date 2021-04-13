@@ -1,4 +1,4 @@
-import { DELETE_CONTROL, deleteControl, GET_APP_STATE, getAppState } from '../allControls';
+import { deleteComponent, DELETE_COMPONENT, getAppState, GET_APP_STATE } from '../allComponents';
 
 jest.mock("../../../backend/services", () => ({
   getAppState: () => ({
@@ -7,12 +7,12 @@ jest.mock("../../../backend/services", () => ({
 }));
 
 describe("Actions", () => {
-  it("should delete a control", () => {
-    const controlId = "123_control";
-    const deletedControl = deleteControl(controlId);
-    expect(deletedControl).toStrictEqual({
-      type: DELETE_CONTROL,
-      payload: controlId,
+  it("should delete a component", () => {
+    const componentId = "123_component";
+    const deletedComponent = deleteComponent(componentId);
+    expect(deletedComponent).toStrictEqual({
+      type: DELETE_COMPONENT,
+      payload: componentId,
     });
   });
 

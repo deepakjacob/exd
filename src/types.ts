@@ -1,10 +1,9 @@
-import { GridSize } from '@material-ui/core/Grid';
 
 export enum DraggableType {
-  CONTROL = "CONTROL",
+  COMPONENT = "COMPONENT",
 }
 //Components type
-export enum DesignControlType {
+export enum ComponentType {
   LABEL = "LABEL",
   ENTRY_FIELD = "ENTRY_FIELD",
   COMPOSITE = "COMPOSITE",
@@ -13,7 +12,7 @@ export enum DesignControlType {
   GRID = "GRID",
 }
 
-enum DesignControlRendererType {
+enum ComponentRendererType {
   ENTRY_FIELD_DESIGN_RENDERER,
   LABEL_DESIGN_RENDERER,
   COMPOSITE_DESIGN_RENDERER,
@@ -34,21 +33,28 @@ export interface Dimension {
   width: number;
 }
 
-export interface CommonControlProps {
+export interface ComponentCommonProps {
   dimension: Dimension;
 }
 
-export interface ControlProps {
+export interface ComponentHeaderProps {
+  visible: boolean;
+  title: string;
+  divider: boolean;
+}
+
+export interface ComponentProps {
+  header?: ComponentHeaderProps;
   id: string;
   icon: "Label" | "Address";
   name: string;
-  designControlType: DesignControlType;
+  componentType: ComponentType;
   label: string;
   defaultValue?: string;
   helperText?: string;
 }
 
-export interface SelectControlProps extends ControlProps {
+export interface SelectComponentProps extends ComponentProps {
   dataSourceRef: DataSourceRef;
 }
 
@@ -60,7 +66,7 @@ export interface GridPosition {
   row: number;
   col: number;
 }
-export interface ControlMetadataProps {
+export interface ComponentMetadataProps {
   dimension: Dimension;
 }
 
@@ -84,10 +90,17 @@ export interface Field {
   overriden?: FieldMetadata;
 }
 
-export interface ControlDesignDisplayProps {
-  control: ControlProps;
-  metadata: ControlMetadataProps;
+export interface ComponentDesignDisplayProps {
+  component: ComponentProps;
+  metadata: ComponentMetadataProps;
   fields: Field[];
-  overriden?: ControlMetadataProps;
+  overriden?: ComponentMetadataProps;
   gridPosition?: GridPosition;
+}
+
+
+export interface FieldDesignDisplayProps {
+  children: any;
+  field: Field;
+  component: ComponentProps;
 }

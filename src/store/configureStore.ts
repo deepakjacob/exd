@@ -1,14 +1,13 @@
 import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import promise from 'redux-promise-middleware';
-
-import allControls, { AllControlsState } from './reducers/allControls';
-import selectedControl, { SelectedControlState } from './reducers/selectedControl';
+import allComponents, { AllComponentsState } from './reducers/allComponents';
+import selections, { SelectionState as SelectionState } from './reducers/selections';
 
 export interface State {
   id: string;
-  selectedControl: SelectedControlState;
-  allControls: AllControlsState;
+  selections: SelectionState;
+  allComponents: AllComponentsState;
 }
 
 export default () => {
@@ -17,8 +16,8 @@ export default () => {
 
   const store: Store = createStore(
     combineReducers({
-      selectedControl,
-      allControls
+      selections,
+      allComponents
     }),
     {},
     composeWithDevTools(middleWareEnhancer)
