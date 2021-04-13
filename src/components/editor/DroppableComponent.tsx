@@ -103,7 +103,7 @@ export const DroppableComponent: FC<DroppableComponentProps> = (props: any) => {
 };
 
 const mapDispatchToProps = {
-  addComponent: addComponent,
+  addComponent,
 };
 
 const ConnectedDroppableComponent = connect(undefined, mapDispatchToProps)(DroppableComponent);

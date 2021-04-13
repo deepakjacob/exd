@@ -1,22 +1,22 @@
-import { ComponentDesignDisplayProps, DesignComponentType, FieldType } from './types';
+import { ComponentDesignDisplayProps, ComponentType, FieldType } from './types';
 import uuid from './uuid';
 
-const definitionRegistry = new Map<DesignComponentType, () => ComponentDesignDisplayProps>();
+const definitionRegistry = new Map<ComponentType, () => ComponentDesignDisplayProps>();
 
-export const registerDefinition = (type: DesignComponentType, definition: () => ComponentDesignDisplayProps) =>
+const registerDefinition = (type: ComponentType, definition: () => ComponentDesignDisplayProps) =>
   definitionRegistry.set(type, definition);
 
-export const getDefinition = (type: DesignComponentType): (() => ComponentDesignDisplayProps) | undefined =>
+const getDefinition = (type: ComponentType): (() => ComponentDesignDisplayProps) | undefined =>
   definitionRegistry.get(type);
 
 export const getDefinitions = () => Array.from(definitionRegistry.values());
 
-export const getNewEntryFieldDefinition = (): ComponentDesignDisplayProps => ({
+const getFormComponentDefinition = (): ComponentDesignDisplayProps => ({
   component: {
     id: uuid("ENTRY_FIELD_CONTROL_ID_"),
     icon: "Label",
     name: uuid("ENTRY_FIELD_CONTROL_NAME_"),
-    designComponentType: DesignComponentType.ENTRY_FIELD,
+    componentType: ComponentType.ENTRY_FIELD,
     label: "Address",
     defaultValue: "Hello World",
     helperText: "This is some addtional info",
@@ -63,7 +63,7 @@ export const getNewEntryFieldDefinition = (): ComponentDesignDisplayProps => ({
         name: uuid("entry_field_name_"),
         label: "Entry Field Label",
         defaultValue: "Hello World",
-        helperText: "This is some addtional info",
+        helperText: "This is some addtional info 2",
         type: FieldType.TEXT,
       },
       metadata: {
@@ -93,12 +93,12 @@ export const getNewEntryFieldDefinition = (): ComponentDesignDisplayProps => ({
   ],
 });
 
-export const getNewLabelDefinition = (): ComponentDesignDisplayProps => ({
+const getLabelComponentDefinition = (): ComponentDesignDisplayProps => ({
   component: {
     id: uuid("LABEL_CONTROL_ID_"),
     icon: "Label",
     name: uuid("LABEL_CONTROL_NAME_"),
-    designComponentType: DesignComponentType.LABEL,
+    componentType: ComponentType.LABEL,
     label: "Entry Field Label",
     defaultValue: "Hello World",
     helperText: "This is some addtional info",
@@ -126,5 +126,5 @@ export const getNewLabelDefinition = (): ComponentDesignDisplayProps => ({
     },
   ],
 });
-registerDefinition(DesignComponentType.ENTRY_FIELD, getNewEntryFieldDefinition);
-registerDefinition(DesignComponentType.LABEL, getNewLabelDefinition);
+registerDefinition(ComponentType.ENTRY_FIELD, getFormComponentDefinition);
+registerDefinition(ComponentType.LABEL, getLabelComponentDefinition);

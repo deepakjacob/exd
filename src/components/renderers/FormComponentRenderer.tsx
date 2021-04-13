@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const EntryFieldRenderer: React.FC<ComponentDesignDisplayProps> = (props: ComponentDesignDisplayProps) => {
+const FormComponentRenderer: React.FC<ComponentDesignDisplayProps> = (props: ComponentDesignDisplayProps) => {
   const { component, metadata, fields, overriden } = props;
   const { id, name, label, defaultValue, helperText } = component;
   const classes = useStyles();
@@ -39,4 +39,4 @@ const EntryFieldRenderer: React.FC<ComponentDesignDisplayProps> = (props: Compon
   );
 };
 
-export default EntryFieldRenderer;
+export default FormComponentRenderer;

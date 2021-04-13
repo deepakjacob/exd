@@ -4,25 +4,25 @@ import Paper from '@material-ui/core/Paper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React, { FC, useState } from 'react';
-import { ComponentDesignDisplayProps, DesignComponentType } from '../types';
+import { ComponentDesignDisplayProps as ComponentDesignRendererProps, ComponentType as ComponentType } from '../types';
 import { HasDelete, HasFocus } from "./Behaviour";
-import EntryFieldRenderer from './renderers/EntryFieldRenderer';
-import LabelRenderer from './renderers/LabelRenderer';
+import FormComponentRenderer from './renderers/FormComponentRenderer';
+import LabelComponentRenderer from './renderers/LabelComponentRenderer';
 
 
 
 
-const DesignMapper: FC<ComponentDesignDisplayProps> = (props: ComponentDesignDisplayProps) => {
+const ComponentDesignRenderer: FC<ComponentDesignRendererProps> = (props: ComponentDesignRendererProps) => {
   const {
-    component: { designComponentType: designComponentType },
+    component: { componentType },
   } = props;
-  switch (designComponentType) {
-    case DesignComponentType.LABEL:
-      return <LabelRenderer {...props} />;
-    case DesignComponentType.ENTRY_FIELD:
-      return <EntryFieldRenderer {...props} />;
+  switch (componentType) {
+    case ComponentType.LABEL:
+      return <LabelComponentRenderer {...props} />;
+    case ComponentType.ENTRY_FIELD:
+      return <FormComponentRenderer {...props} />;
     default:
-      throw new Error(`No renderer supported for component type ${designComponentType}`);
+      throw new Error(`No renderer supported for component type ${componentType}`);
   }
 };
 
@@ -64,8 +64,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-const ComponentDesignDisplay: FC<ComponentDesignDisplayProps & HasFocus & HasDelete> = (
-  props: ComponentDesignDisplayProps & HasFocus & HasDelete
+const ComponentDesignDisplay: FC<ComponentDesignRendererProps & HasFocus & HasDelete> = (
+  props: ComponentDesignRendererProps & HasFocus & HasDelete
 ) => {
   const classes = useStyles();
   const { paper, selectedPaper, toolbar, notoolbar } = classes;
@@ -85,7 +85,7 @@ const ComponentDesignDisplay: FC<ComponentDesignDisplayProps & HasFocus & HasDel
           <DeleteIcon style={{ color: grey[600] }} />
         </IconButton>
       </div>
-      <DesignMapper {...props} />
+      <ComponentDesignRenderer {...props} />
     </Paper>
   );
 };

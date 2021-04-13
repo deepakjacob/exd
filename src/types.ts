@@ -3,7 +3,7 @@ export enum DraggableType {
   COMPONENT = "COMPONENT",
 }
 //Components type
-export enum DesignComponentType {
+export enum ComponentType {
   LABEL = "LABEL",
   ENTRY_FIELD = "ENTRY_FIELD",
   COMPOSITE = "COMPOSITE",
@@ -12,7 +12,7 @@ export enum DesignComponentType {
   GRID = "GRID",
 }
 
-enum DesignComponentRendererType {
+enum ComponentRendererType {
   ENTRY_FIELD_DESIGN_RENDERER,
   LABEL_DESIGN_RENDERER,
   COMPOSITE_DESIGN_RENDERER,
@@ -41,7 +41,7 @@ export interface ComponentProps {
   id: string;
   icon: "Label" | "Address";
   name: string;
-  designComponentType: DesignComponentType;
+  componentType: ComponentType;
   label: string;
   defaultValue?: string;
   helperText?: string;
