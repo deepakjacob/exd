@@ -1,9 +1,9 @@
 import React from 'react';
+import { ComponentDesignDisplayProps } from '../../types';
 
-import { ControlDesignDisplayProps } from '../../types';
 
-const LabelRenderer: React.FC<ControlDesignDisplayProps> = (props: ControlDesignDisplayProps) => (
-  <div>A label control</div>
+const LabelRenderer: React.FC<ComponentDesignDisplayProps> = (props: ComponentDesignDisplayProps) => (
+  <div>A label component</div>
 );
 
 export default LabelRenderer;

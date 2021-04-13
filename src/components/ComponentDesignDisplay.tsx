@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React, { FC, useState } from 'react';
-import { ControlDesignDisplayProps, DesignControlType } from '../types';
+import { ComponentDesignDisplayProps, DesignComponentType } from '../types';
 import { HasDelete, HasFocus } from "./Behaviour";
 import EntryFieldRenderer from './renderers/EntryFieldRenderer';
 import LabelRenderer from './renderers/LabelRenderer';
@@ -12,17 +12,17 @@ import LabelRenderer from './renderers/LabelRenderer';
 
 
 
-const DesignMapper: FC<ControlDesignDisplayProps> = (props: ControlDesignDisplayProps) => {
+const DesignMapper: FC<ComponentDesignDisplayProps> = (props: ComponentDesignDisplayProps) => {
   const {
-    control: { designControlType },
+    component: { designComponentType: designComponentType },
   } = props;
-  switch (designControlType) {
-    case DesignControlType.LABEL:
+  switch (designComponentType) {
+    case DesignComponentType.LABEL:
       return <LabelRenderer {...props} />;
-    case DesignControlType.ENTRY_FIELD:
+    case DesignComponentType.ENTRY_FIELD:
       return <EntryFieldRenderer {...props} />;
     default:
-      throw new Error(`No renderer supported for control type ${designControlType}`);
+      throw new Error(`No renderer supported for component type ${designComponentType}`);
   }
 };
 
@@ -64,8 +64,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-const ControlDesignDisplay: FC<ControlDesignDisplayProps & HasFocus & HasDelete> = (
-  props: ControlDesignDisplayProps & HasFocus & HasDelete
+const ComponentDesignDisplay: FC<ComponentDesignDisplayProps & HasFocus & HasDelete> = (
+  props: ComponentDesignDisplayProps & HasFocus & HasDelete
 ) => {
   const classes = useStyles();
   const { paper, selectedPaper, toolbar, notoolbar } = classes;
@@ -90,4 +90,4 @@ const ControlDesignDisplay: FC<ControlDesignDisplayProps & HasFocus & HasDelete>
   );
 };
 
-export default ControlDesignDisplay;
+export default ComponentDesignDisplay;

@@ -1,4 +1,4 @@
-import FormControl from '@material-ui/core/FormControl';
+import { FormControl } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,7 +10,7 @@ import { Field, FieldType } from '../../types';
 import FieldDesignDisplay from '../FieldDesignDisplay';
 
 const FieldLabelRenderer: FC<Field> = (props: Field) => {
-  const { control, metadata, overriden } = props;
+  const { component, metadata, overriden } = props;
   const {
     dimension: { width },
   } = metadata;
@@ -22,11 +22,11 @@ const FieldLabelRenderer: FC<Field> = (props: Field) => {
 };
 
 const FieldTextRenderer: FC<Field> = (props: Field) => {
-  const { control, metadata, overriden } = props;
+  const { component, metadata, overriden } = props;
   const {
     dimension: { width },
   } = metadata;
-  const { id, name, label, defaultValue, helperText } = control;
+  const { id, name, label, defaultValue, helperText } = component;
   return (
     <Grid item xs={width as any}>
       <FieldDesignDisplay {...props} onFocus={() => { }} onDelete={() => { }} hasFocus={true}>
@@ -48,7 +48,7 @@ const FieldTextRenderer: FC<Field> = (props: Field) => {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    formControl: {
+    formComponent: {
       margin: theme.spacing(1),
       minWidth: 120,
     },
@@ -61,14 +61,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const FieldSelectRenderer: FC<Field> = (props: Field) => {
   const classes = useStyles();
 
-  const { control, metadata, overriden } = props;
+  const { component, metadata, overriden } = props;
   const {
     dimension: { width },
   } = metadata;
-  const { id, name, label, defaultValue, helperText } = control;
+  const { id, name, label, defaultValue, helperText } = component;
   return (
     <Grid item xs={width as any}>
-      <FormControl className={classes.formControl} disabled>
+      <FormControl className={classes.formComponent} disabled>
         <InputLabel id="demo-simple-select-label">Age</InputLabel>
 
         <Select labelId="demo-simple-select-label" id="demo-simple-select">
@@ -81,16 +81,16 @@ const FieldSelectRenderer: FC<Field> = (props: Field) => {
   );
 };
 
-const FieldControlToRendererMapping: FC<any> = (props: any) => {
+const FieldComponentToRendererMapping: FC<any> = (props: any) => {
   const { field, ...rest } = props;
 
-  const { control, metadata, overriden } = field;
-  switch (control.type) {
+  const { component, metadata, overriden } = field;
+  switch (component.type) {
     case FieldType.LABEL:
       return <FieldLabelRenderer {...props.field} />;
     case FieldType.TEXT:
-      // move the below line from ControlRendererRegistration,
-      // where the key will be DesignControlRendererType.LABEL_DESIGN_RENDERER
+      // move the below line from ComponentRendererRegistration,
+      // where the key will be DesignComponentRendererType.LABEL_DESIGN_RENDERER
       return <FieldTextRenderer {...props.field} />;
     case FieldType.SELECT:
       return <FieldSelectRenderer {...props.field} />;
@@ -99,4 +99,4 @@ const FieldControlToRendererMapping: FC<any> = (props: any) => {
   }
 };
 
-export default FieldControlToRendererMapping;
+export default FieldComponentToRendererMapping;

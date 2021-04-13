@@ -4,12 +4,11 @@ import React, { Suspense } from 'react';
 import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
-import ControlPropsDrawer from "../components/ControlPropsDrawer";
-import MultiControlDesignDisplay from '../components/MultiControlDesignDisplay';
-import { deleteControl, getAppState, saveAppState } from '../store/actions/allControls';
-import { setSelectedComponent } from '../store/actions/selectedControl';
+import ComponentPropertyDrawer from "../components/ComponentPropertyDrawer";
+import MultiComponentDesignDisplay from '../components/MultiComponentDesignDisplay';
+import { deleteComponent, getAppState, saveAppState } from '../store/actions/allComponents';
+import { setSelectedComponent } from "../store/actions/selectedComponent";
 import { State } from '../store/configureStore';
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -27,7 +26,7 @@ class PrimaryView extends React.Component<any, any> {
     const props = this.props;
     return (
       <Suspense fallback={<div>Loading...</div>}>
-        <MultiControlDesignDisplay {...props} />
+        <MultiComponentDesignDisplay {...props} />
       </Suspense>
     );
   }
@@ -36,17 +35,17 @@ class PrimaryView extends React.Component<any, any> {
 
 const mapStateToProps = (state: State) => {
   const {
-    selectedControl: { focussedControlId },
-    allControls,
+    selectedComponent: { focussedComponentId: focussedComponentId },
+    allComponents: allComponents,
   } = state;
-  const { controls } = allControls;
-  return { focussedControlId, controls, state };
+  const { components: components } = allComponents;
+  return { focussedComponentId, components, state };
 };
 
 const mapDispatchToProps = {
   getAppState,
   setSelectedComponent,
-  deleteControl,
+  deleteComponent: deleteComponent,
   saveAppState,
 };
 
@@ -60,7 +59,7 @@ const View: React.FC<any> = (props: any) => {
       <DndProvider backend={Backend}>
         <ConnectedPrimaryView {...props} />
       </DndProvider>
-      <ControlPropsDrawer />
+      <ComponentPropertyDrawer />
     </Box>
   );
 };

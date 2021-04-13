@@ -9,10 +9,10 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { changeControlMetadata, changeControlMetadata as changeControlProp } from '../store/actions/allControls';
+import { changeComponentMetadata as changeComponentMetadata, changeComponentMetadata as changeComponentProp } from '../store/actions/allComponents';
 import { State } from '../store/configureStore';
-import { getSelectedControl } from '../store/reducers/allControls';
-import { ControlDesignDisplayProps } from '../types';
+import { getSelectedComponent } from '../store/reducers/allComponents';
+import { ComponentDesignDisplayProps } from '../types';
 
 const CollapsiblePanel = React.lazy(() => import("./CollapsiblePanel"));
 
@@ -52,17 +52,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface MappedControlPropsDrawerProps {
-  focussedControl: ControlDesignDisplayProps | undefined;
-  changeControlProp: typeof changeControlProp | undefined;
+interface ConnectedPropertyDrawerProps {
+  focussedComponent: ComponentDesignDisplayProps | undefined;
+  changeComponentProp: typeof changeComponentProp | undefined;
 }
 
-const ControlPropsDrawer = (props: MappedControlPropsDrawerProps) => {
+const ComponentPropertyDrawer = (props: ConnectedPropertyDrawerProps) => {
   const classes = useStyles();
   const theme = useTheme();
 
   const [open, setOpen] = useState(false);
-  useEffect(() => setOpen(props.focussedControl !== undefined), [props.focussedControl]);
+  useEffect(() => setOpen(props.focussedComponent !== undefined), [props.focussedComponent]);
 
   const onClose = () => {
     setOpen(false);
@@ -86,13 +86,13 @@ const ControlPropsDrawer = (props: MappedControlPropsDrawerProps) => {
           </IconButton>
           <Box className={classes.title}>
             <Typography variant="body1" className={classes.title}>
-              {props.focussedControl?.control.label}
+              {props.focussedComponent?.component.label}
             </Typography>
           </Box>
         </div>
         <Divider />
         <Suspense fallback={<div />}>
-          <CollapsiblePanel changeControlProp={changeControlProp} focussedControl={props.focussedControl} />
+          <CollapsiblePanel changeComponentProp={changeComponentProp} focussedComponent={props.focussedComponent} />
         </Suspense>
       </Drawer>
     </div>
@@ -101,18 +101,18 @@ const ControlPropsDrawer = (props: MappedControlPropsDrawerProps) => {
 
 const mapStateToProps = (state: State) => {
   const {
-    selectedControl: { focussedControlId },
-    allControls,
+    selectedComponent: { focussedComponentId },
+    allComponents: allComponents,
   } = state;
-  const filtered = focussedControlId ? getSelectedControl(allControls, focussedControlId) : undefined;
-  const focussedControl = filtered && filtered.length > 0 ? filtered[0] : undefined;
-  return { focussedControl };
+  const filtered = focussedComponentId ? getSelectedComponent(allComponents, focussedComponentId) : undefined;
+  const focussedComponent = filtered && filtered.length > 0 ? filtered[0] : undefined;
+  return { focussedComponent: focussedComponent };
 };
 
 const mapDispatchToProps = {
-  changeControlProp: changeControlMetadata,
+  changeComponentProp: changeComponentMetadata,
 };
 
-const ConnectedPropsDrawer = connect(mapStateToProps, mapDispatchToProps)(ControlPropsDrawer);
+const ConnectedPropsDrawer = connect(mapStateToProps, mapDispatchToProps)(ComponentPropertyDrawer);
 
 export default ConnectedPropsDrawer;

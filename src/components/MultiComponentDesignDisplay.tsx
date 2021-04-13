@@ -2,10 +2,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React, { FC, useState } from 'react';
-import { ControlDesignDisplayProps } from '../types';
-import ControlDesignDisplay from './ControlDesignDisplay';
+import { ComponentDesignDisplayProps } from '../types';
+import ComponentDesignDisplay from './ComponentDesignDisplay';
 import AppBar from './editor/AppBar';
-import Toolbar from './editor/ControlToolbar';
+import Toolbar from './editor/ComponentToolbar';
 import EmptyColumn from './editor/EmptyColumn';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -29,23 +29,23 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
-  if (!controls || controls.length === 0) {
+const mappedComponents = (components?: ComponentDesignDisplayProps[]) => {
+  if (!components || components.length === 0) {
     return null;
   }
 
-  const calcControlWidth = (cdp: ControlDesignDisplayProps) => {
+  const calcComponentWidth = (cdp: ComponentDesignDisplayProps) => {
     return cdp.overriden?.dimension?.width
       ? (cdp.overriden.dimension.width as number)
       : (cdp.metadata.dimension.width as number);
   };
 
-  const keyValueMap = controls.reduce(
+  const keyValueMap = components.reduce(
     (accumulator, cdp) => {
       let row = cdp.gridPosition?.row;
       let col = cdp.gridPosition?.col;
       if (row !== undefined && row >= 0 && col !== undefined && col >= 0) {
-        const width = calcControlWidth(cdp);
+        const width = calcComponentWidth(cdp);
         accumulator[row][col] = cdp;
         col += width;
       }
@@ -57,26 +57,26 @@ const mappedControls = (controls?: ControlDesignDisplayProps[]) => {
   return keyValueMap;
 };
 
-export const MultiControlDesignDisplay: FC<any> = (props: any) => {
+export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const {
     setSelectedComponent,
-    focussedControlId,
-    controls,
-    deleteControl,
+    focussedComponentId,
+    components,
+    deleteComponent,
     saveAppState,
     state,
   } = props as any;
 
-  const onFocus = (cdp: ControlDesignDisplayProps) => () => {
-    setSelectedComponent(cdp.control.id);
+  const onFocus = (cdp: ComponentDesignDisplayProps) => () => {
+    setSelectedComponent(cdp.component.id);
   };
 
-  const onDelete = (controlId: string) => {
+  const onDelete = (componentId: string) => {
     handleToolbarCollapse();
-    deleteControl(controlId);
+    deleteComponent(componentId);
   };
 
   const handleToolbarExpand = () => {
@@ -87,12 +87,12 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
     setOpen(false);
   };
 
-  const calcControlWidth = (cdp: ControlDesignDisplayProps): number => {
+  const calcComponentWidth = (cdp: ComponentDesignDisplayProps): number => {
     const width: any = cdp.overriden?.dimension?.width ? cdp.overriden.dimension.width : cdp.metadata.dimension.width;
     return parseInt(width);
   };
 
-  const mControls = mappedControls(controls);
+  const mComponents = mappedComponents(components);
 
   type gridWidth = boolean | "auto" | 1 | 3 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
 
@@ -107,28 +107,28 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) => {
             let prevElem: any = undefined;
             return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col, i) => {
-              const cdp: ControlDesignDisplayProps = mControls && mControls[row][col];
+              const cdp: ComponentDesignDisplayProps = mComponents && mComponents[row][col];
               if (cdp) {
                 prevElem = cdp;
-                const w: any = calcControlWidth(cdp) as gridWidth;
+                const w: any = calcComponentWidth(cdp) as gridWidth;
 
                 return (
                   <Grid xs={w} key={`${row}-${col}`}>
-                    <ControlDesignDisplay
+                    <ComponentDesignDisplay
                       {...cdp}
                       onFocus={onFocus(cdp)}
-                      hasFocus={`${cdp.control.id}` === focussedControlId}
+                      hasFocus={`${cdp.component.id}` === focussedComponentId}
                       onDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                         e.stopPropagation();
-                        onDelete(cdp.control.id);
+                        onDelete(cdp.component.id);
                       }}
                     />
                   </Grid>
                 );
               }
-              if (prevElem && (prevElem as ControlDesignDisplayProps).gridPosition?.row == row) {
-                let next: number = (prevElem as ControlDesignDisplayProps).gridPosition?.col as number;
-                let nextCol: number = calcControlWidth(prevElem) + next;
+              if (prevElem && (prevElem as ComponentDesignDisplayProps).gridPosition?.row == row) {
+                let next: number = (prevElem as ComponentDesignDisplayProps).gridPosition?.col as number;
+                let nextCol: number = calcComponentWidth(prevElem) + next;
                 if (col >= nextCol) {
                   return <EmptyColumn row={row} col={col} render={true} key={`${row}-${col}`} />;
                 }
@@ -143,4 +143,4 @@ export const MultiControlDesignDisplay: FC<any> = (props: any) => {
   );
 };
 
-export default MultiControlDesignDisplay;
+export default MultiComponentDesignDisplay;

@@ -7,7 +7,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
 import React, { FC } from 'react';
-import DraggableControlList from './DraggableControlList';
+import DraggableComponentList from './DraggableComponentList';
 
 const drawerWidth = 240;
 
@@ -71,7 +71,7 @@ const Toolbar: FC<ToolbarProps> = ({ open, handleToolbarCollapse: handleToolbarC
         </IconButton>
       </div>
       <Divider />
-      <DraggableControlList />
+      <DraggableComponentList />
     </Drawer>
   );
 };

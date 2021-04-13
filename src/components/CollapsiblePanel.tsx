@@ -7,8 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React from 'react';
-import { changeControlMetadata } from '../store/actions/allControls';
-import { ControlDesignDisplayProps } from '../types';
+import { changeComponentMetadata } from '../store/actions/allComponents';
+import { ComponentDesignDisplayProps } from '../types';
 
 
 
@@ -33,17 +33,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface ControlledExpansionPanelProps {
-  changeControlProp: typeof changeControlMetadata;
-  focussedControl: ControlDesignDisplayProps | undefined;
+interface ComponentledExpansionPanelProps {
+  changeComponentProp: typeof changeComponentMetadata;
+  focussedComponent: ComponentDesignDisplayProps | undefined;
 }
 
-export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> = (
-  props: ControlledExpansionPanelProps
+export const ComponentledExpansionPanel: React.FC<ComponentledExpansionPanelProps> = (
+  props: ComponentledExpansionPanelProps
 ) => {
   const classes = useStyles();
-  const { focussedControl, changeControlProp } = props;
-  const { metadata, overriden } = focussedControl || {};
+  const { focussedComponent: focussedComponent, changeComponentProp: changeComponentProp } = props;
+  const { metadata, overriden } = focussedComponent || {};
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
@@ -51,8 +51,8 @@ export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> =
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value && focussedControl) {
-      return changeControlProp(focussedControl, { dimension: { width: event.target.value } });
+    if (event.target.value && focussedComponent) {
+      return changeComponentProp(focussedComponent, { dimension: { width: event.target.value } });
     }
   };
 
@@ -61,7 +61,7 @@ export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> =
   return (
     <div className={classes.root}>
       <ExpansionPanel expanded={expanded === "panel1"} onChange={handleChange("panel1")}>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header">
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-components="panel1bh-content" id="panel1bh-header">
           <Typography className={classes.heading}>Dimensions</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
@@ -72,7 +72,7 @@ export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> =
                 label="Width"
                 defaultValue={value}
                 value={value}
-                helperText="Width of the control"
+                helperText="Width of the component"
                 onChange={onChange}
               />
             </Grid>
@@ -83,4 +83,4 @@ export const ControlledExpansionPanel: React.FC<ControlledExpansionPanelProps> =
   );
 };
 
-export default ControlledExpansionPanel;
+export default ComponentledExpansionPanel;

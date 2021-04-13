@@ -1,9 +1,9 @@
 
 export enum DraggableType {
-  CONTROL = "CONTROL",
+  COMPONENT = "COMPONENT",
 }
 //Components type
-export enum DesignControlType {
+export enum DesignComponentType {
   LABEL = "LABEL",
   ENTRY_FIELD = "ENTRY_FIELD",
   COMPOSITE = "COMPOSITE",
@@ -12,7 +12,7 @@ export enum DesignControlType {
   GRID = "GRID",
 }
 
-enum DesignControlRendererType {
+enum DesignComponentRendererType {
   ENTRY_FIELD_DESIGN_RENDERER,
   LABEL_DESIGN_RENDERER,
   COMPOSITE_DESIGN_RENDERER,
@@ -33,21 +33,21 @@ export interface Dimension {
   width: number;
 }
 
-export interface CommonControlProps {
+export interface ComponentCommonProps {
   dimension: Dimension;
 }
 
-export interface ControlProps {
+export interface ComponentProps {
   id: string;
   icon: "Label" | "Address";
   name: string;
-  designControlType: DesignControlType;
+  designComponentType: DesignComponentType;
   label: string;
   defaultValue?: string;
   helperText?: string;
 }
 
-export interface SelectControlProps extends ControlProps {
+export interface SelectComponentProps extends ComponentProps {
   dataSourceRef: DataSourceRef;
 }
 
@@ -59,11 +59,11 @@ export interface GridPosition {
   row: number;
   col: number;
 }
-export interface ControlMetadataProps {
+export interface ComponentMetadataProps {
   dimension: Dimension;
 }
 
-export interface FieldControl {
+export interface FieldComponent {
   id: string;
   name: string;
   label: string;
@@ -78,16 +78,16 @@ export interface FieldMetadata {
 }
 
 export interface Field {
-  control: FieldControl;
+  component: FieldComponent;
   metadata: FieldMetadata;
   overriden?: FieldMetadata;
 }
 
-export interface ControlDesignDisplayProps {
-  control: ControlProps;
-  metadata: ControlMetadataProps;
+export interface ComponentDesignDisplayProps {
+  component: ComponentProps;
+  metadata: ComponentMetadataProps;
   fields: Field[];
-  overriden?: ControlMetadataProps;
+  overriden?: ComponentMetadataProps;
   gridPosition?: GridPosition;
 }
 
