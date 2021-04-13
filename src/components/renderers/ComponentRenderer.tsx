@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-
 const ComponentHeader: React.FC<ComponentHeaderProps> = (props: ComponentHeaderProps) => {
   const { title, divider } = props;
   const classes = useStyles();
@@ -33,14 +32,12 @@ const ComponentHeader: React.FC<ComponentHeaderProps> = (props: ComponentHeaderP
   )
 }
 
-
 const ComponentRenderer: React.FC<ComponentDesignDisplayProps> = (props: ComponentDesignDisplayProps) => {
   const { component, metadata, fields, overriden } = props;
   const { id, name, label, defaultValue, helperText, header } = component;
-  const classes = useStyles();
   return (
     <>
-      {header && header.visible && <ComponentHeader {...header} />}
+      {header?.visible && <ComponentHeader {...header} />}
       <Grid container spacing={3}>
         {fields.map((f, idx) => (
           <FieldDesignDisplay component={component} field={f}>

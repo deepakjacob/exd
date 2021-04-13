@@ -128,7 +128,7 @@ export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
                   </Grid>
                 );
               }
-              if (prevElem && (prevElem as ComponentDesignDisplayProps).gridPosition?.row == row) {
+              if (prevElem && (prevElem as ComponentDesignDisplayProps).gridPosition?.row === row) {
                 let next: number = (prevElem as ComponentDesignDisplayProps).gridPosition?.col as number;
                 let nextCol: number = calcComponentWidth(prevElem) + next;
                 if (col >= nextCol) {
@@ -137,6 +137,7 @@ export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
               } else {
                 return <EmptyColumn row={row} col={col} render={true} key={`${row}-${col}`} />;
               }
+              return null;
             });
           })}
         </Grid>

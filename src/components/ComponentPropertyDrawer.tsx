@@ -112,7 +112,7 @@ const mapStateToProps = (state: State) => {
   } = state;
   const filteredComponent = focussedComponentId ? getSelectedComponent(allComponents, focussedComponentId) : undefined;
   const focussedComponent = filteredComponent && filteredComponent.length > 0 ? filteredComponent[0] : undefined;
-  const filteredField = focussedComponent && focussedFieldId && focussedComponent.fields && focussedComponent.fields.filter((f) => f.control.id === focussedFieldId);
+  const filteredField = focussedFieldId && focussedComponent?.fields.filter((f) => f.control.id === focussedFieldId);
   const focussedField = (filteredField && filteredField.length > 0) ? filteredField[0] : undefined;
   return { focussedComponent, focussedField };
 };
