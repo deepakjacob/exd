@@ -17,7 +17,6 @@ const getFormComponentDefinition = (): ComponentDesignDisplayProps => ({
       visible: true,
       title: "This is a form",
       divider: true,
-
       actions: [{
         id: uuid("action_id"),
         title: "Save Details",
@@ -29,8 +28,7 @@ const getFormComponentDefinition = (): ComponentDesignDisplayProps => ({
         title: "Delete",
         icon: "Delete",
         executeFn: (props: any) => undefined
-      }
-      ]
+      }]
     },
     id: uuid("ENTRY_FIELD_CONTROL_ID_"),
     icon: "Label",

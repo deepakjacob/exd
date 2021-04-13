@@ -1,13 +1,14 @@
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
-import clsx from 'clsx';
-import React, { FC } from 'react';
-
+import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { PlayArrow } from "@material-ui/icons";
+import MenuIcon from "@material-ui/icons/Menu";
+import clsx from "clsx";
+import React, { FC } from "react";
+import { Playground } from "../playground/Playground";
 
 interface ApplicationBarProps {
   handleDrawerOpen: any;
@@ -50,6 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
 const ApplicationBar: FC<ApplicationBarProps> = ({
   handleDrawerOpen,
   saveAppState,
@@ -57,6 +59,16 @@ const ApplicationBar: FC<ApplicationBarProps> = ({
   open,
 }: ApplicationBarProps) => {
   const classes = useStyles();
+
+  const [play, setPlay] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setPlay(true);
+  };
+
+  const handleClose = () => {
+    setPlay(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -84,8 +96,18 @@ const ApplicationBar: FC<ApplicationBarProps> = ({
           <Button color="inherit" onClick={(e) => saveAppState(state)}>
             Save
           </Button>
+          <IconButton color="inherit" onClick={handleClickOpen}>
+            <PlayArrow />
+          </IconButton>
         </Toolbar>
       </AppBar>
+
+      <Playground
+        open={play}
+        handleClickOpen={handleClickOpen}
+        handleClose={handleClose}
+        controls={state.allComponents.components}
+      />
     </div>
   );
 };

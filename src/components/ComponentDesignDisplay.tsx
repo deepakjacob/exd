@@ -1,12 +1,12 @@
-import { grey } from '@material-ui/core/colors';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
-import React, { FC, useState } from 'react';
-import { ComponentDesignDisplayProps as ComponentDesignRendererProps } from '../types';
+import { grey } from "@material-ui/core/colors";
+import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import DeleteIcon from "@material-ui/icons/Delete";
+import React, { FC, useState } from "react";
+import { ComponentDesignDisplayProps as ComponentDesignRendererProps } from "../types";
 import { HasDelete, HasFocus } from "./Behaviour";
-import ComponentRenderer from './renderers/ComponentRenderer';
+import ComponentRenderer from "./renderers/ComponentRenderer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
 
 const ComponentDesignDisplay: FC<ComponentDesignRendererProps & HasFocus & HasDelete> = (
   props: ComponentDesignRendererProps & HasFocus & HasDelete

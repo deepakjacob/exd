@@ -39,7 +39,6 @@ const ComponentHeader: React.FC<ComponentHeaderProps> = (props: ComponentHeaderP
           <Grid container
             direction="row"
             justify="flex-end">
-
             {actions && actions.map((action) => {
               const color = action.isPrimaryAction ? "primary" : "default"
               return (
