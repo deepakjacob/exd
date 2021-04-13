@@ -108,7 +108,7 @@ export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
         <Grid container spacing={1}>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) => {
             let prevElem: any = undefined;
-            return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col, i) => {
+            return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col): JSX.Element | null => {
               const cdp: ComponentDesignDisplayProps = mComponents && mComponents[row][col];
               if (cdp) {
                 prevElem = cdp;

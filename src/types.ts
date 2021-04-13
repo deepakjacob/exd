@@ -37,10 +37,25 @@ export interface ComponentCommonProps {
   dimension: Dimension;
 }
 
+interface ComponentRuntimeProps {
+
+}
+
+export interface ComponentAction {
+  id: string;
+  icon?: any;
+  title: string;
+  isPrimaryAction?: boolean;
+  size?: 'small' | 'medium' | 'large';
+  executeFn: (props: ComponentRuntimeProps) => undefined;
+}
+
+
 export interface ComponentHeaderProps {
   visible: boolean;
   title: string;
   divider: boolean;
+  actions?: ComponentAction[];
 }
 
 export interface ComponentProps {
