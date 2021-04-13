@@ -4,26 +4,15 @@ import Paper from '@material-ui/core/Paper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React, { FC, useState } from 'react';
-import { ComponentDesignDisplayProps as ComponentDesignRendererProps, ComponentType as ComponentType } from '../types';
+import { ComponentDesignDisplayProps as ComponentDesignRendererProps } from '../types';
 import { HasDelete, HasFocus } from "./Behaviour";
-import FormComponentRenderer from './renderers/FormComponentRenderer';
-import LabelComponentRenderer from './renderers/LabelComponentRenderer';
+import ComponentRenderer from './renderers/FormComponentRenderer';
 
 
 
 
 const ComponentDesignRenderer: FC<ComponentDesignRendererProps> = (props: ComponentDesignRendererProps) => {
-  const {
-    component: { componentType },
-  } = props;
-  switch (componentType) {
-    case ComponentType.LABEL:
-      return <LabelComponentRenderer {...props} />;
-    case ComponentType.ENTRY_FIELD:
-      return <FormComponentRenderer {...props} />;
-    default:
-      throw new Error(`No renderer supported for component type ${componentType}`);
-  }
+  return <ComponentRenderer {...props} />;
 };
 
 const useStyles = makeStyles((theme: Theme) =>

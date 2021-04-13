@@ -11,7 +11,7 @@ export const setSelectedComponent = (focussedComponentId: string): FluxStandardA
 /* for field selecttions within the component */
 export const SELECT_RENDERED_FIELD = "SELECT_RENDERED_FIELD";
 
-export const setSelectedField = (focussedFieldId: string): FluxStandardAction => ({
+export const setSelectedField = ({ focussedComponentId, focussedFieldId }: any): FluxStandardAction => ({
   type: SELECT_RENDERED_FIELD,
-  payload: { focussedFieldId }
+  payload: { focussedComponentId, focussedFieldId }
 });

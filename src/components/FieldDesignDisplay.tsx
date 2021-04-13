@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import DeleteIcon from '@material-ui/icons/Delete';
 import React, { FC, useState } from "react";
 import { connect } from "react-redux";
-import { setSelectedComponent, setSelectedField } from "../store/actions/selections";
+import { setSelectedField } from "../store/actions/selections";
 import { State } from "../store/configureStore";
 import { Field, FieldDesignDisplayProps } from "../types";
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     selectedPaper: {
       padding: theme.spacing(2),
-      border: `1px solid ${theme.palette.primary.main}`,
+      border: `1px solid green`,
       position: "relative",
       margin: "3px",
     },
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme: Theme) =>
 interface ConnectedFieldDesignDisplayProps {
   focussedFieldId?: string;
   setSelectedField: any;
-  setSelectedComponent: any
 }
 
 const FDDisplay: FC<FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps> = (
@@ -56,7 +55,7 @@ const FDDisplay: FC<FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps> 
 ) => {
   const classes = useStyles();
   const { paper, selectedPaper, toolbar, notoolbar } = classes;
-  const { component, field, focussedFieldId, setSelectedField, setSelectedComponent } = props;
+  const { component, field, focussedFieldId, setSelectedField } = props;
   const [over, setOver] = useState(false);
   const onMouseOver = () => setOver(true);
   const onMouseOut = () => setOver(false);
@@ -65,9 +64,11 @@ const FDDisplay: FC<FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps> 
   } = field.metadata;
 
   const onFocus = (field: Field) => (e: any) => {
+    e.preventDefault();
     if (focussedFieldId !== field.control.id) {
-      setSelectedField(field.control.id);
+      setSelectedField({ focussedComponentId: component.id, focussedFieldId: field.control.id });
     }
+    e.stopPropagation();
   }
 
   const onDelete = () => { }
@@ -99,8 +100,7 @@ const mapStateToProps = (state: State) => {
 };
 
 const mapDispatchToProps = {
-  setSelectedField,
-  setSelectedComponent
+  setSelectedField
 };
 
 const FieldDesignDisplay = connect(mapStateToProps, mapDispatchToProps)(FDDisplay);

@@ -9,16 +9,16 @@ export interface SelectionState {
 
 const defaultState: SelectionState = {};
 
-const selections: Reducer = (state: SelectionState = defaultState, action: FluxStandardAction) => {
+const selectedComponent: Reducer = (state: SelectionState = defaultState, action: FluxStandardAction) => {
   switch (action.type) {
     case SELECT_RENDERED_COMPONENT:
       return {
-        ...state,
-        focussedComponentId: action.payload.focussedComponentId
+        focussedComponentId: action.payload.focussedComponentId,
+        focussedFieldId: undefined
       };
     case SELECT_RENDERED_FIELD:
       return {
-        ...state,
+        focussedComponentId: action.payload.focussedComponentId,
         focussedFieldId: action.payload.focussedFieldId
       };
     default:
@@ -26,4 +26,4 @@ const selections: Reducer = (state: SelectionState = defaultState, action: FluxS
   }
 };
 
-export default selections;
+export default selectedComponent;
