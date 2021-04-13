@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { FluxStandardAction } from 'redux-promise-middleware';
-import { SELECT_RENDERED_COMPONENT as SELECT_RENDERED_COMPONENT } from '../actions/selectedComponent';
+import { SELECT_RENDERED_COMPONENT } from '../actions/selectedComponent';
 
 
 export interface SelectedComponentState {

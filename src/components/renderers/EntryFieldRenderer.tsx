@@ -4,7 +4,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { ComponentDesignDisplayProps } from '../../types';
-import FieldComponentToRendererMapping from './FieldRenderers';
+import FieldControlToRendererMapping from './FieldRenderers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const EntryFieldRenderer: React.FC<ComponentDesignDisplayProps> = (props: ComponentDesignDisplayProps) => {
-  const { component: component, metadata, fields, overriden } = props;
+  const { component, metadata, fields, overriden } = props;
   const { id, name, label, defaultValue, helperText } = component;
   const classes = useStyles();
   return (
@@ -28,7 +28,7 @@ const EntryFieldRenderer: React.FC<ComponentDesignDisplayProps> = (props: Compon
       <Divider className={classes.title} />
       <Grid container spacing={3}>
         {fields.map((f, idx) => (
-          <FieldComponentToRendererMapping field={f} key={idx} {...props} />
+          <FieldControlToRendererMapping field={f} key={idx} {...props} />
         ))}
       </Grid>
     </>

@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 import { addComponent } from '../../store/actions/allComponents';
 import { ComponentDesignDisplayProps, DraggableType } from '../../types';
 
-
-
 const calcComponentWidth = (cdp: ComponentDesignDisplayProps): number => {
   const width: any = cdp.overriden?.dimension?.width ? cdp.overriden.dimension.width : cdp.metadata.dimension.width;
   return parseInt(width);

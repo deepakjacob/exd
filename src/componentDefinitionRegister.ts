@@ -28,7 +28,7 @@ export const getNewEntryFieldDefinition = (): ComponentDesignDisplayProps => ({
   },
   fields: [
     {
-      component: {
+      control: {
         id: uuid("label_field_id_"),
         name: uuid("label_field_name_"),
         label: "Address Form",
@@ -43,7 +43,7 @@ export const getNewEntryFieldDefinition = (): ComponentDesignDisplayProps => ({
       },
     },
     {
-      component: {
+      control: {
         id: uuid("entry_field_id_"),
         name: uuid("entry_field_name_"),
         label: "Entry Field Label",
@@ -58,7 +58,7 @@ export const getNewEntryFieldDefinition = (): ComponentDesignDisplayProps => ({
       },
     },
     {
-      component: {
+      control: {
         id: uuid("entry_field_id_"),
         name: uuid("entry_field_name_"),
         label: "Entry Field Label",
@@ -73,7 +73,7 @@ export const getNewEntryFieldDefinition = (): ComponentDesignDisplayProps => ({
       },
     },
     {
-      component: {
+      control: {
         id: uuid("entry_field_id_"),
         name: uuid("entry_field_name_"),
         label: "Entry Field Label",
@@ -110,7 +110,7 @@ export const getNewLabelDefinition = (): ComponentDesignDisplayProps => ({
   },
   fields: [
     {
-      component: {
+      control: {
         id: uuid("label_field_id_"),
         name: uuid("label_field_name_"),
         label: "Entry Field Label",

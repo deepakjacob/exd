@@ -63,7 +63,7 @@ export interface ComponentMetadataProps {
   dimension: Dimension;
 }
 
-export interface FieldComponent {
+export interface FieldControl {
   id: string;
   name: string;
   label: string;
@@ -78,7 +78,7 @@ export interface FieldMetadata {
 }
 
 export interface Field {
-  component: FieldComponent;
+  control: FieldControl;
   metadata: FieldMetadata;
   overriden?: FieldMetadata;
 }

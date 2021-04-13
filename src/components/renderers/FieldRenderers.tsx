@@ -10,7 +10,7 @@ import { Field, FieldType } from '../../types';
 import FieldDesignDisplay from '../FieldDesignDisplay';
 
 const FieldLabelRenderer: FC<Field> = (props: Field) => {
-  const { component, metadata, overriden } = props;
+  const { control, metadata, overriden } = props;
   const {
     dimension: { width },
   } = metadata;
@@ -22,11 +22,11 @@ const FieldLabelRenderer: FC<Field> = (props: Field) => {
 };
 
 const FieldTextRenderer: FC<Field> = (props: Field) => {
-  const { component, metadata, overriden } = props;
+  const { control, metadata, overriden } = props;
   const {
     dimension: { width },
   } = metadata;
-  const { id, name, label, defaultValue, helperText } = component;
+  const { id, name, label, defaultValue, helperText } = control;
   return (
     <Grid item xs={width as any}>
       <FieldDesignDisplay {...props} onFocus={() => { }} onDelete={() => { }} hasFocus={true}>
@@ -61,11 +61,11 @@ const useStyles = makeStyles((theme: Theme) =>
 const FieldSelectRenderer: FC<Field> = (props: Field) => {
   const classes = useStyles();
 
-  const { component, metadata, overriden } = props;
+  const { control, metadata, overriden } = props;
   const {
     dimension: { width },
   } = metadata;
-  const { id, name, label, defaultValue, helperText } = component;
+  const { id, name, label, defaultValue, helperText } = control;
   return (
     <Grid item xs={width as any}>
       <FormControl className={classes.formComponent} disabled>
@@ -81,11 +81,11 @@ const FieldSelectRenderer: FC<Field> = (props: Field) => {
   );
 };
 
-const FieldComponentToRendererMapping: FC<any> = (props: any) => {
+const FieldControlToRendererMapping: FC<any> = (props: any) => {
   const { field, ...rest } = props;
 
-  const { component, metadata, overriden } = field;
-  switch (component.type) {
+  const { control, metadata, overriden } = field;
+  switch (control.type) {
     case FieldType.LABEL:
       return <FieldLabelRenderer {...props.field} />;
     case FieldType.TEXT:
@@ -99,4 +99,4 @@ const FieldComponentToRendererMapping: FC<any> = (props: any) => {
   }
 };
 
-export default FieldComponentToRendererMapping;
+export default FieldControlToRendererMapping;
