@@ -7,7 +7,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import React, { FC } from 'react';
 import { Field, FieldType } from '../../types';
-import FieldDesignDisplay from '../FieldDesignDisplay';
 
 const FieldLabelRenderer: FC<Field> = (props: Field) => {
   const { control, metadata, overriden } = props;
@@ -29,19 +28,17 @@ const FieldTextRenderer: FC<Field> = (props: Field) => {
   const { id, name, label, defaultValue, helperText } = control;
   return (
     <Grid item xs={width as any}>
-      <FieldDesignDisplay {...props} onFocus={() => { }} onDelete={() => { }} hasFocus={true}>
-        <TextField
-          name={name}
-          disabled={true}
-          error={false}
-          id={id}
-          label={label}
-          defaultValue={defaultValue}
-          helperText={helperText}
-          variant="filled"
-          fullWidth
-        />
-      </FieldDesignDisplay>
+      <TextField
+        name={name}
+        disabled={true}
+        error={false}
+        id={id}
+        label={label}
+        defaultValue={defaultValue}
+        helperText={helperText}
+        variant="filled"
+        fullWidth
+      />
     </Grid>
   );
 };
