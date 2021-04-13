@@ -1,9 +1,12 @@
 import { createStyles, IconButton, makeStyles, Paper, Theme } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
+import Grid from "@material-ui/core/Grid";
 import DeleteIcon from '@material-ui/icons/Delete';
 import React, { FC, useState } from "react";
-import { FieldDesignDisplayProps } from "../types";
-import { HasDelete, HasFocus } from "./Behaviour";
+import { connect } from "react-redux";
+import { setSelectedComponent, setSelectedField } from "../store/actions/selections";
+import { State } from "../store/configureStore";
+import { Field, FieldDesignDisplayProps } from "../types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,31 +45,64 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const FieldDesignDisplay: FC<FieldDesignDisplayProps & HasFocus & HasDelete> = (
-  props: FieldDesignDisplayProps & HasFocus & HasDelete
+interface ConnectedFieldDesignDisplayProps {
+  focussedFieldId?: string;
+  setSelectedField: any;
+  setSelectedComponent: any
+}
+
+const FDDisplay: FC<FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps> = (
+  props: FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps
 ) => {
   const classes = useStyles();
   const { paper, selectedPaper, toolbar, notoolbar } = classes;
-  const { onFocus, hasFocus, onDelete } = props;
+  const { component, field, focussedFieldId, setSelectedField, setSelectedComponent } = props;
   const [over, setOver] = useState(false);
   const onMouseOver = () => setOver(true);
   const onMouseOut = () => setOver(false);
-  return (
-    <Paper
-      className={hasFocus ? selectedPaper : paper}
-      onClick={onFocus}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
-    >
-      <div className={over ? toolbar : notoolbar}>
-        <IconButton aria-label="delete" onClick={onDelete}>
-          <DeleteIcon style={{ color: grey[600] }} />
-        </IconButton>
-      </div>
+  const {
+    dimension: { width },
+  } = field.metadata;
 
-      { props.children}
-    </Paper>
+  const onFocus = (field: Field) => (e: any) => {
+    if (focussedFieldId !== field.control.id) {
+      setSelectedField(field.control.id);
+    }
+  }
+
+  const onDelete = () => { }
+  const hasFocus = field.control.id === focussedFieldId;
+
+  return (
+    <Grid item xs={width as any}>
+      <Paper
+        className={hasFocus ? selectedPaper : paper}
+        onClick={onFocus(field)}
+        onMouseOver={onMouseOver}
+        onMouseOut={onMouseOut}
+      >
+        <div className={over ? toolbar : notoolbar}>
+          <IconButton aria-label="delete" onClick={onDelete}>
+            <DeleteIcon style={{ color: grey[600] }} />
+          </IconButton>
+        </div>
+
+        {props.children}
+      </Paper>
+    </Grid>
   );
 };
+
+const mapStateToProps = (state: State) => {
+  const { selections: { focussedComponentId, focussedFieldId } } = state;
+  return { focussedComponentId, focussedFieldId };
+};
+
+const mapDispatchToProps = {
+  setSelectedField,
+  setSelectedComponent
+};
+
+const FieldDesignDisplay = connect(mapStateToProps, mapDispatchToProps)(FDDisplay);
 
 export default FieldDesignDisplay;

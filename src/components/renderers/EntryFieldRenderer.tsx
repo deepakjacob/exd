@@ -30,7 +30,7 @@ const EntryFieldRenderer: React.FC<ComponentDesignDisplayProps> = (props: Compon
       <Divider className={classes.title} />
       <Grid container spacing={3}>
         {fields.map((f, idx) => (
-          <FieldDesignDisplay {...props} onFocus={() => { }} onDelete={() => { }} hasFocus={true}>
+          <FieldDesignDisplay component={component} field={f}>
             <FieldControlToRendererMapping field={f} key={idx} />
           </FieldDesignDisplay>
         ))}

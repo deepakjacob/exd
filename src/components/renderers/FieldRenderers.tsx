@@ -1,5 +1,4 @@
 import { FormControl } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -10,36 +9,26 @@ import { Field, FieldType } from '../../types';
 
 const FieldLabelRenderer: FC<Field> = (props: Field) => {
   const { control, metadata, overriden } = props;
-  const {
-    dimension: { width },
-  } = metadata;
   return (
-    <Grid item xs={width as any}>
-      <div>A label is rendered</div>
-    </Grid>
+    <div>A label is rendered</div>
   );
 };
 
 const FieldTextRenderer: FC<Field> = (props: Field) => {
   const { control, metadata, overriden } = props;
-  const {
-    dimension: { width },
-  } = metadata;
   const { id, name, label, defaultValue, helperText } = control;
   return (
-    <Grid item xs={width as any}>
-      <TextField
-        name={name}
-        disabled={true}
-        error={false}
-        id={id}
-        label={label}
-        defaultValue={defaultValue}
-        helperText={helperText}
-        variant="filled"
-        fullWidth
-      />
-    </Grid>
+    <TextField
+      name={name}
+      disabled={true}
+      error={false}
+      id={id}
+      label={label}
+      defaultValue={defaultValue}
+      helperText={helperText}
+      variant="filled"
+      fullWidth
+    />
   );
 };
 
@@ -57,24 +46,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const FieldSelectRenderer: FC<Field> = (props: Field) => {
   const classes = useStyles();
-
   const { control, metadata, overriden } = props;
-  const {
-    dimension: { width },
-  } = metadata;
   const { id, name, label, defaultValue, helperText } = control;
   return (
-    <Grid item xs={width as any}>
-      <FormControl className={classes.formComponent} disabled>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+    <FormControl className={classes.formComponent} disabled>
+      <InputLabel id="demo-simple-select-label">Age</InputLabel>
 
-        <Select labelId="demo-simple-select-label" id="demo-simple-select">
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-    </Grid>
+      <Select labelId="demo-simple-select-label" id="demo-simple-select">
+        <MenuItem value={10}>Ten</MenuItem>
+        <MenuItem value={20}>Twenty</MenuItem>
+        <MenuItem value={30}>Thirty</MenuItem>
+      </Select>
+    </FormControl>
   );
 };
 

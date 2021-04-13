@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import ComponentPropertyDrawer from "../components/ComponentPropertyDrawer";
 import MultiComponentDesignDisplay from '../components/MultiComponentDesignDisplay';
 import { deleteComponent, getAppState, saveAppState } from '../store/actions/allComponents';
-import { setSelectedComponent } from "../store/actions/selectedComponent";
+import { setSelectedComponent } from "../store/actions/selections";
 import { State } from '../store/configureStore';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,20 +32,19 @@ class PrimaryView extends React.Component<any, any> {
   }
 }
 
-
 const mapStateToProps = (state: State) => {
   const {
-    selectedComponent: { focussedComponentId: focussedComponentId },
-    allComponents: allComponents,
+    selections: { focussedComponentId },
+    allComponents,
   } = state;
-  const { components: components } = allComponents;
+  const { components } = allComponents;
   return { focussedComponentId, components, state };
 };
 
 const mapDispatchToProps = {
   getAppState,
   setSelectedComponent,
-  deleteComponent: deleteComponent,
+  deleteComponent,
   saveAppState,
 };
 

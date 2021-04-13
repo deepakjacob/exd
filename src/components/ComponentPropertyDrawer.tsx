@@ -101,7 +101,7 @@ const ComponentPropertyDrawer = (props: ConnectedPropertyDrawerProps) => {
 
 const mapStateToProps = (state: State) => {
   const {
-    selectedComponent: { focussedComponentId },
+    selections: { focussedComponentId },
     allComponents: allComponents,
   } = state;
   const filtered = focussedComponentId ? getSelectedComponent(allComponents, focussedComponentId) : undefined;

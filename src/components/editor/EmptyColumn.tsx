@@ -14,7 +14,7 @@ interface EmptyColumnProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grid: {
-      border: `1px dotted ${theme.palette.primary.light}`,
+      border: `1px dotted #d4d4d4`,
     },
   })
 );

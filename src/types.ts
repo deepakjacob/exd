@@ -94,4 +94,6 @@ export interface ComponentDesignDisplayProps {
 
 export interface FieldDesignDisplayProps {
   children: any;
+  field: Field;
+  component: ComponentProps;
 }

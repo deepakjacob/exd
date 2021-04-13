@@ -71,7 +71,9 @@ export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
   } = props as any;
 
   const onFocus = (cdp: ComponentDesignDisplayProps) => () => {
-    setSelectedComponent(cdp.component.id);
+    if (focussedComponentId !== cdp.component.id) {
+      setSelectedComponent(cdp.component.id);
+    }
   };
 
   const onDelete = (componentId: string) => {
