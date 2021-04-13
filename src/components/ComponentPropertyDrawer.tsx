@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { changeComponentMetadata as changeComponentMetadata, changeComponentMetadata as changeComponentProp } from '../store/actions/allComponents';
 import { State } from '../store/configureStore';
 import { getSelectedComponent } from '../store/reducers/allComponents';
-import { ComponentDesignDisplayProps } from '../types';
+import { ComponentDesignDisplayProps, Field } from '../types';
 
 const CollapsiblePanel = React.lazy(() => import("./CollapsiblePanel"));
 
@@ -53,8 +53,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface ConnectedPropertyDrawerProps {
-  focussedComponent: ComponentDesignDisplayProps | undefined;
-  changeComponentProp: typeof changeComponentProp | undefined;
+  focussedComponent?: ComponentDesignDisplayProps;
+  focussedField?: Field;
+  changeComponentProp?: typeof changeComponentProp;
 }
 
 const ComponentPropertyDrawer = (props: ConnectedPropertyDrawerProps) => {
@@ -89,6 +90,11 @@ const ComponentPropertyDrawer = (props: ConnectedPropertyDrawerProps) => {
               {props.focussedComponent?.component.label}
             </Typography>
           </Box>
+          <Box className={classes.title}>
+            <Typography variant="body1" className={classes.title}>
+              {props.focussedField?.control.id}
+            </Typography>
+          </Box>
         </div>
         <Divider />
         <Suspense fallback={<div />}>
@@ -101,12 +107,14 @@ const ComponentPropertyDrawer = (props: ConnectedPropertyDrawerProps) => {
 
 const mapStateToProps = (state: State) => {
   const {
-    selections: { focussedComponentId },
+    selections: { focussedComponentId, focussedFieldId },
     allComponents: allComponents,
   } = state;
-  const filtered = focussedComponentId ? getSelectedComponent(allComponents, focussedComponentId) : undefined;
-  const focussedComponent = filtered && filtered.length > 0 ? filtered[0] : undefined;
-  return { focussedComponent: focussedComponent };
+  const filteredComponent = focussedComponentId ? getSelectedComponent(allComponents, focussedComponentId) : undefined;
+  const focussedComponent = filteredComponent && filteredComponent.length > 0 ? filteredComponent[0] : undefined;
+  const filteredField = focussedComponent && focussedFieldId && focussedComponent.fields && focussedComponent.fields.filter((f) => f.control.id === focussedFieldId);
+  const focussedField = (filteredField && filteredField.length > 0) ? filteredField[0] : undefined;
+  return { focussedComponent, focussedField };
 };
 
 const mapDispatchToProps = {

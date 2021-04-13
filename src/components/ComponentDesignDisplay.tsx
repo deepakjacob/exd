@@ -8,9 +8,6 @@ import { ComponentDesignDisplayProps as ComponentDesignRendererProps } from '../
 import { HasDelete, HasFocus } from "./Behaviour";
 import ComponentRenderer from './renderers/FormComponentRenderer';
 
-
-
-
 const ComponentDesignRenderer: FC<ComponentDesignRendererProps> = (props: ComponentDesignRendererProps) => {
   return <ComponentRenderer {...props} />;
 };

@@ -37,7 +37,14 @@ export interface ComponentCommonProps {
   dimension: Dimension;
 }
 
+export interface ComponentHeaderProps {
+  visible: boolean;
+  title: string;
+  divider: boolean;
+}
+
 export interface ComponentProps {
+  header?: ComponentHeaderProps;
   id: string;
   icon: "Label" | "Address";
   name: string;
