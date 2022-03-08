@@ -1,14 +1,14 @@
-import Box from '@material-ui/core/Box';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import React, { Suspense } from 'react';
-import { DndProvider } from 'react-dnd';
-import Backend from 'react-dnd-html5-backend';
-import { connect } from 'react-redux';
+import Box from "@material-ui/core/Box";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React, { Suspense } from "react";
+import { DndProvider } from "react-dnd";
+import Backend from "react-dnd-html5-backend";
+import { connect } from "react-redux";
 import ComponentPropertyDrawer from "../components/ComponentPropertyDrawer";
-import MultiComponentDesignDisplay from '../components/MultiComponentDesignDisplay';
-import { deleteComponent, getAppState, saveAppState } from '../store/actions/allComponents';
+import MultiComponentDesignDisplay from "../components/MultiComponentDesignDisplay";
+import { deleteComponent, getAppState, saveAppState } from "../store/actions/allComponents";
 import { setSelectedComponent } from "../store/actions/selections";
-import { State } from '../store/configureStore';
+import { State } from "../store/configureStore";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {

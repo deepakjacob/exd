@@ -19,7 +19,7 @@ const PlayDialog = ({ open, handleClickOpen, handleClose, controls }: PlayDialog
   return (
     <Dialog fullScreen open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Live View</DialogTitle>
-      <DialogContent style={{ backgroundColor: "#d4d4d4" }}>
+      <DialogContent style={{ backgroundColor: "#efefef" }}>
         <DialogContentText>Shows how page is going to be like ?</DialogContentText>
         <Grid container spacing={3}>
           {controls &&

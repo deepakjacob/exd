@@ -66,7 +66,7 @@ const ComponentDesignDisplay: FC<ComponentDesignRendererProps & HasFocus & HasDe
           <DeleteIcon style={{ color: grey[600] }} />
         </IconButton>
       </div>
-      <ComponentRenderer {...props} />;
+      <ComponentRenderer {...props} />
     </Paper>
   );
 };
