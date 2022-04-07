@@ -1,22 +1,22 @@
-import { Reducer } from 'redux';
-import { FluxStandardAction } from 'redux-promise-middleware';
-import { ComponentDesignDisplayProps } from '../../types';
+import { Reducer } from "redux";
+import { FluxStandardAction } from "redux-promise-middleware";
+import { AllComponentsState } from "../../types";
 import {
-  ADD_COMPONENT_TO_RENDER as ADD_COMPONENT_TO_RENDER, CHANGE_COMPONENT_METADATA as CHANGE_COMPONENT_METADATA, DELETE_COMPONENT, GET_APP_STATE
-} from '../actions/allComponents';
-
-
-export interface AllComponentsState {
-  id: string | undefined;
-  components: ComponentDesignDisplayProps[];
-}
+  ADD_COMPONENT_TO_RENDER,
+  CHANGE_COMPONENT_METADATA,
+  DELETE_COMPONENT,
+  GET_APP_STATE,
+} from "../actions/allComponents";
 
 const defaultState: AllComponentsState = {
   id: undefined,
   components: [],
 };
 
-const allComponents: Reducer = (state: AllComponentsState = defaultState, action: FluxStandardAction): AllComponentsState => {
+const allComponents: Reducer = (
+  state: AllComponentsState = defaultState,
+  action: FluxStandardAction
+): AllComponentsState => {
   switch (action.type) {
     case ADD_COMPONENT_TO_RENDER:
       return {
@@ -28,11 +28,11 @@ const allComponents: Reducer = (state: AllComponentsState = defaultState, action
       const mapped = state.components.map((c) => {
         return c.component.id === action.payload.component.component.id
           ? {
-            ...c,
-            overriden: {
-              ...action.payload.metadata,
-            },
-          }
+              ...c,
+              overriden: {
+                ...action.payload.metadata,
+              },
+            }
           : c;
       });
       return {

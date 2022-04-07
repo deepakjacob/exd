@@ -1,7 +1,6 @@
 import { AsyncAction, FluxStandardAction } from "redux-promise-middleware";
-import { _getAppState as getState, saveAppState as saveState } from "../../backend/services";
-import { ComponentDesignDisplayProps } from "../../types";
-import { State } from "../configureStore";
+import { saveAppState as saveState, _getAppState as getState } from "../../backend/services";
+import { ComponentDesignDisplayProps, State } from "../../types";
 
 export const GET_APP_STATE = "GET_APP_STATE";
 export const ADD_COMPONENT_TO_RENDER = "ADD_COMPONENT_TO_RENDER";

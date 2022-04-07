@@ -1,4 +1,4 @@
-import { State } from "../store/configureStore";
+import { ComponentType, State } from "../types";
 
 const HOST_URL = "http://localhost:8000";
 const APP_STATE_GET_URL = "/app/state/get";
@@ -31,6 +31,28 @@ export const _getAppState = (id: string) => {
         components: [
           {
             component: {
+              componentType: ComponentType.DATA_TABLE,
+              id: "DATA_TABLE_COMPONENT_ID_7c13-715b-b6c6-46a5-cca2-4b1b-b8b6-89fe",
+              name: "DATA_TABLE_COMPONENT_ID_7c13-715b-b6c6-46a5-cca2-4b1b-b8b6-89fe",
+              columns: [
+                {
+                  title: "ID",
+                  name: "id",
+                  type: "string",
+                  sort: true,
+                  filter: true,
+                },
+              ],
+            },
+            metadata: { dimension: { width: 12 } },
+            overriden: {
+              dimension: { width: 12 },
+            },
+            gridPosition: { row: 3, col: 0 },
+          },
+          {
+            component: {
+              componentType: ComponentType.COMPOSITE,
               id: "ENTRY_FIELD_CONTROL_ID_7c13-715b-b6c6-46a5-cca2-4b1b-b8b6-89fe",
               name: "ENTRY_FIELD_CONTROL_NAME_271c-7997-b511-2b99-bfc5-2d75-8bd1-9e77",
               designComponentType: "ENTRY_FIELD",
@@ -98,6 +120,7 @@ export const _getAppState = (id: string) => {
           },
           {
             component: {
+              componentType: ComponentType.FORM,
               id: "ENTRY_FIELD_CONTROL_ID_2567-137a-b298-d091-1171-0d9b-e4d2-2ec8",
               name: "ENTRY_FIELD_CONTROL_NAME_8132-ab25-60c2-44b9-cc34-fae4-997d-e99b",
               designComponentType: "ENTRY_FIELD",

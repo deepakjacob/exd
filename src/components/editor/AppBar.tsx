@@ -6,7 +6,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { PlayArrow } from "@material-ui/icons";
-import MenuIcon from "@material-ui/icons/Menu";
 import Alert from "@material-ui/lab/Alert";
 import clsx from "clsx";
 import React, { FC } from "react";
@@ -15,7 +14,7 @@ import { Playground } from "../playground/Playground";
 interface ApplicationBarProps {
   handleDrawerOpen: any;
   saveAppState: any;
-  state: any;
+  allComponents: any;
   open: boolean;
 }
 
@@ -57,8 +56,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const ApplicationBar: FC<ApplicationBarProps> = ({
   handleDrawerOpen,
   saveAppState,
-  state,
   open,
+  allComponents,
 }: ApplicationBarProps) => {
   const classes = useStyles();
 
@@ -91,21 +90,10 @@ const ApplicationBar: FC<ApplicationBarProps> = ({
         })}
       >
         <Toolbar variant="dense">
-          {/* <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Typography variant="h6" noWrap className={classes.title}>
             XD
           </Typography>
-          <Button color="inherit" onClick={(e) => saveAppState(state)}>
+          <Button color="inherit" onClick={saveAppState}>
             Save
           </Button>
           <Button color="inherit" onClick={(e) => showSomeAlert(toggleAlert)}>
@@ -121,7 +109,7 @@ const ApplicationBar: FC<ApplicationBarProps> = ({
         open={play}
         handleClickOpen={handleClickOpen}
         handleClose={handleClose}
-        controls={state.allComponents.components}
+        controls={allComponents.components}
       />
     </div>
   );

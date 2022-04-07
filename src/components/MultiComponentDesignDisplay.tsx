@@ -1,12 +1,12 @@
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import React, { FC, useState } from 'react';
-import { ComponentDesignDisplayProps } from '../types';
-import ComponentDesignDisplay from './ComponentDesignDisplay';
-import AppBar from './editor/AppBar';
-import Toolbar from './editor/ComponentToolbar';
-import EmptyColumn from './editor/EmptyColumn';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React, { FC, useState } from "react";
+import { ComponentDesignDisplayProps, PrimaryViewProps } from "../types";
+import ComponentDesignDisplay from "./ComponentDesignDisplay";
+import AppBar from "./editor/AppBar";
+import Toolbar from "./editor/ComponentToolbar";
+import EmptyColumn from "./editor/EmptyColumn";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,22 +57,16 @@ const mappedComponents = (components?: ComponentDesignDisplayProps[]) => {
   return keyValueMap;
 };
 
-export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
+export const MultiComponentDesignDisplay: FC<PrimaryViewProps> = (props: PrimaryViewProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
-  const {
-    setSelectedComponent,
-    focussedComponentId,
-    components,
-    deleteComponent,
-    saveAppState,
-    state,
-  } = props as any;
+  const { setSelectedFormComponent, focussedComponentId, components, deleteComponent, saveAppState, allComponents } =
+    props;
 
   const onFocus = (cdp: ComponentDesignDisplayProps) => () => {
     if (focussedComponentId !== cdp.component.id) {
-      setSelectedComponent(cdp.component.id);
+      setSelectedFormComponent(cdp.component.id);
     }
   };
 
@@ -101,7 +95,12 @@ export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar handleDrawerOpen={handleToolbarExpand} saveAppState={saveAppState} state={state} open={open} />
+      <AppBar
+        handleDrawerOpen={handleToolbarExpand}
+        saveAppState={saveAppState}
+        open={open}
+        allComponents={allComponents}
+      />
       <Toolbar open={open} handleToolbarCollapse={handleToolbarCollapse} />
       <main className={classes.content}>
         <div className={classes.grid} />

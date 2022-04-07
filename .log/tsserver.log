@@ -1,0 +1,91 @@
+Info 0    [11:34:22.141] Starting TS Server
+Info 1    [11:34:22.143] Version: 4.6.3
+Info 2    [11:34:22.143] Arguments: /opt/homebrew/Cellar/node/17.8.0/bin/node /opt/homebrew/lib/node_modules/typescript/lib/tsserver.js --logFile /Users/jacobdeepak/Development/node_react_apps/exd/.log/tsserver.log --logVerbosity info --cancellationPipeName /private/var/folders/0t/bf_j04b14ss7mzkw7w_5x14m0000gn/T/b5d895a8f4590e058f188ca4da804331/tscancellation*
+Info 3    [11:34:22.143] Platform: darwin NodeVersion: 17 CaseSensitive: false
+Info 4    [11:34:22.143] ServerMode: undefined syntaxOnly: false hasUnknownServerMode: undefined
+Info 5    [11:34:22.149] Format host information updated
+Info 6    [11:34:22.411] Search path: /Users/jacobdeepak/Development/node_react_apps/exd/src/components/renderers
+Info 7    [11:34:22.412] For info: /Users/jacobdeepak/Development/node_react_apps/exd/src/components/renderers/ComponentRenderer.tsx :: Config file name: /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json
+Info 8    [11:34:22.412] Creating configuration project /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json
+Info 9    [11:34:22.426] Config: /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json : {
+ "rootNames": [
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/App.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/componentDefinitionRegister.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/index.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/react-app-env.d.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/serviceWorker.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/setupTests.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/types.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/uuid.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/backend/services.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/Behaviour.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/CollapsiblePanel.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/ComponentDesignDisplay.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/ComponentPropertyDrawer.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/DataTableDesignDisplay.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/FieldDesignDisplay.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/MultiComponentDesignDisplay.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/editor/AppBar.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/editor/ComponentColumn.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/editor/ComponentToolbar.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/editor/DraggableComponentList.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/editor/DroppableComponent.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/editor/EmptyColumn.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/editor/boxImg.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/editor/tests/DroppableColumn.test.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/playground/Playground.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/renderers/ComponentRenderer.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/components/renderers/FieldRenderers.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/pages/Dashboard.tsx",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/store/configureStore.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/store/actions/allComponents.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/store/actions/selections.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/store/actions/toolbar.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/store/actions/tests/allControls.test.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/store/reducers/allComponents.ts",
+  "/Users/jacobdeepak/Development/node_react_apps/exd/src/store/reducers/selections.ts"
+ ],
+ "options": {
+  "target": 1,
+  "lib": [
+   "lib.dom.d.ts",
+   "lib.dom.iterable.d.ts",
+   "lib.esnext.d.ts"
+  ],
+  "allowJs": true,
+  "skipLibCheck": true,
+  "esModuleInterop": true,
+  "allowSyntheticDefaultImports": true,
+  "strict": true,
+  "forceConsistentCasingInFileNames": true,
+  "module": 99,
+  "moduleResolution": 2,
+  "resolveJsonModule": true,
+  "isolatedModules": true,
+  "noEmit": true,
+  "jsx": 2,
+  "configFilePath": "/Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json"
+ }
+}
+Info 10   [11:34:22.456] Starting updateGraphWorker: Project: /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json
+Info 11   [11:34:23.495] Finishing updateGraphWorker: Project: /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json Version: 1 structureChanged: true structureIsReused:: Not Elapsed: 1038.8020828962326ms
+Info 12   [11:34:23.495] Project '/Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json' (Configured)
+Info 13   [11:34:23.495] 	Files (557)
+
+Info 14   [11:34:23.496] -----------------------------------------------
+Info 15   [11:34:23.508] AutoImportProviderProject: found 4 root files in 4 dependencies in 10.696499943733215 ms
+Info 16   [11:34:23.509] Starting updateGraphWorker: Project: /dev/null/autoImportProviderProject1*
+Info 17   [11:34:23.620] Finishing updateGraphWorker: Project: /dev/null/autoImportProviderProject1* Version: 1 structureChanged: true structureIsReused:: Not Elapsed: 111.10970890522003ms
+Info 18   [11:34:23.620] Project '/dev/null/autoImportProviderProject1*' (AutoImportProvider)
+Info 19   [11:34:23.620] 	Files (356)
+
+Info 20   [11:34:23.620] -----------------------------------------------
+Info 21   [11:35:21.985] Starting updateGraphWorker: Project: /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json
+Info 22   [11:35:22.047] Finishing updateGraphWorker: Project: /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json Version: 2 structureChanged: false structureIsReused:: Completely Elapsed: 62.41754198074341ms
+Info 23   [11:35:22.048] Different program with same set of files
+Info 24   [11:35:23.211] Starting updateGraphWorker: Project: /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json
+Info 25   [11:35:23.218] Finishing updateGraphWorker: Project: /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json Version: 3 structureChanged: false structureIsReused:: Completely Elapsed: 7.076333045959473ms
+Info 26   [11:35:23.218] Different program with same set of files
+Info 27   [11:35:24.264] Starting updateGraphWorker: Project: /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json
+Info 28   [11:35:24.272] Finishing updateGraphWorker: Project: /Users/jacobdeepak/Development/node_react_apps/exd/tsconfig.json Version: 4 structureChanged: false structureIsReused:: Completely Elapsed: 7.596542000770569ms
+Info 29   [11:35:24.272] Different program with same set of files

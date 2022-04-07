@@ -1,18 +1,29 @@
-import Box from '@material-ui/core/Box';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import React, { Suspense, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { changeComponentMetadata as changeComponentMetadata, changeComponentMetadata as changeComponentProp } from '../store/actions/allComponents';
-import { State } from '../store/configureStore';
-import { getSelectedComponent } from '../store/reducers/allComponents';
-import { ComponentDesignDisplayProps, Field } from '../types';
+import Box from "@material-ui/core/Box";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import React, { Suspense, useEffect, useState } from "react";
+import { connect } from "react-redux";
+import {
+  changeComponentMetadata as changeComponentMetadata,
+  changeComponentMetadata as changeComponentProp,
+} from "../store/actions/allComponents";
+import { getSelectedComponent } from "../store/reducers/allComponents";
+import {
+  AllComponentsState,
+  ComponentDesignDisplayProps,
+  ComponentSelection,
+  ComponentSelectionType,
+  DataTableSelection,
+  Field,
+  FieldSelection,
+  State,
+} from "../types";
 
 const CollapsiblePanel = React.lazy(() => import("./CollapsiblePanel"));
 
@@ -67,7 +78,7 @@ const ComponentPropertyDrawer = (props: ConnectedPropertyDrawerProps) => {
 
   const onClose = () => {
     setOpen(false);
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -107,14 +118,21 @@ const ComponentPropertyDrawer = (props: ConnectedPropertyDrawerProps) => {
 
 const mapStateToProps = (state: State) => {
   const {
-    selections: { focussedComponentId, focussedFieldId },
+    selections: { info },
     allComponents: allComponents,
   } = state;
-  const filteredComponent = focussedComponentId ? getSelectedComponent(allComponents, focussedComponentId) : undefined;
-  const focussedComponent = filteredComponent && filteredComponent.length > 0 ? filteredComponent[0] : undefined;
-  const filteredField = focussedFieldId && focussedComponent?.fields.filter((f) => f.control.id === focussedFieldId);
-  const focussedField = (filteredField && filteredField.length > 0) ? filteredField[0] : undefined;
-  return { focussedComponent, focussedField };
+
+  if (info && info.type === ComponentSelectionType.FORM) {
+    const focussedComponent = getFocussedComponent(info as ComponentSelection, allComponents);
+    return { focussedComponent, focussedField: undefined };
+  }
+  if (info && info.type === ComponentSelectionType.FIELD) {
+    const focussedComponent = getFocussedComponent(info as FieldSelection, allComponents);
+    const focussedFieldId = (info as FieldSelection).focussedFieldId;
+    const filteredField = focussedFieldId && focussedComponent?.fields.filter((f) => f.control.id === focussedFieldId);
+    const focussedField = filteredField && filteredField.length > 0 ? filteredField[0] : undefined;
+    return { focussedComponent, focussedField };
+  }
 };
 
 const mapDispatchToProps = {
@@ -124,3 +142,10 @@ const mapDispatchToProps = {
 const ConnectedPropsDrawer = connect(mapStateToProps, mapDispatchToProps)(ComponentPropertyDrawer);
 
 export default ConnectedPropsDrawer;
+
+function getFocussedComponent(info: ComponentSelection | FieldSelection, allComponents: AllComponentsState) {
+  const focussedComponentId = info.focussedComponentId;
+  const filteredComponent = focussedComponentId ? getSelectedComponent(allComponents, focussedComponentId) : undefined;
+  const focussedComponent = filteredComponent && filteredComponent.length > 0 ? filteredComponent[0] : undefined;
+  return focussedComponent;
+}

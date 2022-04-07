@@ -1,5 +1,5 @@
-import { ComponentDesignDisplayProps, ComponentType, FieldType } from './types';
-import uuid from './uuid';
+import { ComponentDesignDisplayProps, ComponentType, FieldType } from "./types";
+import uuid from "./uuid";
 
 const definitionRegistry = new Map<ComponentType, () => ComponentDesignDisplayProps>();
 
@@ -13,27 +13,30 @@ export const getDefinitions = () => Array.from(definitionRegistry.values());
 
 const getFormComponentDefinition = (): ComponentDesignDisplayProps => ({
   component: {
+    componentType: ComponentType.COMPOSITE,
     header: {
       visible: true,
       title: "This is a form",
       divider: true,
-      actions: [{
-        id: uuid("action_id"),
-        title: "Save Details",
-        icon: "Save",
-        executeFn: (props: any) => undefined,
-        isPrimaryAction: true
-      }, {
-        id: uuid("action_id"),
-        title: "Delete",
-        icon: "Delete",
-        executeFn: (props: any) => undefined
-      }]
+      actions: [
+        {
+          id: uuid("action_id"),
+          title: "Save Details",
+          icon: "Save",
+          executeFn: (props: any) => undefined,
+          isPrimaryAction: true,
+        },
+        {
+          id: uuid("action_id"),
+          title: "Delete",
+          icon: "Delete",
+          executeFn: (props: any) => undefined,
+        },
+      ],
     },
     id: uuid("ENTRY_FIELD_CONTROL_ID_"),
     icon: "Label",
     name: uuid("ENTRY_FIELD_CONTROL_NAME_"),
-    componentType: ComponentType.ENTRY_FIELD,
     label: "Address",
     defaultValue: "Hello World",
     helperText: "This is some addtional info",
@@ -112,6 +115,7 @@ const getFormComponentDefinition = (): ComponentDesignDisplayProps => ({
 
 const getLabelComponentDefinition = (): ComponentDesignDisplayProps => ({
   component: {
+    componentType: ComponentType.FORM,
     header: {
       visible: true,
       title: "This is a title",
@@ -120,7 +124,6 @@ const getLabelComponentDefinition = (): ComponentDesignDisplayProps => ({
     id: uuid("LABEL_COMP_ID_"),
     icon: "Label",
     name: uuid("LABEL_COMP_NAME_"),
-    componentType: ComponentType.LABEL,
     label: "Entry Field Label",
     defaultValue: "Hello World",
     helperText: "This is some addtional info",

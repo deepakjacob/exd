@@ -1,25 +1,22 @@
-import { Reducer } from 'redux';
-import { FluxStandardAction } from 'redux-promise-middleware';
-import { SELECT_RENDERED_COMPONENT, SELECT_RENDERED_FIELD } from '../actions/selections';
-
-export interface SelectionState {
-  focussedComponentId?: string;
-  focussedFieldId?: string;
-}
+import { Reducer } from "redux";
+import { FluxStandardAction } from "redux-promise-middleware";
+import { SelectionState } from "../../types";
+import { SELECT_RENDERED_FORM_COMPONENT, SELECT_RENDERED_FORM_FIELD } from "../actions/selections";
 
 const defaultState: SelectionState = {};
 
-const selectedComponent: Reducer = (state: SelectionState = defaultState, action: FluxStandardAction) => {
+const selectedComponent: Reducer = (
+  state: SelectionState = defaultState,
+  action: FluxStandardAction
+): SelectionState => {
   switch (action.type) {
-    case SELECT_RENDERED_COMPONENT:
+    case SELECT_RENDERED_FORM_COMPONENT:
       return {
-        focussedComponentId: action.payload.focussedComponentId,
-        focussedFieldId: undefined
+        info: action.payload.info,
       };
-    case SELECT_RENDERED_FIELD:
+    case SELECT_RENDERED_FORM_FIELD:
       return {
-        focussedComponentId: action.payload.focussedComponentId,
-        focussedFieldId: action.payload.focussedFieldId
+        info: action.payload.info,
       };
     default:
       return state;
