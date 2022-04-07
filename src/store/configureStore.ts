@@ -1,14 +1,8 @@
-import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import promise from 'redux-promise-middleware';
-import allComponents, { AllComponentsState } from './reducers/allComponents';
-import selections, { SelectionState as SelectionState } from './reducers/selections';
-
-export interface State {
-  id: string;
-  selections: SelectionState;
-  allComponents: AllComponentsState;
-}
+import { applyMiddleware, combineReducers, createStore, Store } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import promise from "redux-promise-middleware";
+import allComponents from "./reducers/allComponents";
+import selections from "./reducers/selections";
 
 export default () => {
   const middlewares = [promise];
@@ -17,7 +11,7 @@ export default () => {
   const store: Store = createStore(
     combineReducers({
       selections,
-      allComponents
+      allComponents,
     }),
     {},
     composeWithDevTools(middleWareEnhancer)

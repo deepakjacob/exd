@@ -1,12 +1,12 @@
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import React, { FC, useState } from 'react';
-import { ComponentDesignDisplayProps } from '../types';
-import ComponentDesignDisplay from './ComponentDesignDisplay';
-import AppBar from './editor/AppBar';
-import Toolbar from './editor/ComponentToolbar';
-import EmptyColumn from './editor/EmptyColumn';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React, { FC, useState } from "react";
+import { ComponentDesignDisplayProps, PrimaryViewProps } from "../types";
+import ComponentDesignDisplay from "./ComponentDesignDisplay";
+import AppBar from "./editor/AppBar";
+import Toolbar from "./editor/ComponentToolbar";
+import EmptyColumn from "./editor/EmptyColumn";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,22 +57,16 @@ const mappedComponents = (components?: ComponentDesignDisplayProps[]) => {
   return keyValueMap;
 };
 
-export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
+export const MultiComponentDesignDisplay: FC<PrimaryViewProps> = (props: PrimaryViewProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
-  const {
-    setSelectedComponent,
-    focussedComponentId,
-    components,
-    deleteComponent,
-    saveAppState,
-    state,
-  } = props as any;
+  const { setSelectedFormComponent, focussedComponentId, components, deleteComponent, saveAppState, allComponents } =
+    props;
 
   const onFocus = (cdp: ComponentDesignDisplayProps) => () => {
     if (focussedComponentId !== cdp.component.id) {
-      setSelectedComponent(cdp.component.id);
+      setSelectedFormComponent(cdp.component.id);
     }
   };
 
@@ -101,14 +95,19 @@ export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar handleDrawerOpen={handleToolbarExpand} saveAppState={saveAppState} state={state} open={open} />
+      <AppBar
+        handleDrawerOpen={handleToolbarExpand}
+        saveAppState={saveAppState}
+        open={open}
+        allComponents={allComponents}
+      />
       <Toolbar open={open} handleToolbarCollapse={handleToolbarCollapse} />
       <main className={classes.content}>
         <div className={classes.grid} />
         <Grid container spacing={1}>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((row) => {
             let prevElem: any = undefined;
-            return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col, i) => {
+            return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((col): JSX.Element | null => {
               const cdp: ComponentDesignDisplayProps = mComponents && mComponents[row][col];
               if (cdp) {
                 prevElem = cdp;
@@ -128,7 +127,7 @@ export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
                   </Grid>
                 );
               }
-              if (prevElem && (prevElem as ComponentDesignDisplayProps).gridPosition?.row == row) {
+              if (prevElem && (prevElem as ComponentDesignDisplayProps).gridPosition?.row === row) {
                 let next: number = (prevElem as ComponentDesignDisplayProps).gridPosition?.col as number;
                 let nextCol: number = calcComponentWidth(prevElem) + next;
                 if (col >= nextCol) {
@@ -137,6 +136,7 @@ export const MultiComponentDesignDisplay: FC<any> = (props: any) => {
               } else {
                 return <EmptyColumn row={row} col={col} render={true} key={`${row}-${col}`} />;
               }
+              return null;
             });
           })}
         </Grid>

@@ -1,12 +1,11 @@
 import { createStyles, IconButton, makeStyles, Paper, Theme } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import Grid from "@material-ui/core/Grid";
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from "@material-ui/icons/Delete";
 import React, { FC, useState } from "react";
 import { connect } from "react-redux";
-import { setSelectedField } from "../store/actions/selections";
-import { State } from "../store/configureStore";
-import { Field, FieldDesignDisplayProps } from "../types";
+import { setSelectedFormField } from "../store/actions/selections";
+import { ComponentSelectionType, Field, FieldDesignDisplayProps, FieldSelection, State } from "../types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface ConnectedFieldDesignDisplayProps {
   focussedFieldId?: string;
-  setSelectedField: any;
+  setSelectedFormField: any;
 }
 
 const FDDisplay: FC<FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps> = (
@@ -55,7 +54,7 @@ const FDDisplay: FC<FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps> 
 ) => {
   const classes = useStyles();
   const { paper, selectedPaper, toolbar, notoolbar } = classes;
-  const { component, field, focussedFieldId, setSelectedField } = props;
+  const { component, field, focussedFieldId, setSelectedFormField } = props;
   const [over, setOver] = useState(false);
   const onMouseOver = () => setOver(true);
   const onMouseOut = () => setOver(false);
@@ -66,12 +65,12 @@ const FDDisplay: FC<FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps> 
   const onFocus = (field: Field) => (e: any) => {
     e.preventDefault();
     if (focussedFieldId !== field.control.id) {
-      setSelectedField({ focussedComponentId: component.id, focussedFieldId: field.control.id });
+      setSelectedFormField({ focussedComponentId: component.id, focussedFieldId: field.control.id });
     }
     e.stopPropagation();
-  }
+  };
 
-  const onDelete = () => { }
+  const onDelete = () => {};
   const hasFocus = field.control.id === focussedFieldId;
 
   return (
@@ -94,13 +93,20 @@ const FDDisplay: FC<FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps> 
   );
 };
 
-const mapStateToProps = (state: State) => {
-  const { selections: { focussedComponentId, focussedFieldId } } = state;
-  return { focussedComponentId, focussedFieldId };
+const mapStateToProps = (state: State): FieldSelection | undefined => {
+  const {
+    selections: { info },
+  } = state;
+  if (info?.type === ComponentSelectionType.FIELD) {
+    const focussedComponentId = (info as FieldSelection).focussedComponentId;
+    const focussedFieldId = (info as FieldSelection).focussedFieldId;
+    return { focussedComponentId, focussedFieldId };
+  }
+  return undefined;
 };
 
 const mapDispatchToProps = {
-  setSelectedField
+  setSelectedFormField,
 };
 
 const FieldDesignDisplay = connect(mapStateToProps, mapDispatchToProps)(FDDisplay);
