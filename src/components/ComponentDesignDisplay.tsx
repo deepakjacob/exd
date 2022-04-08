@@ -1,4 +1,5 @@
 import { grey } from "@material-ui/core/colors";
+import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import Paper from "@material-ui/core/Paper";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -19,6 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
       position: "relative",
       margin: "3px",
+    },
+    wrapper: {
+      padding: theme.spacing(2),
     },
     selectedPaper: {
       padding: theme.spacing(2),
@@ -49,25 +53,32 @@ const ComponentDesignDisplay: FC<ComponentDesignRendererProps & HasFocus & HasDe
   props: ComponentDesignRendererProps & HasFocus & HasDelete
 ) => {
   const classes = useStyles();
-  const { paper, selectedPaper, toolbar, notoolbar } = classes;
-  const { onFocus, hasFocus, onDelete } = props;
+  const { paper, selectedPaper, wrapper, toolbar, notoolbar } = classes;
+  const { onFocus, hasFocus, onDelete, metadata } = props;
   const [over, setOver] = useState(false);
   const onMouseOver = () => setOver(true);
   const onMouseOut = () => setOver(false);
+  const {
+    dimension: { width },
+  } = metadata;
   return (
-    <Paper
-      className={hasFocus ? selectedPaper : paper}
-      onClick={onFocus}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
-    >
-      <div className={over ? toolbar : notoolbar}>
-        <IconButton aria-label="delete" onClick={onDelete}>
-          <DeleteIcon style={{ color: grey[600] }} />
-        </IconButton>
-      </div>
-      <ComponentRenderer {...props} />
-    </Paper>
+    <Grid item xs={width as any}>
+      <Paper
+        className={hasFocus ? selectedPaper : paper}
+        onClick={onFocus}
+        onMouseOver={onMouseOver}
+        onMouseOut={onMouseOut}
+      >
+        <div className={wrapper}>
+          <div className={over ? toolbar : notoolbar}>
+            <IconButton aria-label="delete" onClick={onDelete}>
+              <DeleteIcon style={{ color: grey[600] }} />
+            </IconButton>
+          </div>
+          <ComponentRenderer {...props} />
+        </div>
+      </Paper>
+    </Grid>
   );
 };
 

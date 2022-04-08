@@ -65,7 +65,7 @@ const ComponentRenderer: React.FC<ComponentDesignDisplayProps> = (props: Compone
       )}
       {componentType !== ComponentType.DATA_TABLE && header?.visible && <ComponentHeader {...header} />}
       {componentType !== ComponentType.DATA_TABLE && (
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           {fields.map((f, idx) => (
             <FieldDesignDisplay component={component} field={f}>
               <FieldControlToRendererMapping field={f} key={idx} />

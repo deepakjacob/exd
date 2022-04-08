@@ -1,5 +1,5 @@
 import { createStyles, IconButton, makeStyles, Paper, Theme } from "@material-ui/core";
-import { grey } from "@material-ui/core/colors";
+import { blue, grey } from "@material-ui/core/colors";
 import Grid from "@material-ui/core/Grid";
 import DeleteIcon from "@material-ui/icons/Delete";
 import React, { FC, useState } from "react";
@@ -19,9 +19,12 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "relative",
       margin: "3px",
     },
+    wrapper: {
+      padding: theme.spacing(2),
+    },
     selectedPaper: {
       padding: theme.spacing(2),
-      border: `1px solid green`,
+      border: `1px solid ${theme.palette.primary.main}`,
       position: "relative",
       margin: "3px",
     },
@@ -52,17 +55,15 @@ interface ConnectedFieldDesignDisplayProps {
 const FDDisplay: FC<FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps> = (
   props: FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps
 ) => {
-  const classes = useStyles();
-  const { paper, selectedPaper, toolbar, notoolbar } = classes;
   const { component, field, focussedFieldId, setSelectedFormField } = props;
   const [over, setOver] = useState(false);
-  const onMouseOver = () => setOver(true);
-  const onMouseOut = () => setOver(false);
+  const onFieldMouseOver = () => setOver(true);
+  const onFieldMouseOut = () => setOver(false);
   const {
     dimension: { width },
   } = field.metadata;
 
-  const onFocus = (field: Field) => (e: any) => {
+  const onFieldFocus = (field: Field) => (e: any) => {
     e.preventDefault();
     if (focussedFieldId !== field.control.id) {
       setSelectedFormField({ focussedComponentId: component.id, focussedFieldId: field.control.id });
@@ -70,25 +71,19 @@ const FDDisplay: FC<FieldDesignDisplayProps & ConnectedFieldDesignDisplayProps> 
     e.stopPropagation();
   };
 
-  const onDelete = () => {};
-  const hasFocus = field.control.id === focussedFieldId;
-
+  const onFieldDelete = () => {};
+  const classes = useStyles();
+  const { toolbar, notoolbar } = classes;
   return (
     <Grid item xs={width as any}>
-      <Paper
-        className={hasFocus ? selectedPaper : paper}
-        onClick={onFocus(field)}
-        onMouseOver={onMouseOver}
-        onMouseOut={onMouseOut}
-      >
+      <div onMouseOver={onFieldMouseOver} onMouseOut={onFieldMouseOut} onFocus={onFieldFocus(field)}>
         <div className={over ? toolbar : notoolbar}>
-          <IconButton aria-label="delete" onClick={onDelete}>
-            <DeleteIcon style={{ color: grey[600] }} />
+          <IconButton aria-label="delete" onClick={onFieldDelete}>
+            <DeleteIcon style={{ color: blue[600] }} />
           </IconButton>
         </div>
-
         {props.children}
-      </Paper>
+      </div>
     </Grid>
   );
 };
