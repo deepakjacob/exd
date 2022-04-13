@@ -4,20 +4,19 @@ import React, { Suspense } from "react";
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
-import { AsyncAction, FluxStandardAction } from "redux-promise-middleware";
 import ComponentPropertyDrawer from "../components/ComponentPropertyDrawer";
 import MultiComponentDesignDisplay from "../components/MultiComponentDesignDisplay";
 import { deleteComponent, getAppState, saveAppState } from "../store/actions/allComponents";
 import { setSelectedFormComponent } from "../store/actions/selections";
 import {
-  ComponentDesignDisplayProps,
   ComponentSelection,
-  ComponentSelectionType,
+  ControlType,
   PrimaryViewDispatchProps,
   PrimaryViewMappedProps,
   PrimaryViewProps,
   State,
 } from "../types";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -29,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 class PrimaryView extends React.Component<PrimaryViewProps, any> {
   componentDidMount() {
     const props = this.props;
+    // this should come from the login or the tenant
     props.getAppState("bffe3243-32af-41f6-a33d-ec6ef09d79f7");
   }
   render() {
@@ -48,7 +48,7 @@ const mapStateToProps = (state: State): PrimaryViewMappedProps => {
   } = state;
   const { components } = allComponents;
 
-  if (info?.type === ComponentSelectionType.FORM || info?.type === ComponentSelectionType.FIELD) {
+  if (info?.type) {
     const focussedComponentId = (info as ComponentSelection).focussedComponentId;
     // todo: either pass allcomponents or components
     return { focussedComponentId, components, allComponents };

@@ -18,10 +18,10 @@ import {
   AllComponentsState,
   ComponentDesignDisplayProps,
   ComponentSelection,
-  ComponentSelectionType,
+  Control,
+  ControlSelection,
+  ControlType,
   DataTableSelection,
-  Field,
-  FieldSelection,
   State,
 } from "../types";
 
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface ConnectedPropertyDrawerProps {
   focussedComponent?: ComponentDesignDisplayProps;
-  focussedField?: Field;
+  focussedControl?: Control;
   changeComponentProp?: typeof changeComponentProp;
 }
 
@@ -103,7 +103,7 @@ const ComponentPropertyDrawer = (props: ConnectedPropertyDrawerProps) => {
           </Box>
           <Box className={classes.title}>
             <Typography variant="body1" className={classes.title}>
-              {props.focussedField?.control.id}
+              {props.focussedControl?.id}
             </Typography>
           </Box>
         </div>
@@ -122,16 +122,17 @@ const mapStateToProps = (state: State) => {
     allComponents: allComponents,
   } = state;
 
-  if (info && info.type === ComponentSelectionType.FORM) {
+  if (info && info.type === ControlType.FORM) {
     const focussedComponent = getFocussedComponent(info as ComponentSelection, allComponents);
-    return { focussedComponent, focussedField: undefined };
+    return { focussedComponent, focussedControl: undefined };
   }
-  if (info && info.type === ComponentSelectionType.FIELD) {
-    const focussedComponent = getFocussedComponent(info as FieldSelection, allComponents);
-    const focussedFieldId = (info as FieldSelection).focussedFieldId;
-    const filteredField = focussedFieldId && focussedComponent?.fields.filter((f) => f.control.id === focussedFieldId);
-    const focussedField = filteredField && filteredField.length > 0 ? filteredField[0] : undefined;
-    return { focussedComponent, focussedField };
+  if (info && info.type) {
+    const focussedComponent = getFocussedComponent(info as ControlSelection, allComponents);
+    const focussedControlId = (info as ControlSelection).focussedControlId;
+    const filteredControl =
+      focussedControlId && focussedComponent?.controls.filter((control) => control.id === focussedControlId);
+    const focussedControl = filteredControl && filteredControl.length > 0 ? filteredControl[0] : undefined;
+    return { focussedComponent, focussedControl };
   }
 };
 
@@ -143,7 +144,7 @@ const ConnectedPropsDrawer = connect(mapStateToProps, mapDispatchToProps)(Compon
 
 export default ConnectedPropsDrawer;
 
-function getFocussedComponent(info: ComponentSelection | FieldSelection, allComponents: AllComponentsState) {
+function getFocussedComponent(info: ComponentSelection | ControlSelection, allComponents: AllComponentsState) {
   const focussedComponentId = info.focussedComponentId;
   const filteredComponent = focussedComponentId ? getSelectedComponent(allComponents, focussedComponentId) : undefined;
   const focussedComponent = filteredComponent && filteredComponent.length > 0 ? filteredComponent[0] : undefined;

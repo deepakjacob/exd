@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import React from "react";
 import { ComponentDesignDisplayProps } from "../../types";
 import ComponentDesignDisplay from "../ComponentDesignDisplay";
+
 interface PlayDialogProps {
   open: boolean;
   handleClickOpen: any;
@@ -15,23 +16,29 @@ interface PlayDialogProps {
   controls: any;
 }
 
+const ComponentGrid = (props: any) => {
+  const { controls } = props;
+  return (
+    <Grid container spacing={3}>
+      {controls?.map((cdp: ComponentDesignDisplayProps, i: number) => {
+        const w = cdp.overriden?.dimension?.width ? cdp.overriden.dimension.width : cdp.metadata.dimension.width;
+        return (
+          <Grid item xs={w as any} key={i}>
+            <ComponentDesignDisplay {...cdp} onDelete={undefined} onFocus={undefined} hasFocus={false} />
+          </Grid>
+        );
+      })}
+    </Grid>
+  );
+};
+
 const PlayDialog = ({ open, handleClickOpen, handleClose, controls }: PlayDialogProps) => {
   return (
     <Dialog fullScreen open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Live View</DialogTitle>
       <DialogContent style={{ backgroundColor: "#efefef" }}>
-        <DialogContentText>Shows how page is going to be like ?</DialogContentText>
-        <Grid container spacing={3}>
-          {controls &&
-            controls.map((cdp: ComponentDesignDisplayProps, i: number) => {
-              const w = cdp.overriden?.dimension?.width ? cdp.overriden.dimension.width : cdp.metadata.dimension.width;
-              return (
-                <Grid item xs={w as any} key={i}>
-                  <ComponentDesignDisplay {...cdp} onDelete={undefined} onFocus={undefined} hasFocus={false} />
-                </Grid>
-              );
-            })}
-        </Grid>
+        <DialogContentText>Page preview</DialogContentText>
+        <ComponentGrid controls={controls} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">

@@ -1,20 +1,52 @@
 import { FluxStandardAction } from "redux-promise-middleware";
-import { ComponentSelection, ComponentSelectionType, FieldSelection, SelectionState } from "../../types";
+import { ControlType } from "../../types";
 
 /* for component selections */
 export const SELECT_RENDERED_FORM_COMPONENT = "SELECT_RENDERED_FORM_COMPONENT";
 export const setSelectedFormComponent = (focussedComponentId: string): FluxStandardAction => ({
   type: SELECT_RENDERED_FORM_COMPONENT,
   payload: {
-    info: { type: ComponentSelectionType.FORM, focussedComponentId },
+    info: { type: ControlType.FORM, focussedComponentId },
   },
 });
 
-/* for field selecttions within the component */
-export const SELECT_RENDERED_FORM_FIELD = "SELECT_RENDERED_FORM_FIELD";
-export const setSelectedFormField = ({ focussedComponentId, focussedFieldId }: any): FluxStandardAction => ({
-  type: SELECT_RENDERED_FORM_FIELD,
+/* for field selections within the component */
+export const SELECT_RENDERED_FORM_CONTROL = "SELECT_RENDERED_FORM_CONTROL";
+export const setSelectedFormControl = ({
+  controlType,
+  focussedComponentId,
+  focussedControlId,
+}: any): FluxStandardAction => ({
+  type: SELECT_RENDERED_FORM_CONTROL,
   payload: {
-    info: { type: ComponentSelectionType.FIELD, focussedComponentId, focussedFieldId },
+    // we may not know what type user selects on the component
+    info: { type: controlType, focussedComponentId, focussedControlId },
+  },
+});
+
+/* for selecting data table within a component */
+export const SELECT_RENDERED_DATA_TABLE_COMPONENT = "SELECT_RENDERED_DATA_TABLE_COMPONENT";
+export const setSelectedDataTable = ({ focussedComponentId, focussedDataTableId }: any): FluxStandardAction => ({
+  type: SELECT_RENDERED_DATA_TABLE_COMPONENT,
+  payload: {
+    info: { type: ControlType.DATA_TABLE, focussedComponentId, focussedDataTableId },
+  },
+});
+
+/* for selecting column within data table */
+export const SELECT_RENDERED_DATA_TABLE_COLUMN = "SELECT_RENDERED_DATA_TABLE_COLUMN";
+export const setSelectedDataTableColumn = ({
+  focussedComponentId,
+  focussedDataTableId,
+  focussedDataTableColumnId,
+}: any) => ({
+  type: SELECT_RENDERED_DATA_TABLE_COLUMN,
+  payload: {
+    info: {
+      type: ControlType.DATA_TABLE_COLUMN,
+      focussedComponentId,
+      focussedDataTableId,
+      focussedDataTableColumnId,
+    },
   },
 });

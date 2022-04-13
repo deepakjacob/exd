@@ -1,78 +1,99 @@
-import { Button } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
-import Divider from "@material-ui/core/Divider";
+import { grey } from "@material-ui/core/colors";
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import SaveIcon from "@material-ui/icons/Save";
-import React from "react";
-import { ComponentDesignDisplayProps, ComponentHeaderProps, ComponentType } from "../../types";
-import DataTableDesignDisplay from "../DataTableDesignDisplay";
-import FieldDesignDisplay from "../FieldDesignDisplay";
-import FieldControlToRendererMapping from "./FieldRenderers";
+import DeleteIcon from "@material-ui/icons/Delete";
+import React, { useState } from "react";
+import { ComponentDesignDisplayProps, Control } from "../../types";
+import { HasDelete, HasFocus } from "../Behaviour";
+import ControlDesignDisplay from "../ControlDesignDisplay";
+import ComponentHeaderRenderer from "./ComponentHeaderRenderer";
+import ControlToRendererMapping from "./ControlRenderer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    grid: {
-      marginTop: "10px",
+    root: {
+      flexGrow: 1,
     },
-    title: {
-      marginTop: "10px",
-      marginBottom: "10px",
+
+    paper: {
+      border: "1px dotted",
+      padding: theme.spacing(2),
+      position: "relative",
+      margin: "3px",
+    },
+    wrapper: {
+      padding: theme.spacing(2),
+    },
+    selectedPaper: {
+      padding: theme.spacing(2),
+      border: `1px solid ${theme.palette.primary.main}`,
+      position: "relative",
+      margin: "3px",
+    },
+    notoolbar: {
+      display: "none",
+      position: "absolute",
+      top: "-8px",
+      right: "-16px",
+      width: "60px",
+      height: "45px",
+    },
+    toolbar: {
+      display: "block",
+      position: "absolute",
+      top: "-8px",
+      right: "-16px",
+      width: "60px",
+      height: "45px",
     },
   })
 );
 
-const ComponentHeader: React.FC<ComponentHeaderProps> = (props: ComponentHeaderProps) => {
-  const { title, divider, actions } = props;
-  const classes = useStyles();
-  return (
-    <Box>
-      <Grid container direction="row" justify="space-between" alignItems="center">
-        <Grid item xs={10}>
-          <Typography component="h3">{title}</Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <Grid container direction="row" justify="flex-end">
-            {actions &&
-              actions.map((action) => {
-                const color = action.isPrimaryAction ? "primary" : "default";
-                return (
-                  <Grid item>
-                    <Button color={color} size="small" startIcon={action.icon ? <SaveIcon /> : null}>
-                      {action.title}
-                    </Button>
-                  </Grid>
-                );
-              })}
-          </Grid>
-        </Grid>
-      </Grid>
-      {divider && <Divider className={classes.title} />}
-    </Box>
-  );
-};
-
-const ComponentRenderer: React.FC<ComponentDesignDisplayProps> = (props: ComponentDesignDisplayProps) => {
-  const { component, metadata, fields, overriden } = props;
+const ComponentRenderer: React.FC<ComponentDesignDisplayProps & HasFocus & HasDelete> = (
+  props: ComponentDesignDisplayProps & HasFocus & HasDelete
+) => {
+  const { component, metadata, controls, overriden, onFocus, hasFocus, onDelete } = props;
   const { id, name, label, defaultValue, helperText, header, componentType } = component;
+  const classes = useStyles();
+  const { paper, selectedPaper, wrapper, toolbar, notoolbar } = classes;
+
+  const [over, setOver] = useState(false);
+  const onMouseOver = () => setOver(true);
+  const onMouseOut = () => setOver(false);
+  const {
+    dimension: { width },
+  } = metadata;
+
   return (
     <>
-      {componentType === ComponentType.DATA_TABLE && (
-        <Grid container spacing={3}>
-          <DataTableDesignDisplay {...props} />
-        </Grid>
-      )}
-      {componentType !== ComponentType.DATA_TABLE && header?.visible && <ComponentHeader {...header} />}
-      {componentType !== ComponentType.DATA_TABLE && (
-        <Grid container spacing={1}>
-          {fields.map((f, idx) => (
-            <FieldDesignDisplay component={component} field={f}>
-              <FieldControlToRendererMapping field={f} key={idx} />
-            </FieldDesignDisplay>
-          ))}
-        </Grid>
-      )}
+      <Grid item xs={width as any}>
+        <Paper
+          className={hasFocus ? selectedPaper : paper}
+          onClick={onFocus}
+          onMouseOver={onMouseOver}
+          onMouseOut={onMouseOut}
+        >
+          <div className={wrapper}>
+            <div className={over ? toolbar : notoolbar}>
+              <IconButton aria-label="delete" onClick={onDelete}>
+                <DeleteIcon style={{ color: grey[600] }} />
+              </IconButton>
+            </div>
+            {header?.visible && <ComponentHeaderRenderer {...header} />}
+            {
+              <Grid container spacing={3}>
+                {controls.map((c: Control, i: number) => (
+                  <ControlDesignDisplay component={component} control={c}>
+                    <ControlToRendererMapping control={c} key={i} />
+                  </ControlDesignDisplay>
+                ))}
+              </Grid>
+            }
+          </div>
+        </Paper>{" "}
+      </Grid>
     </>
   );
 };

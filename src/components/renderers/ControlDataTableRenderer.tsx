@@ -1,17 +1,16 @@
-import { createStyles, makeStyles, Paper, Theme } from "@material-ui/core";
-import Grid from "@material-ui/core/Grid";
-import { PrintSharp } from "@material-ui/icons";
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import { CompactTable } from "@table-library/react-table-library/compact";
 import React, { FC, useState } from "react";
 import { connect } from "react-redux";
-import { setSelectedFormComponent, setSelectedFormField } from "../store/actions/selections";
+import { setSelectedFormControl } from "../../store/actions/selections";
 import {
-  ComponentSelectionType,
   ConnectedDataTableDesignDisplayProps,
+  ControlType,
   DataTableDesignDisplayProps,
   DataTableSelection,
   State,
-} from "../types";
+} from "../../types";
+import { setSelectedDataTable } from "../../store/actions/selections";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,10 +63,11 @@ interface TableDesignDisplayProps {
   onClick: (event: any) => void;
   onMouseOver: (event: any) => void;
   onMouseOut: (event: any) => void;
+  onColumnFocus: (event: any) => void;
 }
-const DataTableDisplay = (props: TableDesignDisplayProps) => {
+const DataTable = (props: TableDesignDisplayProps) => {
   const COLUMNS = [
-    { label: "Task", renderCell: (item: any) => item.name },
+    { label: "Task", renderCell: (item: any) => <div onClick={props.onColumnFocus}>{item.name}</div> },
     {
       label: "Deadline",
       renderCell: (item: any) =>
@@ -86,26 +86,27 @@ const DataTableDisplay = (props: TableDesignDisplayProps) => {
   ];
 
   const data = { nodes };
-  return <CompactTable columns={COLUMNS} data={data as any} />;
+  return (
+    <div onClick={props.onClick}>
+      <CompactTable columns={COLUMNS} data={data as any} />;
+    </div>
+  );
 };
-const DTDisplay: FC<DataTableDesignDisplayProps & ConnectedDataTableDesignDisplayProps> = (
+const DataTableWrapper: FC<DataTableDesignDisplayProps & ConnectedDataTableDesignDisplayProps> = (
   props: DataTableDesignDisplayProps & ConnectedDataTableDesignDisplayProps
 ) => {
   const classes = useStyles();
   const { paper, selectedPaper } = classes;
-  const { component, metadata, focussedTableId, setSelectedTable, focussedColumnId, setSelectedColumn } = props;
+  const { focussedTableId, setSelectedTable, focussedColumnId, setSelectedColumn, id } = props;
+  const componentId = id;
   const [tableMouseOver, setTableMouseOver] = useState(false);
   const onTableMouseOver = () => setTableMouseOver(true);
   const onTableMouseOut = () => setTableMouseOver(false);
-  const [componentMouseOver, setComponentMouseOver] = useState(false);
-
-  const onComponentMouseOver = () => setComponentMouseOver(true);
-  const onComponentMouseOut = () => setComponentMouseOver(false);
 
   const onTableFocus = (id: string) => (e: any) => {
     e.preventDefault();
     if (focussedTableId !== id) {
-      setSelectedTable({ focussedTableId: id });
+      setSelectedDataTable({ focussedComponentId: componentId, focussedDataTableId: id });
     }
     e.stopPropagation();
   };
@@ -113,7 +114,8 @@ const DTDisplay: FC<DataTableDesignDisplayProps & ConnectedDataTableDesignDispla
     e.preventDefault();
     if (focussedColumnId !== columnId) {
       setSelectedColumn({
-        focussedTableId: tableId,
+        focussedComponentId: componentId,
+        focussedDataTableId: tableId,
         focussedColumnId: columnId,
       });
     }
@@ -121,15 +123,16 @@ const DTDisplay: FC<DataTableDesignDisplayProps & ConnectedDataTableDesignDispla
   };
 
   const onDelete = () => {};
-  const hasFocus = component.id === focussedTableId;
+  const hasFocus = componentId === focussedTableId;
   // todo: find out which column has focus
   const hasColumnFocus = false;
 
   return (
-    <DataTableDisplay
-      onClick={onTableFocus(component.id)}
+    <DataTable
+      onClick={onTableFocus(componentId)}
       onMouseOver={onTableMouseOver}
       onMouseOut={onTableMouseOut}
+      onColumnFocus={onColumnFocus(componentId, componentId)}
     />
   );
 };
@@ -138,18 +141,18 @@ const mapStateToProps = (state: State): DataTableSelection | undefined => {
   const {
     selections: { info },
   } = state;
-  if (info?.type === ComponentSelectionType.DATA_TABLE) {
-    const focussedTableId = (info as DataTableSelection).focussedTableId;
-    const focussedColumnId = (info as DataTableSelection).focussedColumnId;
-    const isHeaderSelected = (info as DataTableSelection).isHeaderSelected;
-    return { focussedTableId, focussedColumnId, isHeaderSelected };
+  if (info?.type === ControlType.DATA_TABLE) {
+    // const focussedTableId = (info as DataTableSelection).focussedTableId;
+    // const focussedColumnId = (info as unknown as DataTableSelection).focussedColumnId;
+    // const isHeaderSelected = (info as DataTableSelection).isHeaderSelected;
+    // return { focussedTableId, focussedColumnId, isHeaderSelected };
   }
   return undefined;
 };
 const mapDispatchToProps = {
-  setSelectedFormField,
+  setSelectedFormControl,
 };
 
-const DataTableDesignDisplay = connect(mapStateToProps, mapDispatchToProps)(DTDisplay);
+const ControlDataTableRenderer = connect(mapStateToProps, mapDispatchToProps)(DataTableWrapper);
 
-export default DataTableDesignDisplay;
+export default ControlDataTableRenderer;

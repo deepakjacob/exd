@@ -3,32 +3,16 @@ import { AsyncAction, FluxStandardAction } from "redux-promise-middleware";
 export enum DraggableType {
   COMPONENT = "COMPONENT",
 }
-//Components type
-export enum ComponentType {
-  LABEL = "LABEL",
-  ENTRY_FIELD = "ENTRY_FIELD",
-  COMPOSITE = "COMPOSITE",
-  FORM = "FORM",
-  LIST = "LIST",
-  GRID = "GRID",
-  DATA_TABLE = "DATA_TABLE",
-}
 
-enum ComponentRendererType {
-  ENTRY_FIELD_DESIGN_RENDERER,
+// todo: we need to map control rederer type into a map
+// and then lookup from map in control to renderer mapping
+enum ControlRendererType {
+  TEXT_DESIGN_RENDERER,
   LABEL_DESIGN_RENDERER,
   COMPOSITE_DESIGN_RENDERER,
   FORM_DESIGN_RENDERER,
   LIST__DESIGN_RENDERER,
   GRID_DESIGN_RENDERER,
-}
-
-export enum FieldType {
-  TEXT = "TEXT",
-  TEXT_AREA = "TEXT_AREA",
-  LABEL = "LABEL",
-  BUTTON = "BUTTON",
-  SELECT = "SELECT",
 }
 
 export interface Dimension {
@@ -62,7 +46,7 @@ export interface ComponentProps {
   id: string;
   icon: "Label" | "Address";
   name: string;
-  componentType: ComponentType;
+  componentType: ControlType;
   label: string;
   defaultValue?: string;
   helperText?: string;
@@ -74,9 +58,7 @@ export interface SelectComponentProps extends ComponentProps {
 }
 // todo: this is madness; don't tie api implementation
 // details with component
-export interface Api {
-  GET?: string;
-}
+export interface Api {}
 
 export interface GridPosition {
   row: number;
@@ -86,37 +68,33 @@ export interface ComponentMetadataProps {
   dimension: Dimension;
 }
 
-export interface FieldControl {
+export interface Control {
   id: string;
   name: string;
   label: string;
   defaultValue?: string;
   helperText?: string;
-  type: FieldType;
-  dataSourceRef?: DataSource;
+  type: ControlType;
+  dataSource?: DataSource;
+  metadata: ControlMetadata;
+  overriden?: ControlMetadata;
 }
 
-export interface FieldMetadata {
+export interface ControlMetadata {
   dimension: Dimension;
-}
-
-export interface Field {
-  control: FieldControl;
-  metadata: FieldMetadata;
-  overriden?: FieldMetadata;
 }
 
 export interface ComponentDesignDisplayProps {
   component: ComponentProps;
   metadata: ComponentMetadataProps;
-  fields: Field[];
+  controls: Control[];
   overriden?: ComponentMetadataProps;
   gridPosition?: GridPosition;
 }
 
-export interface FieldDesignDisplayProps {
+export interface ControlDesignDisplayProps {
   children: any;
-  field: Field;
+  control: Control;
   component: ComponentProps;
 }
 
@@ -131,7 +109,21 @@ export interface ConnectedDataTableDesignDisplayProps {
   setSelectedColumn?: any;
   setSelectedTable?: any;
 }
-export interface DataSource {}
+export enum DataSourceType {
+  LOCAL = "LOCAL",
+  API = "api",
+}
+
+interface DataSource {
+  //id is a string that needs to be referred from the component
+  id: string;
+  // fetch data from a local json object or from a remote api which
+  // conforms the DataSource spec - which needs to be defined
+  type: DataSourceType;
+
+  api: Api;
+}
+
 // expectation is that column title/ data type will be taken
 // from the associated datasource and dataSource will provide
 // customization / decorators through functions
@@ -143,7 +135,7 @@ export interface DataSource {}
 // we need to check the possibility of passing in a function for datasource
 // as functions can cater to a wide variety of cases
 export interface Column {
-  dataSource: DataSource | { [key: string]: DataSource };
+  // dataSource: DataSource | { [key: string]: DataSource };
   component: ComponentProps;
 }
 
@@ -152,20 +144,14 @@ export interface Action {}
 export interface Filter {}
 
 export interface DataTableDesignDisplayProps {
+  id: string;
   dataSource?: DataSource;
-  metadata: ComponentMetadataProps;
   filters?: Filter[];
   actions?: Action[];
-  component: ComponentProps;
-  // todo: see weather do we really need column or
-  // it can be deduced from datasource
-  //columns: Column[];
-  overriden?: ComponentMetadataProps;
-  gridPosition?: GridPosition;
 }
 
 interface Selection {
-  type?: ComponentSelectionType;
+  type?: ControlType;
 }
 
 export interface DataTableSelection extends Selection {
@@ -177,24 +163,35 @@ export interface DataTableSelection extends Selection {
 export interface ComponentSelection extends Selection {
   focussedComponentId: string;
 }
-export interface FieldSelection extends Selection {
+export interface ControlSelection extends Selection {
   focussedComponentId: string;
-  focussedFieldId: string;
+  focussedControlId: string;
 }
 
 export interface SelectionState {
-  info?: ComponentSelection | FieldSelection | DataTableSelection;
+  info?: ComponentSelection | ControlSelection;
 }
 
 // need to know what type of component is selected to provide
 // customized handling
 
-export enum ComponentSelectionType {
+export enum ControlType {
   DATA_TABLE = "DATA_TABLE",
+  DATA_TABLE_COLUMN = "DATA_TABLE_COLUMN",
   FORM = "FORM",
   GENERIC = "GENERIC",
-  FIELD = "FIELD",
+  LABEL = "LABEL",
+  TEXT = "TEXT",
+  SELECT = "SELECT",
+  COMPOSITE = "COMPOSITE",
 }
+
+export enum FormControlType {
+  LABEL = "LABEL",
+  TEXT = "TEXT",
+  SELECT = "SELECT",
+}
+
 export type PrimaryViewProps = PrimaryViewMappedProps & PrimaryViewDispatchProps;
 
 export interface PrimaryViewMappedProps {

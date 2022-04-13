@@ -5,16 +5,17 @@ import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import React, { FC } from "react";
-import { Field, FieldType } from "../../types";
+import { Control, ControlType } from "../../types";
+import ControlDataTableRenderer from "./ControlDataTableRenderer";
 
-const FieldLabelRenderer: FC<Field> = (props: Field) => {
-  const { control, metadata, overriden } = props;
+const ControlLabelRenderer: FC<Control> = (props: Control) => {
+  const { metadata, overriden } = props;
   return <div>A label is rendered</div>;
 };
 
-const FieldTextRenderer: FC<Field> = (props: Field) => {
-  const { control, metadata, overriden } = props;
-  const { id, name, label, defaultValue, helperText } = control;
+const ControlTextRenderer: FC<Control> = (props: Control) => {
+  const { id, name, label, defaultValue, helperText, metadata, overriden } = props;
+
   return (
     <TextField
       name={name}
@@ -42,10 +43,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const FieldSelectRenderer: FC<Field> = (props: Field) => {
+const ControlSelectRenderer: FC<Control> = (props: Control) => {
   const classes = useStyles();
-  const { control, metadata, overriden } = props;
-  const { id, name, label, defaultValue, helperText } = control;
+  const { id, name, label, defaultValue, helperText, metadata, overriden } = props;
   return (
     <FormControl className={classes.formComponent} disabled>
       <InputLabel id="demo-simple-select-label">Age</InputLabel>
@@ -59,22 +59,24 @@ const FieldSelectRenderer: FC<Field> = (props: Field) => {
   );
 };
 
-const FieldControlToRendererMapping: FC<any> = (props: any) => {
-  const { field, ...rest } = props;
+const ControlToRendererMapping: FC<any> = (props: any) => {
+  const { control, ...rest } = props;
 
-  const { control, metadata, overriden } = field;
+  const { metadata, overriden } = control;
   switch (control.type) {
-    case FieldType.LABEL:
-      return <FieldLabelRenderer {...props.field} />;
-    case FieldType.TEXT:
+    case ControlType.LABEL:
+      return <ControlLabelRenderer {...props.control} />;
+    case ControlType.TEXT:
       // move the below line from ComponentRendererRegistration,
       // where the key will be DesignComponentRendererType.LABEL_DESIGN_RENDERER
-      return <FieldTextRenderer {...props.field} />;
-    case FieldType.SELECT:
-      return <FieldSelectRenderer {...props.field} />;
+      return <ControlTextRenderer {...props.control} />;
+    case ControlType.SELECT:
+      return <ControlSelectRenderer {...props.control} />;
+    case ControlType.DATA_TABLE:
+      return <ControlDataTableRenderer {...props.control} />;
     default:
       return null;
   }
 };
 
-export default FieldControlToRendererMapping;
+export default ControlToRendererMapping;
