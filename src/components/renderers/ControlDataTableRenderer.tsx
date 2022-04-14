@@ -1,3 +1,4 @@
+import { ClassNames } from "@emotion/react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import { CompactTable } from "@table-library/react-table-library/compact";
 import React, { FC, useState } from "react";
@@ -5,7 +6,6 @@ import { connect } from "react-redux";
 import { setSelectedDataTableColumn } from "../../store/actions/selections";
 import {
   ConnectedDataTableDesignDisplayProps,
-  ControlType,
   DataTableDesignDisplayProps,
   DataTableSelection,
   State,
@@ -13,38 +13,10 @@ import {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flexGrow: 1,
+    selectedColumn: {
+      color: "orange",
     },
-
-    paper: {
-      border: "1px dotted",
-      padding: theme.spacing(2),
-      position: "relative",
-      margin: "3px",
-    },
-    selectedPaper: {
-      padding: theme.spacing(2),
-      border: `1px solid green`,
-      position: "relative",
-      margin: "3px",
-    },
-    notoolbar: {
-      display: "none",
-      position: "absolute",
-      top: "5px",
-      right: "5px",
-      width: "60px",
-      height: "45px",
-    },
-    toolbar: {
-      display: "block",
-      position: "absolute",
-      top: "5px",
-      right: "5px",
-      width: "60px",
-      height: "45px",
-    },
+    unselectedColumn: {},
   })
 );
 
@@ -54,18 +26,25 @@ interface TableDesignDisplayProps {
   onColumnClick: (columnId: string) => (event: React.SyntheticEvent) => void;
   tableId: string;
   data: any;
+  focussedColumnId: string | undefined;
 }
 const DataTable = (props: TableDesignDisplayProps) => {
   const data = { nodes: props.data };
-
+  const classes = useStyles();
   const COLUMNS = [
     {
       label: "Task",
-      renderCell: (item: any) => (
-        <div id={`${props.tableId}-${item.id}`} onClick={props.onColumnClick(item.id)}>
-          {item.name}
-        </div>
-      ),
+      renderCell: (item: any) => {
+        return (
+          <div
+            className={props.focussedColumnId === item.id ? classes.selectedColumn : classes.unselectedColumn}
+            id={`${props.tableId}-${item.id}`}
+            onClick={props.onColumnClick(item.id)}
+          >
+            {item.name}
+          </div>
+        );
+      },
     },
     {
       id: "deadline",
@@ -93,12 +72,20 @@ const DataTableWrapper: FC<DataTableDesignDisplayProps & ConnectedDataTableDesig
 ) => {
   const data = [
     {
-      id: "data-id",
+      id: "data-id1",
       name: "Shopping List",
       deadline: new Date(2020, 1, 15),
       type: "TASK",
       isComplete: true,
       nodes: 3,
+    },
+    {
+      id: "data-id2",
+      name: "Travel Ideas'",
+      deadline: new Date(2022, 2, 4),
+      type: "TASK",
+      isComplete: false,
+      nodes: 5,
     },
   ];
   const classes = useStyles();
@@ -130,11 +117,11 @@ const DataTableWrapper: FC<DataTableDesignDisplayProps & ConnectedDataTableDesig
 
   const onDelete = () => {};
   const hasFocus = id === focussedControlId;
-  // todo: find out which column has focus
   const hasColumnFocus = focussedDataTableColumnId && componentId === focussedComponentId && id === focussedControlId;
 
   return (
     <DataTable
+      focussedColumnId={focussedDataTableColumnId}
       data={data}
       tableId={id}
       onMouseOver={onTableMouseOver}
@@ -152,7 +139,6 @@ const mapStateToProps = (state: State): DataTableSelection | undefined => {
     const focussedControlId = (info as unknown as DataTableSelection).focussedControlId;
     const focussedDataTableColumnId = (info as unknown as DataTableSelection).focussedDataTableColumnId;
     const focussedComponentId = (info as unknown as DataTableSelection).focussedComponentId;
-    // const isHeaderSelected = (info as DataTableSelection).isHeaderSelected;
     return { focussedControlId, focussedDataTableColumnId, focussedComponentId };
   }
   return undefined;
