@@ -98,7 +98,6 @@ const DataTableWrapper: FC<DataTableDesignDisplayProps & ConnectedDataTableDesig
   const classes = useStyles();
   const { paper, selectedPaper } = classes;
   const { focussedTableId, setSelectedTable, focussedColumnId, setSelectedColumn, id } = props;
-  const componentId = id;
   const [tableMouseOver, setTableMouseOver] = useState(false);
   const onTableMouseOver = () => setTableMouseOver(true);
   const onTableMouseOut = () => setTableMouseOver(false);
@@ -106,7 +105,7 @@ const DataTableWrapper: FC<DataTableDesignDisplayProps & ConnectedDataTableDesig
   const onTableFocus = (id: string) => (e: any) => {
     e.preventDefault();
     if (focussedTableId !== id) {
-      setSelectedDataTable({ focussedComponentId: componentId, focussedDataTableId: id });
+      setSelectedDataTable({ focussedDataTableId: id });
     }
     e.stopPropagation();
   };
@@ -114,7 +113,6 @@ const DataTableWrapper: FC<DataTableDesignDisplayProps & ConnectedDataTableDesig
     e.preventDefault();
     if (focussedColumnId !== columnId) {
       setSelectedColumn({
-        focussedComponentId: componentId,
         focussedDataTableId: tableId,
         focussedColumnId: columnId,
       });
@@ -123,16 +121,16 @@ const DataTableWrapper: FC<DataTableDesignDisplayProps & ConnectedDataTableDesig
   };
 
   const onDelete = () => {};
-  const hasFocus = componentId === focussedTableId;
+  const hasFocus = id === focussedTableId;
   // todo: find out which column has focus
   const hasColumnFocus = false;
 
   return (
     <DataTable
-      onClick={onTableFocus(componentId)}
+      onClick={onTableFocus(id)}
       onMouseOver={onTableMouseOver}
       onMouseOut={onTableMouseOut}
-      onColumnFocus={onColumnFocus(componentId, componentId)}
+      onColumnFocus={onColumnFocus(id, "todo_pass_column_id_here")}
     />
   );
 };

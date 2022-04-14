@@ -112,6 +112,26 @@ export const _getAppState = (id: string) => {
           },
           {
             component: {
+              componentType: ControlType.COMPOSITE,
+              id: "DATA_TABLE_CONTROL_ID_ere34-137a-b298-d091-1171-0d9b-e4d2-2ec8",
+              name: "DATA_TABLE_CONTROL_NAME_g3234-ab25-60c2-44b9-cc34-fae4-997d-e99b",
+              designComponentType: "COMPOSITE",
+            },
+            controls: [
+              {
+                id: "data_table_id_g343-9375-dfb8-7f89-0501-376d-41e4-62ed",
+                name: "data_table_name_t3243-ad8b-7e32-230e-5b8b-68ec-4576-f7ac",
+                type: "DATA_TABLE",
+                metadata: { dimension: { width: 12 } },
+                overriden: { dimension: { width: "" } },
+              },
+            ],
+            metadata: { dimension: { width: 6 } },
+            overriden: { dimension: { width: 8 } },
+            gridPosition: { row: 5, col: 0 },
+          },
+          {
+            component: {
               componentType: ControlType.FORM,
               id: "ENTRY_FIELD_CONTROL_ID_2567-137a-b298-d091-1171-0d9b-e4d2-2ec8",
               name: "ENTRY_FIELD_CONTROL_NAME_8132-ab25-60c2-44b9-cc34-fae4-997d-e99b",
