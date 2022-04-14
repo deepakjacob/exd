@@ -73,7 +73,7 @@ const ControlToRendererMapping: FC<any> = (props: any) => {
     case ControlType.SELECT:
       return <ControlSelectRenderer {...props.control} />;
     case ControlType.DATA_TABLE:
-      return <ControlDataTableRenderer {...props.control} />;
+      return <ControlDataTableRenderer {...props.control} component={props.component} />;
     default:
       return null;
   }

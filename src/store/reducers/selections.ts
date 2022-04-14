@@ -1,7 +1,12 @@
 import { Reducer } from "redux";
 import { FluxStandardAction } from "redux-promise-middleware";
 import { SelectionState } from "../../types";
-import { SELECT_RENDERED_FORM_COMPONENT, SELECT_RENDERED_FORM_CONTROL } from "../actions/selections";
+import {
+  SELECT_RENDERED_DATA_TABLE_COLUMN,
+  // SELECT_RENDERED_DATA_TABLE_COMPONENT,
+  SELECT_RENDERED_FORM_COMPONENT,
+  SELECT_RENDERED_FORM_CONTROL,
+} from "../actions/selections";
 
 const defaultState: SelectionState = {};
 
@@ -15,6 +20,14 @@ const selectedComponent: Reducer = (
         info: action.payload.info,
       };
     case SELECT_RENDERED_FORM_CONTROL:
+      return {
+        info: action.payload.info,
+      };
+    // case SELECT_RENDERED_DATA_TABLE_COMPONENT:
+    //   return {
+    //     info: action.payload.info,
+    //   };
+    case SELECT_RENDERED_DATA_TABLE_COLUMN:
       return {
         info: action.payload.info,
       };

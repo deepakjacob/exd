@@ -2,7 +2,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import { CompactTable } from "@table-library/react-table-library/compact";
 import React, { FC, useState } from "react";
 import { connect } from "react-redux";
-import { setSelectedFormControl } from "../../store/actions/selections";
+import { setSelectedDataTableColumn } from "../../store/actions/selections";
 import {
   ConnectedDataTableDesignDisplayProps,
   ControlType,
@@ -10,7 +10,6 @@ import {
   DataTableSelection,
   State,
 } from "../../types";
-import { setSelectedDataTable } from "../../store/actions/selections";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,26 +48,27 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const nodes = [
-  {
-    id: "0",
-    name: "Shopping List",
-    deadline: new Date(2020, 1, 15),
-    type: "TASK",
-    isComplete: true,
-    nodes: 3,
-  },
-];
 interface TableDesignDisplayProps {
-  onClick: (event: any) => void;
-  onMouseOver: (event: any) => void;
-  onMouseOut: (event: any) => void;
-  onColumnFocus: (event: any) => void;
+  onMouseOver: (event: React.SyntheticEvent) => void;
+  onMouseOut: (event: React.SyntheticEvent) => void;
+  onColumnClick: (columnId: string) => (event: React.SyntheticEvent) => void;
+  tableId: string;
+  data: any;
 }
 const DataTable = (props: TableDesignDisplayProps) => {
+  const data = { nodes: props.data };
+
   const COLUMNS = [
-    { label: "Task", renderCell: (item: any) => <div onClick={props.onColumnFocus}>{item.name}</div> },
     {
+      label: "Task",
+      renderCell: (item: any) => (
+        <div id={`${props.tableId}-${item.id}`} onClick={props.onColumnClick(item.id)}>
+          {item.name}
+        </div>
+      ),
+    },
+    {
+      id: "deadline",
       label: "Deadline",
       renderCell: (item: any) =>
         item.deadline.toLocaleDateString("en-US", {
@@ -77,60 +77,69 @@ const DataTable = (props: TableDesignDisplayProps) => {
           day: "2-digit",
         }),
     },
-    { label: "Type", renderCell: (item: any) => item.type },
+    { id: "type", label: "Type", renderCell: (item: any) => item.type },
     {
+      id: "complete",
       label: "Complete",
       renderCell: (item: any) => item.isComplete.toString(),
     },
-    { label: "Tasks", renderCell: (item: any) => item.nodes },
+    { id: "tasks", label: "Tasks", renderCell: (item: any) => item.nodes },
   ];
 
-  const data = { nodes };
-  return (
-    <div onClick={props.onClick}>
-      <CompactTable columns={COLUMNS} data={data as any} />;
-    </div>
-  );
+  return <CompactTable columns={COLUMNS} data={data as any} />;
 };
 const DataTableWrapper: FC<DataTableDesignDisplayProps & ConnectedDataTableDesignDisplayProps> = (
   props: DataTableDesignDisplayProps & ConnectedDataTableDesignDisplayProps
 ) => {
+  const data = [
+    {
+      id: "data-id",
+      name: "Shopping List",
+      deadline: new Date(2020, 1, 15),
+      type: "TASK",
+      isComplete: true,
+      nodes: 3,
+    },
+  ];
   const classes = useStyles();
   const { paper, selectedPaper } = classes;
-  const { focussedTableId, setSelectedTable, focussedColumnId, setSelectedColumn, id } = props;
+  const {
+    focussedControlId,
+    focussedDataTableColumnId,
+    focussedComponentId,
+    component,
+    id,
+    setSelectedDataTableColumn,
+  } = props;
   const [tableMouseOver, setTableMouseOver] = useState(false);
   const onTableMouseOver = () => setTableMouseOver(true);
   const onTableMouseOut = () => setTableMouseOver(false);
+  const componentId = component.id;
 
-  const onTableFocus = (id: string) => (e: any) => {
+  const onColumnClick = (columnId: string) => (e: React.SyntheticEvent<Element, Event>) => {
     e.preventDefault();
-    if (focussedTableId !== id) {
-      setSelectedDataTable({ focussedDataTableId: id });
-    }
-    e.stopPropagation();
-  };
-  const onColumnFocus = (tableId: string, columnId: string) => (e: any) => {
-    e.preventDefault();
-    if (focussedColumnId !== columnId) {
-      setSelectedColumn({
-        focussedDataTableId: tableId,
-        focussedColumnId: columnId,
+    if (focussedDataTableColumnId !== columnId) {
+      setSelectedDataTableColumn({
+        focussedComponentId: componentId,
+        focussedControlId: id,
+        focussedDataTableColumnId: columnId,
       });
     }
     e.stopPropagation();
   };
 
   const onDelete = () => {};
-  const hasFocus = id === focussedTableId;
+  const hasFocus = id === focussedControlId;
   // todo: find out which column has focus
-  const hasColumnFocus = false;
+  const hasColumnFocus = focussedDataTableColumnId && componentId === focussedComponentId && id === focussedControlId;
 
   return (
     <DataTable
-      onClick={onTableFocus(id)}
+      data={data}
+      tableId={id}
       onMouseOver={onTableMouseOver}
       onMouseOut={onTableMouseOut}
-      onColumnFocus={onColumnFocus(id, "todo_pass_column_id_here")}
+      onColumnClick={onColumnClick}
     />
   );
 };
@@ -139,16 +148,17 @@ const mapStateToProps = (state: State): DataTableSelection | undefined => {
   const {
     selections: { info },
   } = state;
-  if (info?.type === ControlType.DATA_TABLE) {
-    // const focussedTableId = (info as DataTableSelection).focussedTableId;
-    // const focussedColumnId = (info as unknown as DataTableSelection).focussedColumnId;
+  if (info?.type) {
+    const focussedControlId = (info as unknown as DataTableSelection).focussedControlId;
+    const focussedDataTableColumnId = (info as unknown as DataTableSelection).focussedDataTableColumnId;
+    const focussedComponentId = (info as unknown as DataTableSelection).focussedComponentId;
     // const isHeaderSelected = (info as DataTableSelection).isHeaderSelected;
-    // return { focussedTableId, focussedColumnId, isHeaderSelected };
+    return { focussedControlId, focussedDataTableColumnId, focussedComponentId };
   }
   return undefined;
 };
 const mapDispatchToProps = {
-  setSelectedFormControl,
+  setSelectedDataTableColumn,
 };
 
 const ControlDataTableRenderer = connect(mapStateToProps, mapDispatchToProps)(DataTableWrapper);

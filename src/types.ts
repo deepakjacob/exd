@@ -98,17 +98,6 @@ export interface ControlDesignDisplayProps {
   component: ComponentProps;
 }
 
-// when selection happens af the datatable we need to column and column id
-// current thinking is that @see{ComponentDesignDisplayProps} cannot be used
-// for DataTable's functioning as it may make a lot of props optional and
-// create confusion on the props usage
-export interface ConnectedDataTableDesignDisplayProps {
-  focussedTableId?: string;
-  focussedColumnId?: string;
-  // todo: fix type information
-  setSelectedColumn?: any;
-  setSelectedTable?: any;
-}
 export enum DataSourceType {
   LOCAL = "LOCAL",
   API = "api",
@@ -144,10 +133,23 @@ export interface Action {}
 export interface Filter {}
 
 export interface DataTableDesignDisplayProps {
+  component: ComponentProps;
   id: string;
   dataSource?: DataSource;
   filters?: Filter[];
   actions?: Action[];
+}
+
+// when selection happens af the datatable we need to column and column id
+// current thinking is that @see{ComponentDesignDisplayProps} cannot be used
+// for DataTable's functioning as it may make a lot of props optional and
+// create confusion on the props usage
+export interface ConnectedDataTableDesignDisplayProps {
+  focussedControlId?: string;
+  focussedDataTableColumnId?: string;
+  focussedComponentId?: string;
+  // todo: fix type information
+  setSelectedDataTableColumn?: any;
 }
 
 interface Selection {
@@ -155,9 +157,10 @@ interface Selection {
 }
 
 export interface DataTableSelection extends Selection {
-  focussedTableId: string;
+  focussedControlId: string;
   // todo: split into DataTableColumnSelection
-  focussedColumnId?: string;
+  focussedDataTableColumnId?: string;
+  focussedComponentId?: string;
   isHeaderSelected?: boolean;
 }
 export interface ComponentSelection extends Selection {

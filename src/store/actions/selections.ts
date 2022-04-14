@@ -24,20 +24,10 @@ export const setSelectedFormControl = ({
   },
 });
 
-/* for selecting data table within a component */
-export const SELECT_RENDERED_DATA_TABLE_COMPONENT = "SELECT_RENDERED_DATA_TABLE_COMPONENT";
-export const setSelectedDataTable = ({ focussedComponentId, focussedDataTableId }: any): FluxStandardAction => ({
-  type: SELECT_RENDERED_DATA_TABLE_COMPONENT,
-  payload: {
-    info: { type: ControlType.DATA_TABLE, focussedComponentId, focussedDataTableId },
-  },
-});
-
-/* for selecting column within data table */
 export const SELECT_RENDERED_DATA_TABLE_COLUMN = "SELECT_RENDERED_DATA_TABLE_COLUMN";
 export const setSelectedDataTableColumn = ({
   focussedComponentId,
-  focussedDataTableId,
+  focussedControlId,
   focussedDataTableColumnId,
 }: any) => ({
   type: SELECT_RENDERED_DATA_TABLE_COLUMN,
@@ -45,7 +35,7 @@ export const setSelectedDataTableColumn = ({
     info: {
       type: ControlType.DATA_TABLE_COLUMN,
       focussedComponentId,
-      focussedDataTableId,
+      focussedControlId,
       focussedDataTableColumnId,
     },
   },

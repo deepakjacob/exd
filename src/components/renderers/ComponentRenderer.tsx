@@ -86,7 +86,7 @@ const ComponentRenderer: React.FC<ComponentDesignDisplayProps & HasFocus & HasDe
               <Grid container spacing={3}>
                 {controls.map((c: Control, i: number) => (
                   <ControlDesignDisplay component={component} control={c}>
-                    <ControlToRendererMapping control={c} key={i} />
+                    <ControlToRendererMapping control={c} key={i} component={component} />
                   </ControlDesignDisplay>
                 ))}
               </Grid>
